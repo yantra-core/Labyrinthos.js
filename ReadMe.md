@@ -257,6 +257,7 @@ Discord Invite:: https://discord.gg/QgNAZhG9nF
  <a href="https://yantra.gg/labyrinthos">
 <img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png">
 </a>
+
 # License
 
 Yantra Works 2023 AGPL
