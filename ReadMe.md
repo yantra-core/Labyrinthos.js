@@ -51,8 +51,6 @@ Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 
 ### 3D Voxel Data
  
-Using: ```js new TileMap({ is3D: true })```
-
 For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
 
 ```js
@@ -102,6 +100,8 @@ npm install labyrinthos
 
     labyrinthos.mazes.RecursiveBacktrack(map, {});
     console.log('RecursiveBacktrack', map);
+
+    // output maze with ASCII mask
     console.log(map.mask());
 
     map.fill(1); // reset map to 1
@@ -113,7 +113,7 @@ npm install labyrinthos
 
     console.log('map', map);
 
-    // output map with ASCII mask
+    // output terrain with ASCII mask
     console.log('map', map.mask());
 
   });
