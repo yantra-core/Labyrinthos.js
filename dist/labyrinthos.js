@@ -56,6 +56,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _mersenne = _interopRequireDefault(require("./util/mersenne.js"));
+var _generateTiledJSON = _interopRequireDefault(require("./util/generateTiledJSON.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -198,6 +199,11 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
         data: this.data
       }, null, 2);
     }
+  }, {
+    key: "toTiledJSON",
+    value: function toTiledJSON() {
+      return (0, _generateTiledJSON["default"])(this);
+    }
   }]);
   return TileMap;
 }();
@@ -213,7 +219,7 @@ function init3DArray(width, height, depth) {
   return arr;
 }
 
-},{"./util/mersenne.js":11}],4:[function(require,module,exports){
+},{"./util/generateTiledJSON.js":11,"./util/mersenne.js":12}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -233,7 +239,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 // Biomes
 
 // Terrains
-
 // https://en.wikipedia.org/wiki/Diamond-square_algorithm
 
 var labyrinthos = {};
@@ -820,6 +825,115 @@ function MersenneTwister19937() {
 var _default = exports["default"] = MersenneTwister19937;
 
 },{}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = generateTiledJSON;
+function generateTiledJSON(tileMap) {
+  var tiledJSON = {
+    "compressionlevel": -1,
+    "height": tileMap.height,
+    "infinite": false,
+    "layers": [{
+      "data": tileMap.data,
+      "height": tileMap.height,
+      "id": 1,
+      "name": "Tile Layer 1",
+      "opacity": 1,
+      "type": "tilelayer",
+      "visible": true,
+      "width": tileMap.width,
+      "x": 0,
+      "y": 0
+    }],
+    /* infinite style map with chunks 
+      "editorsettings": {
+        "chunksize": {
+          "height": 8,
+          "width": 8
+        }
+      },
+       "layers": [{
+        "chunks": [{
+          "data": tileMap.data,  // Your tileMap data
+          "height": tileMap.height,
+          "width": tileMap.width,
+          "x": 0,
+          "y": 0
+        }],
+        "height": tileMap.height,
+        "name": "Tile Layer 1",
+        "opacity": 1,
+        "startx": 0,
+        "starty": 0,
+        "type": "tilelayer",
+        "visible": true,
+        "width": tileMap.width,
+        "x": 0,
+        "y": 0
+      }],
+      */
+    "nextlayerid": 2,
+    "nextobjectid": 1,
+    "orientation": "orthogonal",
+    "renderorder": "right-down",
+    "tiledversion": "1.10.2",
+    "tileheight": 16,
+    "tilesets": [{
+      "columns": 0,
+      "firstgid": 1,
+      "grid": {
+        "height": 1,
+        "orientation": "orthogonal",
+        "width": 1
+      },
+      "margin": 0,
+      "name": "grass-land",
+      "spacing": 0,
+      "tilecount": 2,
+      "tileheight": 16,
+      "tiles": [
+      // TODO: custom tile set mappings
+      {
+        "id": 0,
+        "image": "tile-bush.png",
+        "imageheight": 16,
+        "imagewidth": 16
+      }, {
+        "id": 1,
+        "image": "tile-grass.png",
+        "imageheight": 16,
+        "imagewidth": 16
+      }, {
+        "id": 2,
+        "image": "tile-block.png",
+        "imageheight": 16,
+        "imagewidth": 16
+      }, {
+        "id": 3,
+        "image": "tile-path-brown.png",
+        "imageheight": 16,
+        "imagewidth": 16
+      }, {
+        "id": 4,
+        "image": "tile-path-green.png",
+        "imageheight": 16,
+        "imagewidth": 16
+      }],
+      "tilewidth": 16
+    }],
+    "tilewidth": 16,
+    "type": "map",
+    "version": "1.10",
+    "width": tileMap.width
+    // Add your tilesets and other necessary properties here
+  };
+  return tiledJSON;
+}
+
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

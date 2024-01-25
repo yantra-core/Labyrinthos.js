@@ -3,7 +3,9 @@
 
 <head>
   <title>Labyrinthos.js Demo</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./browser/vendor/jquery.min.js"></script>
+  <script src="./browser/vendor/jszip.min.js"></script>
+
   <script src="./browser/labyrinthos.js"></script>
   <style>
     body {
@@ -25,6 +27,7 @@
       background-color: #333;
       color: white;
       border: 1px solid #444;
+      font-size: 24px;
     }
 
     #generatorType {
@@ -96,6 +99,8 @@
   </select>
   <button id="generateMap">Generate Map</button>
   <br />
+
+  <br />
   <div>Current Seed: <span id="currentSeed"></span></div>
 
   <br />
@@ -107,6 +112,7 @@
     <input class="mapSettings" id="mapHeight" type="number" value="32" />
   </label>
   <br />
+  <button id="downloadMap">Download as Tiled .tmj JSON</button>
   <br />
 
   <div class="container">
@@ -133,6 +139,43 @@
         previousSeed = map.mersenneTwister.currentSeed;
         // $('#generateMap').click();
         generateMap();
+      });
+
+      $('#downloadMap').click(async function () {
+        const json = JSON.stringify(map.toTiledJSON(), true, 2);
+        const jsonBlob = new Blob([json], { type: 'application/json' });
+        const jszip = new JSZip();
+
+        // Add the map JSON to the zip
+        jszip.file(`labyrinthos_map.tmj`, jsonBlob);
+        console.log("jj", jszip)
+        // List of image URLs (you might want to dynamically generate this list)
+        const images = [
+          'https://yantra.gg/img/game/tiles/tile-bush.png',
+          'https://yantra.gg/img/game/tiles/tile-grass.png',
+          'https://yantra.gg/img/game/tiles/tile-block.png',
+          'https://yantra.gg/img/game/tiles/tile-path-green.png',
+          'https://yantra.gg/img/game/tiles/tile-path-brown.png',
+          // ... other image URLs ...
+        ];
+
+        // Fetch each image and add it to the zip
+        for (const imageUrl of images) {
+          const response = await fetch(imageUrl);
+          const blob = await response.blob();
+          jszip.file(imageUrl.split('/').pop(), blob);  // Extract filename from URL
+        }
+
+        // Generate the zip file
+        jszip.generateAsync({ type: 'blob' }).then(function (content) {
+          const url = URL.createObjectURL(content);
+          const a = document.createElement('a');
+          a.download = 'labyrinthos_assets.zip';
+          a.href = url;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
       });
 
       $('#generateMap').click(function () {

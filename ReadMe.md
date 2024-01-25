@@ -12,6 +12,12 @@ Labyrinthos.js is a Maze and Terrain Generator for the procedural generation of 
 - **Export Functionality** - Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
 - **TileSet System** - Flexible tile set mapping for diverse terrain types.
 
+## Live Demo
+
+Explore all Maze and Terrain generators in browser. This demo can export generated maps to Tiled format JSON ( with bundled assets ).
+
+[https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
+
 # Map Data Formats
 
 ## 2D Map Data Array 
@@ -127,12 +133,15 @@ Apply custom mask to map data and view as ASCII text.
 
 see: `./examples/roguelike-mask.js`;
 
-
 ### `TileMap.scaleToTileRange(tileRange)`
 
 The terrain generators will return a value from 0-1, this needs to be scaled to match your `TileSet`.
 
 For example, calling `tileMap.scaleToTileRange(10)`, will scale all the values to a range of 0-9 using whole integers.
+
+### `TileMap.toTiledJSON()`
+
+Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 
 ## Maze Generators
