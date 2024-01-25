@@ -1,6 +1,6 @@
-import daedalus from '../lib/daedalus.js';
+import labyrinthos from '../lib/labyrinthos.js';
 
-let map = new daedalus.TileMap({
+let map = new labyrinthos.TileMap({
   width: 100,
   height: 100,
   tileWidth: 16,

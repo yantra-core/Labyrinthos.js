@@ -1,4 +1,4 @@
-# Daedalus.js
+# Labyrinthos.js
 
 /*
 

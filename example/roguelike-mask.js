@@ -1,7 +1,7 @@
-import daedalus from '../lib/daedalus.js';
+import labyrinthos from '../lib/labyrinthos.js';
 import generateMap from '../lib/mazes/RecursiveBacktrack.js';
 
-let map = new daedalus.TileMap({
+let map = new labyrinthos.TileMap({
   width: 64,
   height: 32,
   tileWidth: 16,
@@ -11,7 +11,7 @@ let map = new daedalus.TileMap({
 console.log('map', map)
 console.log('random', map.random())
 
-daedalus.terrains.FaultLine(map, {});
+labyrinthos.terrains.FaultLine(map, {});
 
 // normalize to tile set index
 map.normalizeToTileSetIndex(4);
