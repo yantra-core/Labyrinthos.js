@@ -1,5 +1,4 @@
 import labyrinthos from '../lib/labyrinthos.js';
-import generateMap from '../lib/mazes/RecursiveBacktrack.js';
 
 // Main map
 const mainMap = new labyrinthos.TileMap({ width: 8, height: 8, tileWidth: 16, tileHeight: 16 });
@@ -23,3 +22,4 @@ mainMap.use(subMap3, 0, 4); // Bottom-left quadrant
 mainMap.use(subMap4, 4, 4); // Bottom-right quadrant
 
 console.log('mainMap', mainMap);
+console.log(mainMap.mask());

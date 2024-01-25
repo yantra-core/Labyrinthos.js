@@ -14,7 +14,7 @@ console.log('random', map.random())
 labyrinthos.terrains.FaultLine(map, {});
 
 // normalize to tile set index
-map.normalizeToTileSetIndex(4);
+map.scaleToTileRange(4);
 
 console.log('map', map)
 
