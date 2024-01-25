@@ -1,16 +1,21 @@
-# Labyrinthos.js
+<h3 align="center">
+  
+![labyrinthos-logo](https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png)
 
-<!--
+</h3>
+
+<h1 align="center"> Labyrinthos.js
+</h1>
+
+
 <h4 align="center">
   <a href="https://yantra.gg/labyrinthos">Live Demo</a> •
   <a href="#install">Installation</a> •
-  <a href="#light">Usage</a> •
-  <a href="#terms">Termonologies</a> •
-  <a href="#parts">Parts List</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#api">API Methods</a> •
+  <a href="#algos">Algorithms</a> •
   <a href="#contributing">Contributing</a>
 </h4>
-
--->
 
 **ALPHA STATUS**
 
@@ -65,8 +70,10 @@ For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element 
 **Release 1.0.0**
 | Files          | CDN                                         | Size |
 |---------------|--------------------------------------------------|-----------|
-| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | ??kb      |
-| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | ??kb      |
+| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
+| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
+
+<a href="#usage">Usage</a> •
 
 # Usage
 
@@ -140,6 +147,10 @@ console.log(mainMap.mask());
 ```
 
 **You can find more examples at:** `./examples`
+
+
+<a name="api></a>
+
 
 ## API Methods
 
