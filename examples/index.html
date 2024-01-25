@@ -1,19 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Labyrinthos.js Demo</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="./browser/labyrinthos.js"></script>
   <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: #f0f0f0;
+    }
+
+    select,
+    button {
+      margin: 10px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      background-color: #333;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    #generatorType {
+      cursor: pointer;
+    }
+
+    #generateMap {
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
     #mapContainer {
       font-family: monospace;
-      font-size: 12px;
-      flex: 1;
-      min-width: 300px;
-      max-width: 800px;
-      padding-top: 20px;
-
-      padding-bottom: 20px;
+      white-space: pre;
+      font-size: 16px;
+      letter-spacing: 0;
+      /* Ensures consistent character spacing */
+      width: calc(16px * 64);
+      /* Width per character times number of characters */
     }
 
     #jsonContainer {
@@ -21,25 +58,65 @@
       font-size: 12px;
     }
 
-    .container {
+    .container div {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      overflow-x: auto;
+      /* For wider content */
+
+    }
+
+    .mapSettings {
+      margin: 5px;
+      padding: 5px;
+      width: 80px;
+      /* Adjust the width as needed */
+      border-radius: 4px;
+      border: 1px solid #444;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    label {
+      color: #f0f0f0;
+      font-size: 24px;
+      margin-right: 10px;
     }
   </style>
 </head>
+
 <body>
   <h1>Labyrinthos.js Demo</h1>
   <select id="generatorType">
     <option value="FaultLine">FaultLine</option>
   </select>
   <button id="generateMap">Generate Map</button>
-  <br/>
-  <br/>
+  <br />
   <div>Current Seed: <span id="currentSeed"></span></div>
+
+  <br />
+  <label for="mapWidth">Map Width
+    <input class="mapSettings" id="mapWidth" type="number" value="64" />
+  </label>
+  <br />
+  <label for="mapHeight">Map Height
+    <input class="mapSettings" id="mapHeight" type="number" value="32" />
+  </label>
+  <br />
+  <br />
+
   <div class="container">
     <div id="mapContainer"></div>
     <div id="jsonContainer"></div>
   </div>
 
   <script>
+    let previousSeed = null;
+    let map;
     $(document).ready(function () {
       // Dynamically populate the dropdown
       const generators = { ...LABY.mazes, ...LABY.terrains };
@@ -48,43 +125,129 @@
       }
       // $('#generatorType').val('FaultLine');
       $('#generatorType').change(function () {
-        $('#generateMap').click();
+        previousSeed = map.mersenneTwister.currentSeed;
+        generateMap();
+      });
+
+      $('.mapSettings').change(function () {
+        previousSeed = map.mersenneTwister.currentSeed;
+        // $('#generateMap').click();
+        generateMap();
       });
 
       $('#generateMap').click(function () {
-        let map = new LABY.TileMap({
-          width: 96,
-          height: 32,
+        previousSeed = null;
+        generateMap();
+      });
+
+      function generateMap() {
+        map = new LABY.TileMap({
+          width: $('#mapWidth').val(),
+          height: $('#mapHeight').val(),
           tileWidth: 16,
           tileHeight: 16
         });
-  
+
         map.fill(1);
-        const seed = map.mersenneTwister.currentSeed;
+        let seed = map.mersenneTwister.currentSeed;
+
+        if (previousSeed) {
+          seed = previousSeed;
+        }
+
         map.seed(seed);
+
+        // Calculate and update the width of the map container
+        const charWidth = 12; // Assuming each character is 12px wide
+        $('#mapContainer').css('width', map.width * charWidth + 'px');
+        $('#mapContainer').css('min-width', map.width * charWidth + 'px');
 
         // convert seed int to hex
         let hexSeed = '0x' + seed.toString(16);
 
         $('#currentSeed').text(hexSeed);
-  
+
         const generatorType = $('#generatorType').val();
-  
+
         if (generators[generatorType]) {
           generators[generatorType](map, {});
           if (LABY.terrains[generatorType]) {
             map.scaleToTileRange(4); // Scale if it's a terrain
           }
         }
-  
+
         $('#mapContainer').text(map.mask());
         $('#jsonContainer').text(JSON.stringify(map.data, true, 2));
-      });
-  
+      }
+
       // Trigger map generation on page load
-      $('#generateMap').click();
+      generateMap();
+      // $('#generateMap').click();
     });
   </script>
-  
+  <style>
+    #forkongithub a {
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      font-family: arial, sans-serif;
+      text-align: center;
+      font-weight: bold;
+      padding: 5px 40px;
+      font-size: 1rem;
+      line-height: 2rem;
+      position: relative;
+      transition: 0.5s;
+    }
+
+    #forkongithub a:hover {
+      background: #c11;
+      color: #fff;
+    }
+
+    #forkongithub a::before,
+    #forkongithub a::after {
+      content: "";
+      width: 100%;
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 0;
+      height: 1px;
+      background: #fff;
+    }
+
+    #forkongithub a::after {
+      bottom: 1px;
+      top: auto;
+    }
+
+    @media screen and (min-width:800px) {
+      #forkongithub {
+        position: fixed;
+        display: block;
+        top: 0;
+        right: 0;
+        width: 200px;
+        overflow: hidden;
+        height: 200px;
+        z-index: 9999;
+      }
+
+      #forkongithub a {
+        width: 200px;
+        position: absolute;
+        top: 60px;
+        right: -60px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+      }
+    }
+  </style><span id="forkongithub"><a href="https://github.com/yantra-core/Labyrinthos.js">Fork me on GitHub</a></span>
 </body>
+
 </html>
