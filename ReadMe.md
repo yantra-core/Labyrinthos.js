@@ -43,7 +43,7 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 
 The `TileMap.data` array will contain an array that looks like this:
 
-```
+```js
 [0, 1, 0, 1, 2, 1, 0, 1, 0]
 ```
 
@@ -51,7 +51,7 @@ Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 
 ### 3D Voxel Data
  
-Using: `new TileMap({ is3D: true })`
+Using: ```js new TileMap({ is3D: true })```
 
 For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
 
@@ -191,7 +191,7 @@ see: `./examples/sub-maps.js`;
 
 Apply custom mask to map data and view as ASCII text.
 
-see: `./examples/roguelike-mask.js`;
+see: `./examples/roguelike-mask.js`
 
 ### `TileMap.scaleToTileRange(tileRange)`
 
@@ -246,9 +246,13 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 ## Contributing
 
-If you have any issues using Labyrinthos.js or wish to improve the Labyrinthos.js please feel free to [Open An Issue](https://github.com/yantra-core/Labyrinthos.js/issues) or [Open A Pull Request](https://github.com/yantra-core/Labyrinthos.js/pulls). Labyrinthos.js intends to support a wide variety or generators. Let's do this!
+If you have any issues using Labyrinthos.js or wish to improve the Labyrinthos.js please feel free to [Open An Issue](https://github.com/yantra-core/Labyrinthos.js/issues) or [Open A Pull Request](https://github.com/yantra-core/Labyrinthos.js/pulls).
+
+Labyrinthos.js intends to support a wide variety or generators. Let's do this!
 
 Discord Invite:: https://discord.gg/QgNAZhG9nF
+
+<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png">
 
 # License
 
