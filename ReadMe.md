@@ -1,12 +1,8 @@
 <h3 align="center">
   
-![labyrinthos-logo](https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png)
+<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="300">
 
 </h3>
-
-<h1 align="center"> Labyrinthos.js
-</h1>
-
 
 <h4 align="center">
   <a href="https://yantra.gg/labyrinthos">Live Demo</a> •
@@ -16,6 +12,8 @@
   <a href="#algos">Algorithms</a> •
   <a href="#contributing">Contributing</a>
 </h4>
+
+<h1 align="center"> Labyrinthos.js</h1>
 
 **ALPHA STATUS**
 
@@ -27,7 +25,7 @@ You can explore all Maze and Terrain generators in the browser with our live dem
 
 [https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
 
-This demo can export generated maps to [Tiled](https:/mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
+This demo can export generated maps to [Tiled](https://mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
 
 ## Main Features
 
@@ -36,12 +34,12 @@ This demo can export generated maps to [Tiled](https:/mapeditor.org) JSON format
 - **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
 - **Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
 - **ASCII Masking** - Built-in support for generating custom roguelike game maps.
-- **Export Functionality** - Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
+- **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON.
 - **TileSet System** - Flexible tile set mapping for diverse terrain types.
 
-# `TileMap`` Data Formats
+## `TileMap` Data Formats
 
-## 2D `TileMap.data` Array 
+### 2D `TileMap.data` Array 
 
 The `TileMap.data` array will contain a binary typed array that looks like this:
 
@@ -51,7 +49,7 @@ The `TileMap.data` array will contain a binary typed array that looks like this:
 
 Each integer value in the `TileMap.data` array represents a `Tile.id` we can use later for looking up `TileSet` index values.
 
-## 3D Voxel `TileMap.data` Array 
+### 3D Voxel `TileMap.data` Array 
  
 Using: `new TileMap({ is3D: true })`
 
@@ -65,7 +63,7 @@ For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element 
 ]
 ```
 
-# Installation
+## Installation
 
 **Release 1.0.0**
 | Files          | CDN                                         | Size |
@@ -73,9 +71,9 @@ For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element 
 | labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
 | labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
 
-<a href="#usage">Usage</a> •
+<a name="usage"></a>
 
-# Usage
+## Usage
 
 **Basic**
 *Using Yantra CDN Build*
