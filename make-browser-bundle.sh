@@ -10,7 +10,7 @@ cp ./dist/labyrinthos.js ../yantra.gg/public/labyrinthos.js
 cp ./dist/labyrinthos.min.js ../yantra.gg/public/labyrinthos.min.js
 
 # Copy the ./examples/browser folder to ../yantra.gg/public/labyrinthos
-cp -r ./examples/browser/ ../yantra.gg/public/labyrinthos
+cp -r ./examples/ ../yantra.gg/public/labyrinthos
 
 
 # Minifies the generated bundle and creates a source map

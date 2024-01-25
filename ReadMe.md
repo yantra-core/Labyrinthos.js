@@ -17,7 +17,7 @@
 
 **ALPHA STATUS**
 
-Labyrinthos.js is a Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists alike, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
+Labyrinthos.js is a JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists alike, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
 ## Live Demo
 
@@ -39,21 +39,21 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 
 ## `TileMap` Data Formats
 
-### 2D `TileMap.data` Array 
+### 2D Data
 
-The `TileMap.data` array will contain a binary typed array that looks like this:
+The `TileMap.data` array will contain an array that looks like this:
 
 ```
 [0, 1, 0, 1, 2, 1, 0, 1, 0]
 ```
 
-Each integer value in the `TileMap.data` array represents a `Tile.id` we can use later for looking up `TileSet` index values.
+Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 
-### 3D Voxel `TileMap.data` Array 
+### 3D Voxel Data
  
 Using: `new TileMap({ is3D: true })`
 
-For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element representing the `z` coordinate value.
+For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
 
 ```js
 [
@@ -71,12 +71,18 @@ For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element 
 | labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
 | labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
 
+
+```bash
+npm install labyrinthos
+```
+
 <a name="usage"></a>
 
 ## Usage
 
-**Basic**
-*Using Yantra CDN Build*
+### Basic
+
+*From Yantra CDN Build*
 
 ```html
 <script src="https://yantra.gg/labyrinthos.js"></script>
@@ -100,17 +106,20 @@ For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element 
 
     labyrinthos.terrains.FaultLine(map, {});
 
-    // terrains return a 0-1 float range, so we need to scale it to the tile range
-    map.scaleToTileRange(4); // this will take the 0-1 float range and scale it to 0-4 integer range
+    // terrain algos return a 0-1 float range, so we need to scale it to the tile range
+    map.scaleToTileRange(4); // this will take the 0-1 float and scale it to 0-4 integer
 
     console.log('map', map);
+
+    // output map with ASCII mask
     console.log('map', map.mask());
 
   });
 </script>
 ```
 
-**Use Submaps**
+### Use Submaps
+
 *Using labyrinthos `npm`` package*
 
 Each `TileMap` has a `TileMap.use()` method which can be used to embed maps inside each other. The following example creates a quadrant:
@@ -146,9 +155,7 @@ console.log(mainMap.mask());
 
 **You can find more examples at:** `./examples`
 
-
-<a name="api></a>
-
+<a name="api"></a>
 
 ## API Methods
 
