@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Labyrinthos.js Demo</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./browser/labyrinthos.js"></script>
+  <style>
+    #mapContainer {
+      font-family: monospace;
+      font-size: 12px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 800px;
+      padding-top: 20px;
+
+      padding-bottom: 20px;
+    }
+
+    #jsonContainer {
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .container {
+    }
+  </style>
+</head>
+<body>
+  <h1>Labyrinthos.js Demo</h1>
+  <select id="generatorType">
+    <option value="FaultLine">FaultLine</option>
+  </select>
+  <button id="generateMap">Generate Map</button>
+  <br/>
+  <br/>
+  <div>Current Seed: <span id="currentSeed"></span></div>
+  <div class="container">
+    <div id="mapContainer"></div>
+    <div id="jsonContainer"></div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      // Dynamically populate the dropdown
+      const generators = { ...LABY.mazes, ...LABY.terrains };
+      for (const generator in generators) {
+        $('#generatorType').append(new Option(generator, generator));
+      }
+      // $('#generatorType').val('FaultLine');
+      $('#generatorType').change(function () {
+        $('#generateMap').click();
+      });
+
+      $('#generateMap').click(function () {
+        let map = new LABY.TileMap({
+          width: 96,
+          height: 32,
+          tileWidth: 16,
+          tileHeight: 16
+        });
+  
+        map.fill(1);
+        const seed = map.mersenneTwister.currentSeed;
+        map.seed(seed);
+
+        // convert seed int to hex
+        let hexSeed = '0x' + seed.toString(16);
+
+        $('#currentSeed').text(hexSeed);
+  
+        const generatorType = $('#generatorType').val();
+  
+        if (generators[generatorType]) {
+          generators[generatorType](map, {});
+          if (LABY.terrains[generatorType]) {
+            map.scaleToTileRange(4); // Scale if it's a terrain
+          }
+        }
+  
+        $('#mapContainer').text(map.mask());
+        $('#jsonContainer').text(JSON.stringify(map.data, true, 2));
+      });
+  
+      // Trigger map generation on page load
+      $('#generateMap').click();
+    });
+  </script>
+  
+</body>
+</html>

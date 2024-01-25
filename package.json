@@ -7,6 +7,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "devDependencies": {
+    "@babel/preset-env": "^7.23.6",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "tap": "^18.6.1",
+    "tape": "^5.7.2",
+    "uglify-js": "^3.17.4"
+  },
   "keywords": [],
   "author": "",
   "license": "AGPL"
