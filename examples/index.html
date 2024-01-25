@@ -5,7 +5,7 @@
   <title>Labyrinthos.js Demo</title>
   <script src="./browser/vendor/jquery.min.js"></script>
   <script src="./browser/vendor/jszip.min.js"></script>
-
+  <meta name="description" content="A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes">
   <script src="./browser/labyrinthos.js"></script>
   <style>
     body {
@@ -123,6 +123,7 @@
 
 <body>
   <h1>Labyrinthos.js Demo</h1>
+  <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes</h2>
   <img class="logo logoAnim" src="./browser/labyrinthos-logo.png" />
   <br />
   <select id="generatorType">
@@ -170,7 +171,7 @@
       });
 
       // Dynamically populate the dropdown
-      const generators = { ...LABY.mazes, ...LABY.terrains };
+      const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
       for (const generator in generators) {
         $('#generatorType').append(new Option(generator, generator));
       }
@@ -279,9 +280,9 @@
         $('#currentSeed').text(hexSeed);
 
         const generatorType = $('#generatorType').val();
-
         if (generators[generatorType]) {
           generators[generatorType](map, {});
+
           if (LABY.terrains[generatorType]) {
             map.scaleToTileRange(4); // Scale if it's a terrain
           }

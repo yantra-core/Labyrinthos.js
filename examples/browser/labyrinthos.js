@@ -22,13 +22,14 @@ Object.defineProperty(exports, "labyrinthos", {
     return _labyrinthos["default"];
   }
 });
-exports.terrains = exports.mazes = void 0;
+exports.terrains = exports.shapes = exports.mazes = void 0;
 var _labyrinthos = _interopRequireDefault(require("./lib/labyrinthos.js"));
 var _Tile = _interopRequireDefault(require("./lib/Tile.js"));
 var _TileMap = _interopRequireDefault(require("./lib/TileMap.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var mazes = exports.mazes = _labyrinthos["default"].mazes;
 var terrains = exports.terrains = _labyrinthos["default"].terrains;
+var shapes = exports.shapes = _labyrinthos["default"].shapes;
 
 },{"./lib/Tile.js":2,"./lib/TileMap.js":3,"./lib/labyrinthos.js":4}],2:[function(require,module,exports){
 "use strict";
@@ -219,7 +220,7 @@ function init3DArray(width, height, depth) {
   return arr;
 }
 
-},{"./util/generateTiledJSON.js":11,"./util/mersenne.js":12}],4:[function(require,module,exports){
+},{"./util/generateTiledJSON.js":16,"./util/mersenne.js":17}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -228,24 +229,42 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _Tile = _interopRequireDefault(require("./Tile.js"));
 var _TileMap = _interopRequireDefault(require("./TileMap.js"));
+var _AldousBroder = _interopRequireDefault(require("./mazes/AldousBroder.js"));
+var _BinaryTree = _interopRequireDefault(require("./mazes/BinaryTree.js"));
 var _RecursiveBacktrack = _interopRequireDefault(require("./mazes/RecursiveBacktrack.js"));
 var _RecursiveDivision = _interopRequireDefault(require("./mazes/RecursiveDivision.js"));
 var _SpiralBacktrack = _interopRequireDefault(require("./mazes/SpiralBacktrack.js"));
+var _Circle = _interopRequireDefault(require("./shapes/Circle.js"));
+var _Square = _interopRequireDefault(require("./shapes/Square.js"));
+var _Triangle = _interopRequireDefault(require("./shapes/Triangle.js"));
 var _DiamondSquare = _interopRequireDefault(require("./terrains/DiamondSquare.js"));
 var _FaultLine = _interopRequireDefault(require("./terrains/FaultLine.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // Mazes
 
+// Shapes
+
+// import Hexagon from './shapes/Hexagon.js';
+
 // Biomes
+// TODO: Add biomes
+// Forest, Swamp, Plains, Mountain, Island
 
 // Terrains
 // https://en.wikipedia.org/wiki/Diamond-square_algorithm
 
 var labyrinthos = {};
 labyrinthos.mazes = {};
+labyrinthos.mazes.AldousBroder = _AldousBroder["default"];
+labyrinthos.mazes.BinaryTree = _BinaryTree["default"];
 labyrinthos.mazes.RecursiveBacktrack = _RecursiveBacktrack["default"];
 labyrinthos.mazes.RecursiveDivision = _RecursiveDivision["default"];
 labyrinthos.mazes.SpiralBacktrack = _SpiralBacktrack["default"];
+labyrinthos.shapes = {};
+labyrinthos.shapes.Circle = _Circle["default"];
+labyrinthos.shapes.Square = _Square["default"];
+// labyrinthos.shapes.Hexagon = Hexagon;
+labyrinthos.shapes.Triangle = _Triangle["default"];
 labyrinthos.terrains = {};
 // labyrinthos.terrains.DiamondSquare = DiamondSquare;
 labyrinthos.terrains.FaultLine = _FaultLine["default"];
@@ -253,7 +272,73 @@ labyrinthos.Tile = _Tile["default"];
 labyrinthos.TileMap = _TileMap["default"];
 var _default = exports["default"] = labyrinthos;
 
-},{"./Tile.js":2,"./TileMap.js":3,"./mazes/RecursiveBacktrack.js":5,"./mazes/RecursiveDivision.js":6,"./mazes/SpiralBacktrack.js":7,"./terrains/DiamondSquare.js":8,"./terrains/FaultLine.js":9}],5:[function(require,module,exports){
+},{"./Tile.js":2,"./TileMap.js":3,"./mazes/AldousBroder.js":5,"./mazes/BinaryTree.js":6,"./mazes/RecursiveBacktrack.js":7,"./mazes/RecursiveDivision.js":8,"./mazes/SpiralBacktrack.js":9,"./shapes/Circle.js":10,"./shapes/Square.js":11,"./shapes/Triangle.js":12,"./terrains/DiamondSquare.js":13,"./terrains/FaultLine.js":14}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = ALGORITHM_ALDOUS_BRODER;
+function ALGORITHM_ALDOUS_BRODER(tileMap, options) {
+  tileMap.fill(1); // Fill with walls
+  var visitedCells = 0;
+  var totalCells = tileMap.width * tileMap.height / 4; // Assumes a grid where every other cell is open
+  var currentX = 2 * Math.floor(Math.random() * Math.floor(tileMap.width / 2));
+  var currentY = 2 * Math.floor(Math.random() * Math.floor(tileMap.height / 2));
+  tileMap.data[currentY * tileMap.width + currentX] = 0; // Open starting cell
+  visitedCells++;
+  while (visitedCells < totalCells) {
+    var directions = [[2, 0], [-2, 0], [0, 2], [0, -2]];
+    var randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    var newX = currentX + randomDirection[0];
+    var newY = currentY + randomDirection[1];
+    if (newX >= 0 && newX < tileMap.width && newY >= 0 && newY < tileMap.height) {
+      if (tileMap.data[newY * tileMap.width + newX] === 1) {
+        // Open path between current cell and new cell
+        tileMap.data[(currentY + randomDirection[1] / 2) * tileMap.width + (currentX + randomDirection[0] / 2)] = 0;
+        tileMap.data[newY * tileMap.width + newX] = 0; // Open new cell
+        visitedCells++;
+      }
+      currentX = newX;
+      currentY = newY;
+    }
+  }
+}
+
+},{}],6:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = ALGORITHM_BINARY_TREE;
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ALGORITHM_BINARY_TREE(tileMap, options) {
+  tileMap.fill(1); // Fill with walls
+
+  for (var y = 0; y < tileMap.height; y += 2) {
+    for (var x = 0; x < tileMap.width; x += 2) {
+      tileMap.data[y * tileMap.width + x] = 0; // Open cell
+
+      var neighbors = [];
+      if (x > 0) neighbors.push([-2, 0]);
+      if (y > 0) neighbors.push([0, -2]);
+      if (neighbors.length > 0) {
+        var _neighbors$Math$floor = _slicedToArray(neighbors[Math.floor(Math.random() * neighbors.length)], 2),
+          dx = _neighbors$Math$floor[0],
+          dy = _neighbors$Math$floor[1];
+        tileMap.data[(y + dy) * tileMap.width + (x + dx)] = 0;
+      }
+    }
+  }
+}
+
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -313,7 +398,7 @@ function generateMap(tileMap, options) {
   visitCell(startX, startY);
 }
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -351,7 +436,7 @@ function generateRecursiveDivisionMap(tileMap, options) {
   addWalls(0, 0, tileMap.width, tileMap.height);
 }
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -428,7 +513,65 @@ function generateSpiralMap(tileMap, options) {
   //  visitCell(Math.floor(Math.random() * tileMap.width), Math.floor(Math.random() * tileMap.height));
 }
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = SHAPE_CIRCLE;
+function SHAPE_CIRCLE(tileMap, options) {
+  tileMap.fill(1);
+  var radius = Math.min(tileMap.width, tileMap.height) / 2;
+  var centerX = tileMap.width / 2;
+  var centerY = tileMap.height / 2;
+  for (var y = 0; y < tileMap.height; y++) {
+    for (var x = 0; x < tileMap.width; x++) {
+      if (Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2) <= Math.pow(radius, 2)) {
+        tileMap.data[y * tileMap.width + x] = 0;
+      }
+    }
+  }
+}
+
+},{}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = SHAPE_SQUARE;
+function SHAPE_SQUARE(tileMap, options) {
+  tileMap.fill(0); // Filling the map with empty tiles
+  var size = Math.min(tileMap.width, tileMap.height);
+  var startX = Math.floor((tileMap.width - size) / 2);
+  var startY = Math.floor((tileMap.height - size) / 2);
+  for (var y = startY; y < startY + size; y++) {
+    for (var x = startX; x < startX + size; x++) {
+      tileMap.data[y * tileMap.width + x] = 1; // Fill with a different tile
+    }
+  }
+}
+
+},{}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = SHAPE_TRIANGLE;
+function SHAPE_TRIANGLE(tileMap, options) {
+  tileMap.fill(0);
+  var height = tileMap.height;
+  var width = tileMap.width;
+  for (var y = 0; y < height; y++) {
+    for (var x = 0; x <= y; x++) {
+      tileMap.data[y * width + x] = 1;
+    }
+  }
+}
+
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -493,7 +636,7 @@ function create2DArray(width, height) {
   return arr;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -541,7 +684,7 @@ function applyHeightToTileMap(tileMap, heightMap) {
   }
 }
 
-},{}],10:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -811,7 +954,7 @@ function MersenneTwister19937() {
 //exports.MersenneTwister19937 = MersenneTwister19937;
 var _default = exports["default"] = MersenneTwister19937;
 
-},{}],11:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -920,7 +1063,7 @@ function generateTiledJSON(tileMap) {
   return tiledJSON;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -961,5 +1104,5 @@ function Mersenne() {
 }
 var _default = exports["default"] = Mersenne;
 
-},{"./MersenneTwister19937.js":10}]},{},[1])(1)
+},{"./MersenneTwister19937.js":15}]},{},[1])(1)
 });

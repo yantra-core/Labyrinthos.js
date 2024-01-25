@@ -211,6 +211,8 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 ## Maze Generators
 
+- [✅] - Aldous-Broder Algorithm
+- [✅] - Binary Tree Algorithm
 - [✅] - Recursive Backtracking
 - [✅] - Recursive Division
 - [✅] - Spiral Backtracking
@@ -222,9 +224,7 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 - [ ] - Maze Growing Algorithm (Seeded Growth)
 - [ ] - Voronoi Diagrams
 - [ ] - Randomized Prim's Algorithm
-- [ ] - Binary Tree Algorithm
 - [ ] - Randomized Kruskal's Algorithm
-- [ ] - Aldous-Broder Algorithm
 - [ ] - Wilson's Algorithm
 - [ ] - Hunt-and-Kill Algorithm
 - [ ] - Growing Tree Algorithm
@@ -243,6 +243,14 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 - [ ] - Hybrid Multi-fractal Terrain Generation
 - [ ] - Particle Deposition
 - [ ] - Value Noise
+
+## Shapes
+
+- [✅] - Circle
+- [✅] - Square
+- [✅] - Triangle
+- [ ] - Hexagon
+
 
 <a name="contributing"></a>
 
