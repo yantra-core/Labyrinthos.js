@@ -4,13 +4,13 @@ Labyrinthos.js is a Maze and Terrain Generator for the procedural generation of 
 
 ## Main Features
 
-*Procedural Generation:* Create vast, diverse maps and mazes algorithmically.
-*Customizable Dimensions:* Supports both 2D and 3D map generation.
-*Submap Embedding:* Seamlessly integrate smaller maps into larger maps.
-*ASCII Masking:* Built-in support generating custom roguelike game maps.
-*Randomization:* Leverages Mersenne Twister for advanced predictable randomness.
-*Export Functionality:* Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
-*TileSet System:* Flexible tile set mapping for diverse terrain types.
+- **Procedural Generation** - Create vast, diverse maps and mazes algorithmically.
+- **Customizable Dimensions** - Supports both 2D and 3D map generation.
+- **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
+- **ASCII Masking** - Built-in support generating custom roguelike game maps.
+- **Randomization** - Leverages Mersenne Twister for advanced predictable randomness.
+- **Export Functionality** - Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
+- **TileSet System** - Flexible tile set mapping for diverse terrain types.
 
 # Map Data Formats
 
@@ -22,11 +22,13 @@ The `TileMap.data` array will contain a binary typed array that looks like this:
 [0, 1, 0, 1, 2, 1, 0, 1, 0]
 ```
 
-Each int value in the `TileMap.data` array will represent a `Tile.id` that we can use later for looking up `TileSet` values.
+Each int value in `TileMap.data` array will represent a `Tile.id` we can use later for looking up `TileSet` values.
 
 ## 3D Voxel Map Data Array 
+ 
+Using: `new TileMap({ is3D: true })`
 
-The `TileMap.data` array when `new TileMap({ is3D: true })` is set will create a nested array with the first element representing the `z` coordinate value.
+For 3D Maps, `TileMap.data` will be a nested array with the first element representing the `z` coordinate value.
 
 ```js
 [
@@ -35,12 +37,6 @@ The `TileMap.data` array when `new TileMap({ is3D: true })` is set will create a
   [0, 1, 0, 1, 2, 1, 0, 1, 0],
 ]
 ```
-
-use
-mask
-scaleToTileRange
-
-
 # Usage
 
 see: `./examples`
@@ -107,6 +103,37 @@ console.log('mainMap', mainMap);
 console.log(mainMap.mask());
 
 ```
+
+## API Methods
+
+```js
+let tileMap = new TileMap({
+  x: 0,
+  y: 0,
+  width: 32,
+  height: 32
+})
+
+```
+
+
+### `TileMap.use(tileMap)`
+
+Embed Maps / use submaps. see: `./examples/sub-maps.js`;
+
+### `TileMap.mask(maskArray)`
+
+Apply custom mask to map data and view as ASCII text.
+
+see: `./examples/roguelike-mask.js`;
+
+
+### `TileMap.scaleToTileRange(tileRange)`
+
+The terrain generators will return a value from 0-1, this needs to be scaled to match your `TileSet`.
+
+For example, calling `tileMap.scaleToTileRange(10)`, will scale all the values to a range of 0-9 using whole integers.
+
 
 ## Maze Generators
 
