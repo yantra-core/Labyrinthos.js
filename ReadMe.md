@@ -15,7 +15,7 @@
   <a href="#contributing">Contributing</a>
 </h4>
 
-<h1 align="center"> Labyrinthos.js</h1>
+# Labyrinthos.js
 
 **ALPHA STATUS**
 
