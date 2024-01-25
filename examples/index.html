@@ -28,6 +28,7 @@
       color: white;
       border: 1px solid #444;
       font-size: 24px;
+      cursor: pointer;
     }
 
     #generatorType {
@@ -89,22 +90,43 @@
       font-size: 24px;
       margin-right: 10px;
     }
+
     .logo {
       text-align: center;
-      opacity: 0.5;
+      /* opacity: 0.5; */
     }
-    .logo:hover {
-      opacity: 1;
+
+    @keyframes slideDown {
+      from {
+        top: -800px;
+        opacity: 1;
+      }
+
+      to {
+        top: 1550px;
+        opacity: 0;
+      }
+    }
+
+    .logoAnim {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      /* Center the logo horizontally */
+      transform: translateX(-50%);
+      /* Adjust horizontal position for center alignment */
+      animation: slideDown 5.5s ease-out;
+      /* Other existing styles... */
     }
   </style>
 </head>
 
 <body>
   <h1>Labyrinthos.js Demo</h1>
-  <!-- <img class="logo" src="./browser/labyrinthos-logo.png"/> -->
-  <br/>
+  <img class="logo logoAnim" src="./browser/labyrinthos-logo.png" />
+  <br />
   <select id="generatorType">
-    <option value="FaultLine">FaultLine</option>
+    <option value="RecursiveDivision">RecursiveDivision</option>
   </select>
   <button id="generateMap">Generate Map</button>
   <br />
@@ -122,17 +144,31 @@
   </label>
   <br />
   <button id="downloadMap">Download as Tiled .tmj JSON</button>
+  <button class="mantraTiled" id="mantra3DTiled">Explore Map in 3D</button>
+  <button class="mantraTiled" id="mantra2DTiled">Explore Map in 2D</button>
+
   <br />
 
   <div class="container">
     <div id="mapContainer"></div>
     <div id="jsonContainer"></div>
   </div>
-  <img class="logo" src="./browser/labyrinthos-logo.png"/> 
+  <img class="logo logoStatic" src="./browser/labyrinthos-logo.png" />
   <script>
     let previousSeed = null;
     let map;
     $(document).ready(function () {
+
+      // Determine the position of the static logo
+      const staticLogoPosition = $('.logoStatic').offset().top;
+
+      // Set the custom property for the animation endpoint
+      // document.documentElement.style.setProperty('--animation-end-top', `${staticLogoPosition}px`);
+       // Listen for the end of the animation on the animated logo
+      $('.logoAnim').on('animationend', function() {
+        $(this).remove();
+      });
+
       // Dynamically populate the dropdown
       const generators = { ...LABY.mazes, ...LABY.terrains };
       for (const generator in generators) {
@@ -148,6 +184,29 @@
         previousSeed = map.mersenneTwister.currentSeed;
         // $('#generateMap').click();
         generateMap();
+      });
+
+      $('.mantraTiled').click(function () {
+        let id = $(this).attr('id');
+        // takes the current tileMap.data and opens a link to
+        // the mantra Tiled world with tiledata?=tileMap.data
+        let host = 'https://yantra.gg/mantra/tiled';
+        // for dev mode
+        host = 'http://192.168.1.80:7777/tiled.html'
+        let queryString = '?tiledmap=' + JSON.stringify(map.toTiledJSON());
+
+        if (id === 'mantra3DTiled') {
+          queryString += '&graphics=three';
+        } else if (id === 'mantra2DTiled') {
+          queryString += '&graphics=css';
+        }
+
+        let url = host + queryString;
+        console.log('url', url);
+
+        // open new url in new tab
+        window.open(url, '_blank');
+
       });
 
       $('#downloadMap').click(async function () {

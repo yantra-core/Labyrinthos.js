@@ -320,47 +320,34 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = generateRecursiveDivisionMap;
+// RecursiveDivision.js - Marak Squires 2024
 function generateRecursiveDivisionMap(tileMap, options) {
-  // Initialize the map with open spaces
-  tileMap.data.fill(0);
+  var floorTileId = 1; // TODO: change to 0
+  var wallTileId = 0; // TODO: change to 1
 
-  // Function to add walls
+  tileMap.data.fill(floorTileId);
   var addWalls = function addWalls(x1, y1, x2, y2) {
     if (x2 - x1 < 2 || y2 - y1 < 2) return;
-
-    // Determine direction of wall
-    var horizontal = x2 - x1 > y2 - y1;
-
-    // Generate a random position for wall and passage
-    var wx = horizontal ? x1 : Math.floor(tileMap.random(x2 - x1 - 1)) + x1;
-    var wy = horizontal ? Math.floor(tileMap.random(y2 - y1 - 1)) + y1 : y1;
+    var horizontal = x2 - x1 < y2 - y1;
+    var wx = horizontal ? x1 : Math.floor(tileMap.random(x2 - x1 - 2)) + x1 + 1;
+    var wy = horizontal ? Math.floor(tileMap.random(y2 - y1 - 2)) + y1 + 1 : y1;
     var px = horizontal ? Math.floor(tileMap.random(x2 - x1)) + x1 : wx;
     var py = horizontal ? wy : Math.floor(tileMap.random(y2 - y1)) + y1;
-
-    // Add the wall
     for (var x = x1; x < x2; x++) {
       for (var y = y1; y < y2; y++) {
-        if (horizontal && y == wy || !horizontal && x == wx) {
-          var index = y * tileMap.width + x;
-          if (x != px || y != py) {
-            // Leave a passage
-            tileMap.data[index] = 1;
-          }
+        if (horizontal && x === wx && y !== py || !horizontal && y === wy && x !== px) {
+          tileMap.data[y * tileMap.width + x] = wallTileId;
         }
       }
     }
-
-    // Recursively add walls to the divided sections
     if (horizontal) {
       addWalls(x1, y1, x2, wy);
-      addWalls(x1, wy + 1, x2, y2);
+      addWalls(x1, wy, x2, y2);
     } else {
       addWalls(x1, y1, wx, y2);
-      addWalls(wx + 1, y1, x2, y2);
+      addWalls(wx, y1, x2, y2);
     }
   };
-
-  // Start the recursive division
   addWalls(0, 0, tileMap.width, tileMap.height);
 }
 
