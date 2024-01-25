@@ -1,6 +1,8 @@
 <h3 align="center">
-  
+
+ <a href="https://yantra.gg/labyrinthos">
 <img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="300">
+</a>
 
 </h3>
 
@@ -122,7 +124,7 @@ npm install labyrinthos
 
 ### Use Submaps
 
-*Using labyrinthos `npm`` package*
+*Using labyrinthos `npm` package*
 
 Each `TileMap` has a `TileMap.use()` method which can be used to embed maps inside each other. The following example creates a quadrant:
 
@@ -252,8 +254,9 @@ Labyrinthos.js intends to support a wide variety or generators. Let's do this!
 
 Discord Invite:: https://discord.gg/QgNAZhG9nF
 
+ <a href="https://yantra.gg/labyrinthos">
 <img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png">
-
+</a>
 # License
 
 Yantra Works 2023 AGPL
