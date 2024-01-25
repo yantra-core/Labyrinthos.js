@@ -63,6 +63,8 @@ For 3D Voxel Maps, `TileMap.data` is a nested array with first index representin
 ]
 ```
 
+<a name="install"></a>
+
 ## Installation
 
 **Release 1.0.0**
@@ -207,37 +209,38 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 ## Maze Generators
 
-[✅] - Recursive Backtracking
-[✅] - Recursive Division
-[✅] - Spiral Backtracking
-[ ] - Eller's Algorithm
-[ ] - Houston's Algorithm
-[ ] - Trémaux's Algorithm
-[ ] - Cellular Automata
-[ ] - Random Walk
-[ ] - Maze Growing Algorithm (Seeded Growth)
-[ ] - Voronoi Diagrams
-[ ] - Randomized Prim's Algorithm
-[ ] - Binary Tree Algorithm
-[ ] - Randomized Kruskal's Algorithm
-[ ] - Aldous-Broder Algorithm
-[ ] - Wilson's Algorithm
-[ ] - Hunt-and-Kill Algorithm
-[ ] - Growing Tree Algorithm
-[ ] - Sidewinder Algorithm
-[ ] - Fractal Recursive Maze
+- [✅] - Recursive Backtracking
+- [✅] - Recursive Division
+- [✅] - Spiral Backtracking
+- [ ] - Eller's Algorithm
+- [ ] - Houston's Algorithm
+- [ ] - Trémaux's Algorithm
+- [ ] - Cellular Automata
+- [ ] - Random Walk
+- [ ] - Maze Growing Algorithm (Seeded Growth)
+- [ ] - Voronoi Diagrams
+- [ ] - Randomized Prim's Algorithm
+- [ ] - Binary Tree Algorithm
+- [ ] - Randomized Kruskal's Algorithm
+- [ ] - Aldous-Broder Algorithm
+- [ ] - Wilson's Algorithm
+- [ ] - Hunt-and-Kill Algorithm
+- [ ] - Growing Tree Algorithm
+- [ ] - Sidewinder Algorithm
+- [ ] - Fractal Recursive Maze
 
 ## Terrain Generators
+
 [✅] - Diamond-Square Algorithm
 [✅] - Fault Line Algorithm
-[ ] - Perlin Noise
-[ ] - Simplex Noise
-[ ] - Voronoi Diagrams
-[ ] - Midpoint Displacement
-[ ] - Cellular Automata (for terrain erosion)
-[ ] - Hybrid Multi-fractal Terrain Generation
-[ ] - Particle Deposition
-[ ] - Value Noise
+- [ ] - Perlin Noise
+- [ ] - Simplex Noise
+- [ ] - Voronoi Diagrams
+- [ ] - Midpoint Displacement
+- [ ] - Cellular Automata (for terrain erosion)
+- [ ] - Hybrid Multi-fractal Terrain Generation
+- [ ] - Particle Deposition
+- [ ] - Value Noise
 
 <a name="contributing"></a>
 
