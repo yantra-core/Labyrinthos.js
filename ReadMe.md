@@ -203,7 +203,7 @@ For example, calling `tileMap.scaleToTileRange(10)`, will scale all the values t
 
 Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
-<a name="algos></a>
+<a name="algos"></a>
 
 # Algorithms
 
@@ -231,8 +231,8 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 ## Terrain Generators
 
-[✅] - Diamond-Square Algorithm
-[✅] - Fault Line Algorithm
+- [✅] - Diamond-Square Algorithm
+- [✅] - Fault Line Algorithm
 - [ ] - Perlin Noise
 - [ ] - Simplex Noise
 - [ ] - Voronoi Diagrams
@@ -248,7 +248,7 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 If you have any issues using Labyrinthos.js or wish to improve the Labyrinthos.js please feel free to [Open An Issue](https://github.com/yantra-core/Labyrinthos.js/issues) or [Open A Pull Request](https://github.com/yantra-core/Labyrinthos.js/pulls). Labyrinthos.js intends to support a wide variety or generators. Let's do this!
 
-[Discord](https://discord.gg/QgNAZhG9nF) Link
+Discord Invite:: https://discord.gg/QgNAZhG9nF
 
 # License
 
