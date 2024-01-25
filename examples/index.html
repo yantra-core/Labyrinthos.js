@@ -89,11 +89,20 @@
       font-size: 24px;
       margin-right: 10px;
     }
+    .logo {
+      text-align: center;
+      opacity: 0.5;
+    }
+    .logo:hover {
+      opacity: 1;
+    }
   </style>
 </head>
 
 <body>
   <h1>Labyrinthos.js Demo</h1>
+  <!-- <img class="logo" src="./browser/labyrinthos-logo.png"/> -->
+  <br/>
   <select id="generatorType">
     <option value="FaultLine">FaultLine</option>
   </select>
@@ -119,7 +128,7 @@
     <div id="mapContainer"></div>
     <div id="jsonContainer"></div>
   </div>
-
+  <img class="logo" src="./browser/labyrinthos-logo.png"/> 
   <script>
     let previousSeed = null;
     let map;

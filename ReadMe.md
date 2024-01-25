@@ -1,26 +1,42 @@
 # Labyrinthos.js
 
-Labyrinthos.js is a Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists alike, Labyrinthos.js offers a versatile toolkit for crafting complex, customizable landscapes with a very simple-to-use API.
+<!--
+<h4 align="center">
+  <a href="https://yantra.gg/labyrinthos">Live Demo</a> •
+  <a href="#install">Installation</a> •
+  <a href="#light">Usage</a> •
+  <a href="#terms">Termonologies</a> •
+  <a href="#parts">Parts List</a> •
+  <a href="#contributing">Contributing</a>
+</h4>
 
-## Main Features
+-->
 
-- **Procedural Generation** - Create vast, diverse maps and mazes algorithmically.
-- **Customizable Dimensions** - Supports both 2D and 3D map generation.
-- **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
-- **ASCII Masking** - Built-in support generating custom roguelike game maps.
-- **Randomization** - Leverages Mersenne Twister for advanced predictable randomness.
-- **Export Functionality** - Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
-- **TileSet System** - Flexible tile set mapping for diverse terrain types.
+**ALPHA STATUS**
+
+Labyrinthos.js is a Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists alike, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
 ## Live Demo
 
-Explore all Maze and Terrain generators in browser. This demo can export generated maps to Tiled format JSON ( with bundled assets ).
+You can explore all Maze and Terrain generators in the browser with our live demo:
 
 [https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
 
-# Map Data Formats
+This demo can export generated maps to [Tiled](https:/mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
 
-## 2D Map Data Array 
+## Main Features
+
+- **Procedural Generation** - Create vast, diverse maps and mazes [algorithmically](#algos).
+- **Customizable Dimensions** - Supports both 2D and 3D Voxel map generation.
+- **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
+- **Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
+- **ASCII Masking** - Built-in support for generating custom roguelike game maps.
+- **Export Functionality** - Easily export maps in various formats, including [Tiled](https:/mapeditor.org) JSON.
+- **TileSet System** - Flexible tile set mapping for diverse terrain types.
+
+# `TileMap`` Data Formats
+
+## 2D `TileMap.data` Array 
 
 The `TileMap.data` array will contain a binary typed array that looks like this:
 
@@ -28,13 +44,13 @@ The `TileMap.data` array will contain a binary typed array that looks like this:
 [0, 1, 0, 1, 2, 1, 0, 1, 0]
 ```
 
-Each int value in `TileMap.data` array will represent a `Tile.id` we can use later for looking up `TileSet` values.
+Each integer value in the `TileMap.data` array represents a `Tile.id` we can use later for looking up `TileSet` index values.
 
-## 3D Voxel Map Data Array 
+## 3D Voxel `TileMap.data` Array 
  
 Using: `new TileMap({ is3D: true })`
 
-For 3D Maps, `TileMap.data` will be a nested array with the first element representing the `z` coordinate value.
+For 3D Voxel Maps, `TileMap.data` will be a nested array with the first element representing the `z` coordinate value.
 
 ```js
 [
@@ -43,41 +59,54 @@ For 3D Maps, `TileMap.data` will be a nested array with the first element repres
   [0, 1, 0, 1, 2, 1, 0, 1, 0],
 ]
 ```
+
+# Installation
+
+**Release 1.0.0**
+| Files          | CDN                                         | Size |
+|---------------|--------------------------------------------------|-----------|
+| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | ??kb      |
+| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | ??kb      |
+
 # Usage
 
-see: `./examples`
-
 **Basic**
+*Using Yantra CDN Build*
 
-```js
-import labyrinthos from 'labyrinthos';
+```html
+<script src="https://yantra.gg/labyrinthos.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
 
-let map = new labyrinthos.TileMap({
-  width: 32,
-  height: 32,
-  tileWidth: 16,
-  tileHeight: 16
-});
+    let map = new LABY.TileMap({
+      width: 32,
+      height: 32,
+      tileWidth: 16,
+      tileHeight: 16
+    });
 
-map.fill(1); // fill entire map with 1
+    map.fill(1); // fill entire map with 1
 
-labyrinthos.mazes.RecursiveBacktrack(map, {});
-console.log('RecursiveBacktrack', map);
-console.log(map.mask());
+    labyrinthos.mazes.RecursiveBacktrack(map, {});
+    console.log('RecursiveBacktrack', map);
+    console.log(map.mask());
 
-map.fill(1); // reset map to 1
+    map.fill(1); // reset map to 1
 
-labyrinthos.terrains.FaultLine(map, {});
+    labyrinthos.terrains.FaultLine(map, {});
 
-// terrains return a 0-1 float range, so we need to scale it to the tile range
-map.scaleToTileRange(4); // this will take the 0-1 float range and scale it to 0-4 integer range
+    // terrains return a 0-1 float range, so we need to scale it to the tile range
+    map.scaleToTileRange(4); // this will take the 0-1 float range and scale it to 0-4 integer range
 
-console.log('map', map);
-console.log('map', map.mask());
+    console.log('map', map);
+    console.log('map', map.mask());
 
+  });
+</script>
 ```
 
 **Use Submaps**
+*Using labyrinthos `npm`` package*
 
 Each `TileMap` has a `TileMap.use()` method which can be used to embed maps inside each other. The following example creates a quadrant:
 
@@ -110,10 +139,12 @@ console.log(mainMap.mask());
 
 ```
 
+**You can find more examples at:** `./examples`
+
 ## API Methods
 
 ```js
-let tileMap = new TileMap({
+let myMap = new TileMap({
   x: 0,
   y: 0,
   width: 32,
@@ -122,10 +153,21 @@ let tileMap = new TileMap({
 
 ```
 
+This will generate a new `TileMap` instance with default data. From here we can run either a `Maze` or `Terrain` algorithm on the `myMap` object like:
+
+```js
+  labyrinthos.mazes.RecursiveBacktrack(myMap);
+  // shows myMap data array
+  console.log(myMap.data);
+  // renders myMap with default ASCII chart
+  console.log(myMap.mask());
+```
 
 ### `TileMap.use(tileMap)`
 
-Embed Maps / use submaps. see: `./examples/sub-maps.js`;
+Embed Maps / Nest Map / Use submaps. This is useful for creating larger composite maps and re-using maps.
+
+see: `./examples/sub-maps.js`;
 
 ### `TileMap.mask(maskArray)`
 
@@ -135,7 +177,7 @@ see: `./examples/roguelike-mask.js`;
 
 ### `TileMap.scaleToTileRange(tileRange)`
 
-The terrain generators will return a value from 0-1, this needs to be scaled to match your `TileSet`.
+The terrain generators will return a value from 0-1, this needs to be scaled to match a `TileSet` whole integer index value.
 
 For example, calling `tileMap.scaleToTileRange(10)`, will scale all the values to a range of 0-9 using whole integers.
 
@@ -143,12 +185,15 @@ For example, calling `tileMap.scaleToTileRange(10)`, will scale all the values t
 
 Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
+<a name="algos></a>
+
+# Algorithms
 
 ## Maze Generators
 
-[X] - Recursive Backtracking
-[X] - Recursive Division
-[X] - Spiral Backtracking
+[✅] - Recursive Backtracking
+[✅] - Recursive Division
+[✅] - Spiral Backtracking
 [ ] - Eller's Algorithm
 [ ] - Houston's Algorithm
 [ ] - Trémaux's Algorithm
@@ -156,7 +201,6 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 [ ] - Random Walk
 [ ] - Maze Growing Algorithm (Seeded Growth)
 [ ] - Voronoi Diagrams
-[ ] - Conway's Game of Life (Adapted)
 [ ] - Randomized Prim's Algorithm
 [ ] - Binary Tree Algorithm
 [ ] - Randomized Kruskal's Algorithm
@@ -168,16 +212,24 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 [ ] - Fractal Recursive Maze
 
 ## Terrain Generators
-[X] - Diamond-Square Algorithm
-[X] - Fault Line Algorithm
-- Perlin Noise
-- Simplex Noise
-- Voronoi Diagrams
-- Midpoint Displacement
-- Cellular Automata (for terrain erosion)
-- Hybrid Multi-fractal Terrain Generation
-- Particle Deposition
-- Value Noise
+[✅] - Diamond-Square Algorithm
+[✅] - Fault Line Algorithm
+[ ] - Perlin Noise
+[ ] - Simplex Noise
+[ ] - Voronoi Diagrams
+[ ] - Midpoint Displacement
+[ ] - Cellular Automata (for terrain erosion)
+[ ] - Hybrid Multi-fractal Terrain Generation
+[ ] - Particle Deposition
+[ ] - Value Noise
+
+<a name="contributing"></a>
+
+## Contributing
+
+If you have any issues using Labyrinthos.js or wish to improve the Labyrinthos.js please feel free to [Open An Issue](https://github.com/yantra-core/Labyrinthos.js/issues) or [Open A Pull Request](https://github.com/yantra-core/Labyrinthos.js/pulls). Labyrinthos.js intends to support a wide variety or generators. Let's do this!
+
+[Discord](https://discord.gg/QgNAZhG9nF) Link
 
 # License
 
