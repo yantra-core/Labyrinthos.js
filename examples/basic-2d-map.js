@@ -15,7 +15,7 @@ console.log(map.mask());
 
 map.fill(1); // reset map to 1
 
-labyrinthos.terrains.FaultLine(map, {});
+labyrinthos.terrains.PerlinNoise(map, {});
 
 // terrains return a 0-1 float range, so we need to scale it to the tile range
 map.scaleToTileRange(4); // this will take the 0-1 float range and scale it to 0-4 integer range

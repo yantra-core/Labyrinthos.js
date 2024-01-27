@@ -57,8 +57,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _mersenne = _interopRequireDefault(require("./util/mersenne.js"));
 var _generateTiledJSON = _interopRequireDefault(require("./util/generateTiledJSON.js"));
+var _mersenne = _interopRequireDefault(require("./util/mersenne.js"));
+var _noise = _interopRequireDefault(require("./util/noise.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -71,7 +72,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Randomness
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // Exports to Tiled Editor JSON format
+// Randomness
+// Perlin Noise
 var TileMap = exports["default"] = /*#__PURE__*/function () {
   function TileMap() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
@@ -97,6 +100,9 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
     this.tileHeight = tileHeight;
     this.is3D = is3D;
     this.mersenneTwister = new _mersenne["default"]();
+    this.Noise = new _noise["default"]();
+    this.noise = this.Noise.noise;
+    this.seedNoise = this.Noise.noiseSeed;
     this.data = this.initializeDataArray({
       width: width,
       height: height,
@@ -146,6 +152,7 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
     key: "seed",
     value: function seed(value) {
       this.mersenneTwister.seed(value);
+      this.seedNoise(value);
       // this.mersenneTwister.seed_array([value]); // also can seed from arrays
     }
   }, {
@@ -221,7 +228,7 @@ function init3DArray(width, height, depth) {
   return arr;
 }
 
-},{"./util/generateTiledJSON.js":18,"./util/mersenne.js":19}],4:[function(require,module,exports){
+},{"./util/generateTiledJSON.js":19,"./util/mersenne.js":20,"./util/noise.js":21}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -242,6 +249,8 @@ var _Circle = _interopRequireDefault(require("./shapes/Circle.js"));
 var _Square = _interopRequireDefault(require("./shapes/Square.js"));
 var _Triangle = _interopRequireDefault(require("./shapes/Triangle.js"));
 var _FaultLine = _interopRequireDefault(require("./terrains/FaultLine.js"));
+var _PerlinNoise = _interopRequireDefault(require("./terrains/PerlinNoise.js"));
+var _noise = _interopRequireDefault(require("./util/noise.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // Mazes
 
@@ -265,6 +274,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 // import DiamondSquare from './terrains/DiamondSquare.js';
 
 // Utilities / Various
+
 // import mapImageToTileMap from './util/mapImageToTileMap.js';
 
 var labyrinthos = {};
@@ -290,14 +300,16 @@ labyrinthos.shapes.Triangle = _Triangle["default"];
 labyrinthos.terrains = {};
 // labyrinthos.terrains.DiamondSquare = DiamondSquare;
 labyrinthos.terrains.FaultLine = _FaultLine["default"];
+labyrinthos.terrains.PerlinNoise = _PerlinNoise["default"];
 labyrinthos.utils = {};
+labyrinthos.utils.noise = _noise["default"];
 // labyrinthos.utils.mapImageToTileMap = mapImageToTileMap;
 
 labyrinthos.Tile = _Tile["default"];
 labyrinthos.TileMap = _TileMap["default"];
 var _default = exports["default"] = labyrinthos;
 
-},{"./Tile.js":2,"./TileMap.js":3,"./mazes/AldousBroder.js":5,"./mazes/BinaryTree.js":6,"./mazes/CellularAutomata.js":7,"./mazes/EllersAlgorithm.js":8,"./mazes/GrowingTree.js":9,"./mazes/RecursiveBacktrack.js":10,"./mazes/RecursiveDivision.js":11,"./mazes/ThomasHunter.js":12,"./shapes/Circle.js":13,"./shapes/Square.js":14,"./shapes/Triangle.js":15,"./terrains/FaultLine.js":16}],5:[function(require,module,exports){
+},{"./Tile.js":2,"./TileMap.js":3,"./mazes/AldousBroder.js":5,"./mazes/BinaryTree.js":6,"./mazes/CellularAutomata.js":7,"./mazes/EllersAlgorithm.js":8,"./mazes/GrowingTree.js":9,"./mazes/RecursiveBacktrack.js":10,"./mazes/RecursiveDivision.js":11,"./mazes/ThomasHunter.js":12,"./shapes/Circle.js":13,"./shapes/Square.js":14,"./shapes/Triangle.js":15,"./terrains/FaultLine.js":16,"./terrains/PerlinNoise.js":17,"./util/noise.js":21}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1349,6 +1361,29 @@ function applyHeightToTileMap(tileMap, heightMap) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = generatePerlinNoiseMap;
+function generatePerlinNoiseMap(tileMap, options) {
+  var scale = options.scale || 0.1; // Determines the "zoom level" of the noise
+
+  for (var y = 0; y < tileMap.height; y++) {
+    for (var x = 0; x < tileMap.width; x++) {
+      // Generate Perlin noise value for each tile
+      var noiseValue = tileMap.noise(x * scale, y * scale);
+
+      // Optionally transform noiseValue here to suit your needs
+
+      // Assign noise value to tileMap data
+      tileMap.data[y * tileMap.width + x] = noiseValue;
+    }
+  }
+}
+
+},{}],18:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports["default"] = void 0;
 // this program is a JavaScript version of Mersenne Twister, with concealment and encapsulation in class,
 // an almost straight conversion from the original program, mt19937ar.c,
@@ -1613,7 +1648,7 @@ function MersenneTwister19937() {
 //exports.MersenneTwister19937 = MersenneTwister19937;
 var _default = exports["default"] = MersenneTwister19937;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1722,7 +1757,7 @@ function generateTiledJSON(tileMap) {
   return tiledJSON;
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1763,5 +1798,413 @@ function Mersenne() {
 }
 var _default = exports["default"] = Mersenne;
 
-},{"./MersenneTwister19937.js":17}]},{},[1])(1)
+},{"./MersenneTwister19937.js":18}],21:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+//////////////////////////////////////////////////////////////
+// From p5.js - LGPL-2.1 license
+// https://github.com/processing/p5.js
+// https://github.com/processing/p5.js/blob/3d45ce9b130a007668bfac7768fbcdd6b8ff41ec/src/math/noise.js
+// http://mrl.nyu.edu/~perlin/noise/
+// Adapting from PApplet.java
+// which was adapted from toxi
+// which was adapted from the german demo group farbrausch
+// as used in their demo "art": http://www.farb-rausch.de/fr010src.zip
+
+// someday we might consider using "improved noise"
+// http://mrl.nyu.edu/~perlin/paper445.pdf
+// See: https://github.com/shiffman/The-Nature-of-Code-Examples-p5.js/
+//      blob/main/introduction/Noise1D/noise.js
+
+/**
+ * @module Math
+ * @submodule Noise
+ * @for p5
+ * @requires core
+ */
+
+var p5 = function p5() {};
+var PERLIN_YWRAPB = 4;
+var PERLIN_YWRAP = 1 << PERLIN_YWRAPB;
+var PERLIN_ZWRAPB = 8;
+var PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB;
+var PERLIN_SIZE = 4095;
+var perlin_octaves = 4; // default to medium smooth
+var perlin_amp_falloff = 0.5; // 50% reduction/octave
+
+var scaled_cosine = function scaled_cosine(i) {
+  return 0.5 * (1.0 - Math.cos(i * Math.PI));
+};
+var perlin; // will be initialized lazily by noise() or noiseSeed()
+
+/**
+ * Returns random numbers that can be tuned to feel more organic. The values
+ * returned will always be between 0 and 1.
+ *
+ * Values returned by <a href="#/p5/random">random()</a> and
+ * <a href="#/p5/randomGaussian">randomGaussian()</a> can change by large
+ * amounts between function calls. By contrast, values returned by `noise()`
+ * can be made "smooth". Calls to `noise()` with similar inputs will produce
+ * similar outputs. `noise()` is used to create textures, motion, shapes,
+ * terrains, and so on. Ken Perlin invented `noise()` while animating the
+ * original <em>Tron</em> film in the 1980s.
+ *
+ * `noise()` returns the same value for a given input while a sketch is
+ * running. It produces different results each time a sketch runs. The
+ * <a href="#/p5/noiseSeed">noiseSeed()</a> function can be used to generate
+ * the same sequence of Perlin noise values each time a sketch runs.
+ *
+ * The character of the noise can be adjusted in two ways. The first way is to
+ * scale the inputs. `noise()` interprets inputs as coordinates. The sequence
+ * of noise values will be smoother when the input coordinates are closer. The
+ * second way is to use the <a href="#/p5/noiseDetail">noiseDetail()</a>
+ * function.
+ *
+ * The version of `noise()` with one parameter computes noise values in one
+ * dimension. This dimension can be thought of as space, as in `noise(x)`, or
+ * time, as in `noise(t)`.
+ *
+ * The version of `noise()` with two parameters computes noise values in two
+ * dimensions. These dimensions can be thought of as space, as in
+ * `noise(x, y)`, or space and time, as in `noise(x, t)`.
+ *
+ * The version of `noise()` with three parameters computes noise values in
+ * three dimensions. These dimensions can be thought of as space, as in
+ * `noise(x, y, z)`, or space and time, as in `noise(x, y, t)`.
+ *
+ * @method noise
+ * @param  {Number} x   x-coordinate in noise space.
+ * @param  {Number} [y] y-coordinate in noise space.
+ * @param  {Number} [z] z-coordinate in noise space.
+ * @return {Number}     Perlin noise value at specified coordinates.
+ * @example
+ * <div>
+ * <code>
+ * function draw() {
+ *   background(200);
+ *
+ *   let x = 100 * noise(0.005 * frameCount);
+ *   let y = 100 * noise(0.005 * frameCount + 10000);
+ *
+ *   strokeWeight(5);
+ *   point(x, y);
+ *
+ *   describe('A black dot moves randomly on a gray square.');
+ * }
+ * </code>
+ * </div>
+ *
+ * <div>
+ * <code>
+ * function draw() {
+ *   background(200);
+ *
+ *   let noiseLevel = 100;
+ *   let noiseScale = 0.005;
+ *   // Scale input coordinate.
+ *   let nt = noiseScale * frameCount;
+ *   // Compute noise value.
+ *   let x = noiseLevel * noise(nt);
+ *   let y = noiseLevel * noise(nt + 10000);
+ *   // Render.
+ *   strokeWeight(5);
+ *   point(x, y);
+ *
+ *   describe('A black dot moves randomly on a gray square.');
+ * }
+ * </code>
+ * </div>
+ *
+ * <div>
+ * <code>
+ * function draw() {
+ *   let noiseLevel = 100;
+ *   let noiseScale = 0.02;
+ *   // Scale input coordinate.
+ *   let x = frameCount;
+ *   let nx = noiseScale * x;
+ *   // Compute noise value.
+ *   let y = noiseLevel * noise(nx);
+ *   // Render.
+ *   line(x, 0, x, y);
+ *
+ *   describe('A hilly terrain drawn in gray against a black sky.');
+ * }
+ * </code>
+ * </div>
+ *
+ * <div>
+ * <code>
+ * function draw() {
+ *   background(200);
+ *
+ *   let noiseLevel = 100;
+ *   let noiseScale = 0.002;
+ *   for (let x = 0; x < width; x += 1) {
+ *     // Scale input coordinates.
+ *     let nx = noiseScale * x;
+ *     let nt = noiseScale * frameCount;
+ *     // Compute noise value.
+ *     let y = noiseLevel * noise(nx, nt);
+ *     // Render.
+ *     line(x, 0, x, y);
+ *   }
+ *
+ *   describe('A calm sea drawn in gray against a black sky.');
+ * }
+ * </code>
+ * </div>
+ *
+ * <div>
+ * <code>
+ * let noiseLevel = 255;
+ * let noiseScale = 0.01;
+ * for (let y = 0; y < height; y += 1) {
+ *   for (let x = 0; x < width; x += 1) {
+ *     // Scale input coordinates.
+ *     let nx = noiseScale * x;
+ *     let ny = noiseScale * y;
+ *     // Compute noise value.
+ *     let c = noiseLevel * noise(nx, ny);
+ *     // Render.
+ *     stroke(c);
+ *     point(x, y);
+ *   }
+ * }
+ *
+ * describe('A gray cloudy pattern.');
+ * </code>
+ * </div>
+ *
+ * <div>
+ * <code>
+ * function draw() {
+ *   let noiseLevel = 255;
+ *   let noiseScale = 0.009;
+ *   for (let y = 0; y < height; y += 1) {
+ *     for (let x = 0; x < width; x += 1) {
+ *       // Scale input coordinates.
+ *       let nx = noiseScale * x;
+ *       let ny = noiseScale * y;
+ *       let nt = noiseScale * frameCount;
+ *       // Compute noise value.
+ *       let c = noiseLevel * noise(nx, ny, nt);
+ *       // Render.
+ *       stroke(c);
+ *       point(x, y);
+ *     }
+ *   }
+ *
+ *   describe('A gray cloudy pattern that changes.');
+ * }
+ * </code>
+ * </div>
+ */
+
+p5.prototype.noise = function () {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  if (perlin == null) {
+    perlin = new Array(PERLIN_SIZE + 1);
+    for (var i = 0; i < PERLIN_SIZE + 1; i++) {
+      perlin[i] = Math.random();
+    }
+  }
+  if (x < 0) {
+    x = -x;
+  }
+  if (y < 0) {
+    y = -y;
+  }
+  if (z < 0) {
+    z = -z;
+  }
+  var xi = Math.floor(x),
+    yi = Math.floor(y),
+    zi = Math.floor(z);
+  var xf = x - xi;
+  var yf = y - yi;
+  var zf = z - zi;
+  var rxf, ryf;
+  var r = 0;
+  var ampl = 0.5;
+  var n1, n2, n3;
+  for (var o = 0; o < perlin_octaves; o++) {
+    var of = xi + (yi << PERLIN_YWRAPB) + (zi << PERLIN_ZWRAPB);
+    rxf = scaled_cosine(xf);
+    ryf = scaled_cosine(yf);
+    n1 = perlin[of & PERLIN_SIZE];
+    n1 += rxf * (perlin[of + 1 & PERLIN_SIZE] - n1);
+    n2 = perlin[of + PERLIN_YWRAP & PERLIN_SIZE];
+    n2 += rxf * (perlin[of + PERLIN_YWRAP + 1 & PERLIN_SIZE] - n2);
+    n1 += ryf * (n2 - n1);
+    of += PERLIN_ZWRAP;
+    n2 = perlin[of & PERLIN_SIZE];
+    n2 += rxf * (perlin[of + 1 & PERLIN_SIZE] - n2);
+    n3 = perlin[of + PERLIN_YWRAP & PERLIN_SIZE];
+    n3 += rxf * (perlin[of + PERLIN_YWRAP + 1 & PERLIN_SIZE] - n3);
+    n2 += ryf * (n3 - n2);
+    n1 += scaled_cosine(zf) * (n2 - n1);
+    r += n1 * ampl;
+    ampl *= perlin_amp_falloff;
+    xi <<= 1;
+    xf *= 2;
+    yi <<= 1;
+    yf *= 2;
+    zi <<= 1;
+    zf *= 2;
+    if (xf >= 1.0) {
+      xi++;
+      xf--;
+    }
+    if (yf >= 1.0) {
+      yi++;
+      yf--;
+    }
+    if (zf >= 1.0) {
+      zi++;
+      zf--;
+    }
+  }
+  return r;
+};
+
+/**
+ * Adjusts the character of the noise produced by the
+ * <a href="#/p5/noise">noise()</a> function.
+ *
+ * Perlin noise values are created by adding layers of noise together. The
+ * noise layers, called octaves, are similar to harmonics in music. Lower
+ * octaves contribute more to the output signal. They define the overall
+ * intensity of the noise. Higher octaves create finer-grained details.
+ *
+ * By default, noise values are created by combining four octaves. Each higher
+ * octave contributes half as much (50% less) compared to its predecessor.
+ * `noiseDetail()` changes the number of octaves and the falloff amount. For
+ * example, calling `noiseDetail(6, 0.25)` ensures that
+ * <a href="#/p5/noise">noise()</a> will use six octaves. Each higher octave
+ * will contribute 25% as much (75% less) compared to its predecessor. Falloff
+ * values between 0 and 1 are valid. However, falloff values greater than 0.5
+ * might result in noise values greater than 1.
+ *
+ * @method noiseDetail
+ * @param {Number} lod number of octaves to be used by the noise.
+ * @param {Number} falloff falloff factor for each octave.
+ * @example
+ * <div>
+ * <code>
+ * let noiseLevel = 255;
+ * let noiseScale = 0.02;
+ * for (let y = 0; y < height; y += 1) {
+ *   for (let x = 0; x < width / 2; x += 1) {
+ *     // Scale input coordinates.
+ *     let nx = noiseScale * x;
+ *     let ny = noiseScale * y;
+ *
+ *     // Compute noise value.
+ *     noiseDetail(6, 0.25);
+ *     let c = noiseLevel * noise(nx, ny);
+ *     // Render left side.
+ *     stroke(c);
+ *     point(x, y);
+ *
+ *     // Compute noise value.
+ *     noiseDetail(4, 0.5);
+ *     c = noiseLevel * noise(nx, ny);
+ *     // Render right side.
+ *     stroke(c);
+ *     point(x + width / 2, y);
+ *   }
+ * }
+ *
+ * describe('Two gray cloudy patterns. The pattern on the right is cloudier than the pattern on the left.');
+ * </code>
+ * </div>
+ */
+p5.prototype.noiseDetail = function (lod, falloff) {
+  if (lod > 0) {
+    perlin_octaves = lod;
+  }
+  if (falloff > 0) {
+    perlin_amp_falloff = falloff;
+  }
+};
+
+/**
+ * Sets the seed value for <a href="#/p5/noise">noise()</a>. By default,
+ * <a href="#/p5/noise">noise()</a> produces different results each time
+ * a sketch is run. Calling `noiseSeed()` with a constant
+ * argument, such as `noiseSeed(99)`, makes <a href="#/p5/noise">noise()</a>
+ * produce the same results each time a sketch is run.
+ *
+ * @method noiseSeed
+ * @param {Number} seed   seed value.
+ * @example
+ * <div>
+ * <code>
+ * function setup() {
+ *   noiseSeed(99);
+ *   background(255);
+ * }
+ *
+ * function draw() {
+ *   let noiseLevel = 100;
+ *   let noiseScale = 0.005;
+ *   // Scale input coordinate.
+ *   let nt = noiseScale * frameCount;
+ *   // Compute noise value.
+ *   let x = noiseLevel * noise(nt);
+ *   // Render.
+ *   line(x, 0, x, height);
+ *
+ *   describe('A black rectangle that grows randomly, first to the right and then to the left.');
+ * }
+ * </code>
+ * </div>
+ */
+p5.prototype.noiseSeed = function (seed) {
+  // Linear Congruential Generator
+  // Variant of a Lehman Generator
+  var lcg = function () {
+    // Set to values from http://en.wikipedia.org/wiki/Numerical_Recipes
+    // m is basically chosen to be large (as it is the max period)
+    // and for its relationships to a and c
+    var m = 4294967296;
+    // a - 1 should be divisible by m's prime factors
+    var a = 1664525;
+    // c and m should be co-prime
+    var c = 1013904223;
+    var seed, z;
+    return {
+      setSeed: function setSeed(val) {
+        // pick a random seed if val is undefined or null
+        // the >>> 0 casts the seed to an unsigned 32-bit integer
+        z = seed = (val == null ? Math.random() * m : val) >>> 0;
+      },
+      getSeed: function getSeed() {
+        return seed;
+      },
+      rand: function rand() {
+        // define the recurrence relationship
+        z = (a * z + c) % m;
+        // return a float in [0, 1)
+        // if z = m then z / m = 0 therefore (z % m) / m < 1 always
+        return z / m;
+      }
+    };
+  }();
+  lcg.setSeed(seed);
+  perlin = new Array(PERLIN_SIZE + 1);
+  for (var i = 0; i < PERLIN_SIZE + 1; i++) {
+    perlin[i] = lcg.rand();
+  }
+};
+var _default = exports["default"] = p5;
+
+},{}]},{},[1])(1)
 });
