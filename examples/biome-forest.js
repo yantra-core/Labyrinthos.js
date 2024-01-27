@@ -8,6 +8,10 @@ let map = new labyrinthos.TileMap({
   tileHeight: 16
 });
 
+//
+// TileSet API examples
+//
+
 // Create a new custom tile set
 let tileset = new labyrinthos.TileSet({
   tiles: [
@@ -19,13 +23,8 @@ let tileset = new labyrinthos.TileSet({
   ]
 });
 
-//
-// TileSet API examples
-//
-
 // Add new tiles after tileset construction
 tileset.addTile({ id: 5, name: 'path-brown'})
-
 console.log('tileset', tileset);
 
 // Get tiles by ID
