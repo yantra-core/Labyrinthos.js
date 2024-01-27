@@ -306,7 +306,7 @@
       const interval = setInterval(() => {
         $('#generatorType').val(options[currentIndex].value).change();
         currentIndex = (currentIndex + 1) % options.length;
-        console.log('currentIndex', currentIndex)
+        // console.log('currentIndex', currentIndex)
       }, 1700); // Change every 2 seconds
 
       // clear demo interval on click
