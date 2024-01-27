@@ -213,13 +213,14 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 - [✅] - Aldous-Broder Algorithm
 - [✅] - Binary Tree Algorithm
+- [✅] - Cellular Automata
+- [✅] - Eller's Algorithm
+- [✅] - Growing Tree Algorithm
 - [✅] - Recursive Backtracking
 - [✅] - Recursive Division
 - [✅] - Spiral Backtracking
-- [ ] - Eller's Algorithm
-- [ ] - Houston's Algorithm
+- [✅] - Thomas Hunter
 - [ ] - Trémaux's Algorithm
-- [ ] - Cellular Automata
 - [ ] - Random Walk
 - [ ] - Maze Growing Algorithm (Seeded Growth)
 - [ ] - Voronoi Diagrams
@@ -227,14 +228,13 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 - [ ] - Randomized Kruskal's Algorithm
 - [ ] - Wilson's Algorithm
 - [ ] - Hunt-and-Kill Algorithm
-- [ ] - Growing Tree Algorithm
 - [ ] - Sidewinder Algorithm
 - [ ] - Fractal Recursive Maze
 
 ## Terrain Generators
 
-- [✅] - Diamond-Square Algorithm
 - [✅] - Fault Line Algorithm
+- [ ] - Diamond-Square Algorithm
 - [ ] - Perlin Noise
 - [ ] - Simplex Noise
 - [ ] - Voronoi Diagrams

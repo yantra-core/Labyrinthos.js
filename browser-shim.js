@@ -5,6 +5,7 @@ import TileMap from './lib/TileMap.js';
 let mazes = labyrinthos.mazes;
 let terrains = labyrinthos.terrains;
 let shapes = labyrinthos.shapes;
+let utils = labyrinthos.utils;
 
 export {
   labyrinthos,
@@ -12,5 +13,6 @@ export {
   Tile,
   mazes,
   terrains,
-  shapes
+  shapes,
+  utils
 };

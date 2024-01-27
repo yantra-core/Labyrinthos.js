@@ -22,7 +22,7 @@ Object.defineProperty(exports, "labyrinthos", {
     return _labyrinthos["default"];
   }
 });
-exports.terrains = exports.shapes = exports.mazes = void 0;
+exports.utils = exports.terrains = exports.shapes = exports.mazes = void 0;
 var _labyrinthos = _interopRequireDefault(require("./lib/labyrinthos.js"));
 var _Tile = _interopRequireDefault(require("./lib/Tile.js"));
 var _TileMap = _interopRequireDefault(require("./lib/TileMap.js"));
@@ -30,6 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var mazes = exports.mazes = _labyrinthos["default"].mazes;
 var terrains = exports.terrains = _labyrinthos["default"].terrains;
 var shapes = exports.shapes = _labyrinthos["default"].shapes;
+var utils = exports.utils = _labyrinthos["default"].utils;
 
 },{"./lib/Tile.js":2,"./lib/TileMap.js":3,"./lib/labyrinthos.js":4}],2:[function(require,module,exports){
 "use strict";
@@ -220,7 +221,7 @@ function init3DArray(width, height, depth) {
   return arr;
 }
 
-},{"./util/generateTiledJSON.js":16,"./util/mersenne.js":17}],4:[function(require,module,exports){
+},{"./util/generateTiledJSON.js":18,"./util/mersenne.js":19}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -231,16 +232,25 @@ var _Tile = _interopRequireDefault(require("./Tile.js"));
 var _TileMap = _interopRequireDefault(require("./TileMap.js"));
 var _AldousBroder = _interopRequireDefault(require("./mazes/AldousBroder.js"));
 var _BinaryTree = _interopRequireDefault(require("./mazes/BinaryTree.js"));
+var _CellularAutomata = _interopRequireDefault(require("./mazes/CellularAutomata.js"));
+var _EllersAlgorithm = _interopRequireDefault(require("./mazes/EllersAlgorithm.js"));
+var _GrowingTree = _interopRequireDefault(require("./mazes/GrowingTree.js"));
 var _RecursiveBacktrack = _interopRequireDefault(require("./mazes/RecursiveBacktrack.js"));
 var _RecursiveDivision = _interopRequireDefault(require("./mazes/RecursiveDivision.js"));
-var _SpiralBacktrack = _interopRequireDefault(require("./mazes/SpiralBacktrack.js"));
+var _ThomasHunter = _interopRequireDefault(require("./mazes/ThomasHunter.js"));
 var _Circle = _interopRequireDefault(require("./shapes/Circle.js"));
 var _Square = _interopRequireDefault(require("./shapes/Square.js"));
 var _Triangle = _interopRequireDefault(require("./shapes/Triangle.js"));
-var _DiamondSquare = _interopRequireDefault(require("./terrains/DiamondSquare.js"));
 var _FaultLine = _interopRequireDefault(require("./terrains/FaultLine.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // Mazes
+
+// import HuntAndKill from './mazes/HuntAndKill.js';
+
+// import SpiralBacktrack from './mazes/SpiralBacktrack.js';
+
+// import TremauxsAlgorithm from './mazes/TremauxsAlgorithm.js';
+// import VoronoiDiagram from './mazes/VoronoiDiagram.js';
 
 // Shapes
 
@@ -252,14 +262,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 // Terrains
 // https://en.wikipedia.org/wiki/Diamond-square_algorithm
+// import DiamondSquare from './terrains/DiamondSquare.js';
+
+// Utilities / Various
+// import mapImageToTileMap from './util/mapImageToTileMap.js';
 
 var labyrinthos = {};
 labyrinthos.mazes = {};
 labyrinthos.mazes.AldousBroder = _AldousBroder["default"];
 labyrinthos.mazes.BinaryTree = _BinaryTree["default"];
+labyrinthos.mazes.CellularAutomata = _CellularAutomata["default"];
+labyrinthos.mazes.EllersAlgorithm = _EllersAlgorithm["default"];
+labyrinthos.mazes.GrowingTree = _GrowingTree["default"];
+// labyrinthos.mazes.HuntAndKill = HuntAndKill;
 labyrinthos.mazes.RecursiveBacktrack = _RecursiveBacktrack["default"];
 labyrinthos.mazes.RecursiveDivision = _RecursiveDivision["default"];
-labyrinthos.mazes.SpiralBacktrack = _SpiralBacktrack["default"];
+// labyrinthos.mazes.SpiralBacktrack = SpiralBacktrack;
+labyrinthos.mazes.ThomasHunter = _ThomasHunter["default"];
+// labyrinthos.mazes.TremauxsAlgorithm = TremauxsAlgorithm;
+// labyrinthos.mazes.VoronoiDiagram = VoronoiDiagram;
+
 labyrinthos.shapes = {};
 labyrinthos.shapes.Circle = _Circle["default"];
 labyrinthos.shapes.Square = _Square["default"];
@@ -268,11 +290,14 @@ labyrinthos.shapes.Triangle = _Triangle["default"];
 labyrinthos.terrains = {};
 // labyrinthos.terrains.DiamondSquare = DiamondSquare;
 labyrinthos.terrains.FaultLine = _FaultLine["default"];
+labyrinthos.utils = {};
+// labyrinthos.utils.mapImageToTileMap = mapImageToTileMap;
+
 labyrinthos.Tile = _Tile["default"];
 labyrinthos.TileMap = _TileMap["default"];
 var _default = exports["default"] = labyrinthos;
 
-},{"./Tile.js":2,"./TileMap.js":3,"./mazes/AldousBroder.js":5,"./mazes/BinaryTree.js":6,"./mazes/RecursiveBacktrack.js":7,"./mazes/RecursiveDivision.js":8,"./mazes/SpiralBacktrack.js":9,"./shapes/Circle.js":10,"./shapes/Square.js":11,"./shapes/Triangle.js":12,"./terrains/DiamondSquare.js":13,"./terrains/FaultLine.js":14}],5:[function(require,module,exports){
+},{"./Tile.js":2,"./TileMap.js":3,"./mazes/AldousBroder.js":5,"./mazes/BinaryTree.js":6,"./mazes/CellularAutomata.js":7,"./mazes/EllersAlgorithm.js":8,"./mazes/GrowingTree.js":9,"./mazes/RecursiveBacktrack.js":10,"./mazes/RecursiveDivision.js":11,"./mazes/ThomasHunter.js":12,"./shapes/Circle.js":13,"./shapes/Square.js":14,"./shapes/Triangle.js":15,"./terrains/FaultLine.js":16}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -326,19 +351,200 @@ function ALGORITHM_BINARY_TREE(tileMap, options) {
       tileMap.data[y * tileMap.width + x] = 0; // Open cell
 
       var neighbors = [];
-      if (x > 0) neighbors.push([-2, 0]);
-      if (y > 0) neighbors.push([0, -2]);
+      if (x + 2 < tileMap.width) neighbors.push([2, 0]); // East
+      if (y + 2 < tileMap.height) neighbors.push([0, 2]); // South
+
       if (neighbors.length > 0) {
-        var _neighbors$Math$floor = _slicedToArray(neighbors[Math.floor(Math.random() * neighbors.length)], 2),
-          dx = _neighbors$Math$floor[0],
-          dy = _neighbors$Math$floor[1];
-        tileMap.data[(y + dy) * tileMap.width + (x + dx)] = 0;
+        var randomIndex = Math.floor(tileMap.random() * neighbors.length);
+        var _neighbors$randomInde = _slicedToArray(neighbors[randomIndex], 2),
+          dx = _neighbors$randomInde[0],
+          dy = _neighbors$randomInde[1];
+        tileMap.data[(y + dy) * tileMap.width + (x + dx)] = 0; // Open path to the selected neighbor
+        tileMap.data[(y + dy / 2) * tileMap.width + (x + dx / 2)] = 0; // Open wall between current cell and selected neighbor
       }
     }
   }
 }
 
 },{}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = generateCellularAutomataMap;
+// CellularAutomata.js - Marak Squires 2024
+function generateCellularAutomataMap(tileMap, options) {
+  var floorTileId = 1;
+  var wallTileId = 0;
+  var wallChance = options.wallChance || 0.45;
+  var iterations = options.iterations || 4;
+  var neighborThreshold = options.neighborThreshold || 4;
+
+  // Randomly initialize map
+  for (var y = 0; y < tileMap.height; y++) {
+    for (var x = 0; x < tileMap.width; x++) {
+      tileMap.data[y * tileMap.width + x] = tileMap.random() < wallChance ? wallTileId : floorTileId;
+    }
+  }
+
+  // Cellular automata iteration
+  for (var i = 0; i < iterations; i++) {
+    var newData = new Array(tileMap.width * tileMap.height).fill(floorTileId);
+    for (var _y = 0; _y < tileMap.height; _y++) {
+      for (var _x = 0; _x < tileMap.width; _x++) {
+        var wallNeighbors = 0;
+        for (var dy = -1; dy <= 1; dy++) {
+          for (var dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue;
+            var nx = _x + dx;
+            var ny = _y + dy;
+            if (nx >= 0 && nx < tileMap.width && ny >= 0 && ny < tileMap.height) {
+              wallNeighbors += tileMap.data[ny * tileMap.width + nx] === wallTileId ? 1 : 0;
+            } else {
+              wallNeighbors++;
+            }
+          }
+        }
+        newData[_y * tileMap.width + _x] = wallNeighbors >= neighborThreshold ? wallTileId : floorTileId;
+      }
+    }
+    tileMap.data = newData;
+  }
+}
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = generateEllersAlgorithmMap;
+// EllersAlgorithm.js - Marak Squires 2024
+function generateEllersAlgorithmMap(tileMap, options) {
+  var floorTileId = 1;
+  var wallTileId = 0;
+  tileMap.data.fill(wallTileId);
+  var sets = {};
+  function makeSet(x, y) {
+    var id = "".concat(x, ",").concat(y);
+    sets[id] = {
+      id: id,
+      cells: [id]
+    };
+    return sets[id];
+  }
+  function findSet(x, y) {
+    var id = "".concat(x, ",").concat(y);
+    return sets[id] || makeSet(x, y);
+  }
+  function unionSets(x1, y1, x2, y2) {
+    var set1 = findSet(x1, y1);
+    var set2 = findSet(x2, y2);
+    if (set1.id === set2.id) return;
+
+    // Merge two sets
+    set2.cells.forEach(function (cellId) {
+      set1.cells.push(cellId);
+      sets[cellId] = set1;
+    });
+  }
+  for (var y = 0; y < tileMap.height; y += 2) {
+    // Join cells horizontally
+    for (var x = 0; x < tileMap.width - 2; x += 2) {
+      if (tileMap.random() > 0.5) {
+        unionSets(x, y, x + 2, y);
+        tileMap.data[y * tileMap.width + x + 1] = floorTileId;
+      }
+    }
+
+    // Join cells vertically
+    if (y < tileMap.height - 2) {
+      var setVisited = {};
+      for (var _x = 0; _x < tileMap.width; _x += 2) {
+        var currentSet = findSet(_x, y).id;
+        if (!setVisited[currentSet] && tileMap.random() > 0.5) {
+          unionSets(_x, y, _x, y + 2);
+          tileMap.data[(y + 1) * tileMap.width + _x] = floorTileId;
+          setVisited[currentSet] = true;
+        }
+      }
+    }
+  }
+
+  // Ensure all paths are connected in the last row
+  for (var _x2 = 0; _x2 < tileMap.width - 2; _x2 += 2) {
+    if (findSet(_x2, tileMap.height - 1).id !== findSet(_x2 + 2, tileMap.height - 1).id) {
+      unionSets(_x2, tileMap.height - 1, _x2 + 2, tileMap.height - 1);
+      tileMap.data[(tileMap.height - 1) * tileMap.width + _x2 + 1] = floorTileId;
+    }
+  }
+}
+
+},{}],9:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = generateGrowingTreeAlgorithmMap;
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function generateGrowingTreeAlgorithmMap(tileMap, options) {
+  var floorTileId = 1; // Open cell
+  var wallTileId = 0; // Wall
+
+  tileMap.data.fill(wallTileId); // Initialize all tiles as walls
+
+  // Function to carve a passage between two points
+  function carvePassage(x1, y1, x2, y2) {
+    tileMap.data[y1 * tileMap.width + x1] = floorTileId;
+    // Carve passage to the next cell (midpoint for the wall and the cell itself)
+    tileMap.data[Math.floor((y1 + y2) / 2) * tileMap.width + Math.floor((x1 + x2) / 2)] = floorTileId;
+    tileMap.data[y2 * tileMap.width + x2] = floorTileId;
+  }
+  var currentX = Math.floor(tileMap.random() * tileMap.width);
+  var currentY = Math.floor(tileMap.random() * tileMap.height);
+  var cellsStack = [[currentX, currentY]]; // Start with a single cell in stack
+  var _loop = function _loop() {
+    var _cellsStack = _slicedToArray(cellsStack[cellsStack.length - 1], 2),
+      cx = _cellsStack[0],
+      cy = _cellsStack[1]; // Use the latest cell
+    var neighbors = [];
+
+    // Directions: N, S, E, W
+    var directions = [[0, -2], [0, 2], [2, 0], [-2, 0]];
+    directions.forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+        dx = _ref2[0],
+        dy = _ref2[1];
+      var nx = cx + dx,
+        ny = cy + dy;
+      if (nx >= 0 && nx < tileMap.width && ny >= 0 && ny < tileMap.height && tileMap.data[ny * tileMap.width + nx] === wallTileId) {
+        neighbors.push([nx, ny]);
+      }
+    });
+    if (neighbors.length > 0) {
+      var randomIndex = Math.floor(tileMap.random() * neighbors.length);
+      var _neighbors$randomInde = _slicedToArray(neighbors[randomIndex], 2),
+        nextX = _neighbors$randomInde[0],
+        nextY = _neighbors$randomInde[1];
+      carvePassage(cx, cy, nextX, nextY);
+      cellsStack.push([nextX, nextY]);
+    } else {
+      cellsStack.pop(); // No neighbors found, backtrack
+    }
+  };
+  while (cellsStack.length > 0) {
+    _loop();
+  }
+}
+
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -398,7 +604,7 @@ function generateMap(tileMap, options) {
   visitCell(startX, startY);
 }
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -436,84 +642,602 @@ function generateRecursiveDivisionMap(tileMap, options) {
   addWalls(0, 0, tileMap.width, tileMap.height);
 }
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = generateSpiralMap;
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function generateSpiralMap(tileMap, options) {
-  var stack = [];
-  var visited = Array.from({
-    length: tileMap.height
-  }, function () {
-    return Array(tileMap.width).fill(false);
-  });
-  var directionOrder = ['right', 'down', 'left', 'up']; // Initial direction order for spiral movement
+exports["default"] = ALGORITHM_THOMAS_HUNTER;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * Originally written by Thomas Hunter II
+ *
+ * Originally written on June 12, 2013
+ * Originally hosted at https://github.com/PhobosRising/javascript-roguelike-map-generator
+ */
 
-  var visitCell = function visitCell(x, y) {
-    visited[y][x] = true;
-    stack.push([x, y]);
-    while (stack.length > 0) {
-      var _stack = _slicedToArray(stack[stack.length - 1], 2),
-        cx = _stack[0],
-        cy = _stack[1];
-      var neighbors = getSpiralNeighbors(cx, cy, directionOrder);
-      if (neighbors.length > 0) {
-        var _neighbors$ = _slicedToArray(neighbors[0], 2),
-          nx = _neighbors$[0],
-          ny = _neighbors$[1]; // Always select the first neighbor in the spiral direction
-        removeWall(cx, cy, nx, ny);
-        visited[ny][nx] = true;
-        stack.push([nx, ny]);
-      } else {
-        stack.pop();
-        directionOrder = rotateDirectionOrder(directionOrder); // Rotate direction order for the next cell
+//import { random } from './random.mjs';
+
+//const rand = require('../../utility/random/index.js');
+
+var TILE = {
+  VOID: 0,
+  FLOOR: 1,
+  WALL: 2,
+  DOOR: 3,
+  SPECIAL_DOOR: 4,
+  ENTER: 5,
+  EXIT: 6
+};
+var DEFAULT = {
+  WIDTH: 21,
+  HEIGHT: 21,
+  MIN_ROOM_WIDTH: 3,
+  MAX_ROOM_WIDTH: 7,
+  MIN_ROOM_HEIGHT: 3,
+  MAX_ROOM_HEIGHT: 7,
+  IDEAL_COUNT: 10,
+  RETRY_COUNT: 100
+};
+
+//var WALL_X = 0;
+//var WALL_Y = 1;
+
+var ROOM_GAP = 1;
+var Roguelike = /*#__PURE__*/function () {
+  function Roguelike() {
+    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    _classCallCheck(this, Roguelike);
+    if (!config) {
+      config = {};
+    }
+    if (!config.room) {
+      config.room = {};
+    }
+    this.max_width = config.width || DEFAULT.WIDTH;
+    this.max_height = config.height || DEFAULT.HEIGHT;
+    this.room_min_width = config.room.min_width || DEFAULT.MIN_ROOM_WIDTH;
+    this.room_max_width = config.room.max_width || DEFAULT.MAX_ROOM_WIDTH;
+    this.room_min_height = config.room.min_height || DEFAULT.MIN_ROOM_HEIGHT;
+    this.room_max_height = config.room.max_height || DEFAULT.MAX_ROOM_HEIGHT;
+    this.room_ideal_count = config.room.ideal || DEFAULT.IDEAL_COUNT;
+    this.retry_count = config.retry || DEFAULT.IDEAL_COUNT;
+    this.want_special = !!config.special;
+  }
+  _createClass(Roguelike, [{
+    key: "render",
+    value: function render() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var blt = arguments.length > 1 ? arguments[1] : undefined;
+      var built = blt || this.build();
+      var world = built.world;
+
+      //var end = new Date();
+
+      var result = '';
+      // Crude mechanism for drawing level
+      for (var y = 0; y < world.length; y++) {
+        var row = '';
+        for (var x = 0; x < world[y].length; x++) {
+          var tile = world[y][x];
+          if (tile === 0) {
+            row += ' ';
+          } else if (tile === 1) {
+            row += '.';
+          } else if (tile === 2) {
+            row += '#';
+          } else if (tile === 3) {
+            row += '/';
+          } else if (tile === 4) {
+            row += 'X';
+          } else if (tile === 5) {
+            row += '<';
+          } else if (tile === 6) {
+            row += '>';
+          } else {
+            row += world[y][x];
+          }
+        }
+        result += row + '\n';
+        //console.log(row + '| ' + y);
+      }
+      return result;
+    }
+  }, {
+    key: "build",
+    value: function build(random) {
+      this.random = random ? random : function () {
+        return Math.random();
+      };
+      this.world = null; // 2D array representing the world
+      this.rooms = {}; // Object containing rooms where the key is the Room ID
+      this.doors = {}; // Object containing doors where the key is the Door ID
+      this.walls = []; // Array of all walls, where each items is an [X,Y] pair
+      this.enter = null; // {x, y, room_id} object pointing to level entrance
+      this.exit = null; // {x, y, room_id} object pointing to level exit
+      this.special = null; // {room_id, door_id} object pointing to special area
+      this.deadends = [];
+      this.room_id = 0;
+      this.door_id = 0;
+      this.createVoid();
+      this.addStarterRoom();
+      this.generateRooms();
+      this.addSpecialRooms();
+      this.buildWalls();
+      return {
+        width: this.max_width,
+        height: this.max_height,
+        enter: this.enter,
+        exit: this.exit,
+        deadends: this.deadends,
+        special: this.special,
+        door_count: this.door_id,
+        doors: this.doors,
+        room_count: this.room_id,
+        rooms: this.rooms,
+        walls: this.walls,
+        world: this.world
+      };
+    }
+
+    /**
+     * Creates a 2D array of VOID tiles
+     */
+  }, {
+    key: "createVoid",
+    value: function createVoid() {
+      var world = [];
+      for (var y = 0; y < this.max_height; y++) {
+        world[y] = [];
+        for (var x = 0; x < this.max_width; x++) {
+          world[y][x] = TILE.VOID;
+        }
+      }
+      this.world = world;
+    }
+  }, {
+    key: "addStarterRoom",
+    value: function addStarterRoom() {
+      var dimen = this.getRoomDimensions();
+      var min_left = ROOM_GAP;
+      var max_left = this.max_width - (dimen.width + ROOM_GAP * 2) + ROOM_GAP;
+      var min_top = ROOM_GAP;
+      var max_top = this.max_height - (dimen.height + ROOM_GAP * 2) + ROOM_GAP;
+      var left = this.randomOdd(min_left, max_left);
+      var top = this.randomOdd(min_top, max_top);
+      //console.log('starter', left, top, dimen.width, dimen.height)
+      this.addRoom(left, top, dimen.width, dimen.height);
+      //console.log('W', this.world)
+    }
+  }, {
+    key: "getRoomDimensions",
+    value: function getRoomDimensions() {
+      return {
+        width: this.randomOdd(this.room_min_width, this.room_max_width),
+        height: this.randomOdd(this.room_min_height, this.room_max_height)
+      };
+    }
+  }, {
+    key: "addRoom",
+    value: function addRoom(left, top, width, height) {
+      var room_id = this.room_id++;
+      this.rooms[room_id] = {
+        left: left,
+        top: top,
+        width: width,
+        height: height,
+        id: room_id,
+        walls: [],
+        neighbors: [],
+        doors: []
+      };
+      for (var y = top; y < top + height; y++) {
+        for (var x = left; x < left + width; x++) {
+          //console.log('f');
+          this.world[y][x] = TILE.FLOOR;
+        }
+      }
+      return room_id;
+    }
+
+    /**
+     * Adds one-off floors, e.g. for building hallways
+     */
+  }, {
+    key: "addFloor",
+    value: function addFloor(x, y) {
+      this.world[y][x] = TILE.FLOOR;
+    }
+  }, {
+    key: "generateRooms",
+    value: function generateRooms() {
+      var retries = this.retry_count;
+      while (this.room_id < this.room_ideal_count) {
+        //console.log('!')
+        if (!this.generateRoom() && --retries <= 0) {
+          break;
+        }
       }
     }
-  };
-  var getSpiralNeighbors = function getSpiralNeighbors(x, y, directionOrder) {
-    var neighborDirections = {
-      'right': [x + 1, y],
-      'down': [x, y + 1],
-      'left': [x - 1, y],
-      'up': [x, y - 1]
-    };
-    return directionOrder.map(function (dir) {
-      return neighborDirections[dir];
-    }).filter(function (_ref) {
-      var _ref2 = _slicedToArray(_ref, 2),
-        nx = _ref2[0],
-        ny = _ref2[1];
-      return nx >= 0 && nx < tileMap.width && ny >= 0 && ny < tileMap.height && !visited[ny][nx];
-    });
-  };
-  var rotateDirectionOrder = function rotateDirectionOrder(order) {
-    // Rotate the direction order to change the spiral direction
-    return order.concat(order.shift());
-  };
-  var removeWall = function removeWall(x, y, nx, ny) {
-    var index1 = y * tileMap.width + x;
-    var index2 = ny * tileMap.width + nx;
-    tileMap.data[Math.min(index1, index2)] = 0;
-  };
 
-  // Start from a random cell
-  // Start from a random cell using tileMap.random()
-  var startX = Math.floor(tileMap.random(tileMap.width));
-  var startY = Math.floor(tileMap.random(tileMap.height));
-  visitCell(startX, startY);
-  //  visitCell(Math.floor(Math.random() * tileMap.width), Math.floor(Math.random() * tileMap.height));
+    /**
+     * Attempts to add a single room to our world
+     *
+     * Pick a random cardinal direction
+     * Generate a room size
+     * Slide that room in until it bumps into another room
+     * Build a door that connects the two
+     */
+  }, {
+    key: "generateRoom",
+    value: function generateRoom() {
+      var slide = this.randomFn(0, 3); // North, East, South, West
+
+      var x_dir = slide === 1 ? +1 : slide === 3 ? -1 : 0;
+      var y_dir = slide === 0 ? +1 : slide === 2 ? -1 : 0;
+      var dimen = this.getRoomDimensions();
+      var top, left, name;
+      if (slide === 0) {
+        // Slide South from Top
+        name = 'south';
+        top = ROOM_GAP;
+        left = this.randomOdd(ROOM_GAP, this.max_width - dimen.width - ROOM_GAP * 2);
+      } else if (slide === 1) {
+        // Slide East from Left
+        name = 'east';
+        top = this.randomOdd(ROOM_GAP, this.max_height - dimen.height - ROOM_GAP * 2);
+        left = ROOM_GAP;
+      } else if (slide === 2) {
+        // Slide North from Bottom
+        name = 'north';
+        top = this.max_height - dimen.height - ROOM_GAP;
+        left = this.randomOdd(ROOM_GAP, this.max_width - dimen.width - ROOM_GAP * 2);
+      } else if (slide === 3) {
+        // Slide West from Right
+        //eslint-disable-next-line no-unused-vars
+        name = 'west';
+        top = this.randomOdd(ROOM_GAP, this.max_height - dimen.height - ROOM_GAP * 2);
+        left = this.max_width - dimen.width - ROOM_GAP;
+      }
+
+      //console.log(name, top, left)
+
+      // Our start position for adding a room overlaps with an existing one :(
+      if (false !== this.collides(top, left, dimen.width, dimen.height)) {
+        return false;
+      }
+      var collide_room = null;
+      while (false === (collide_room = this.collides(top + y_dir, left + x_dir, dimen.width, dimen.height))) {
+        top += y_dir;
+        left += x_dir;
+        //console.log(name, top, left)
+        // We slid the room out of bounds of the world
+        if (this.invalid(top, left, dimen.width, dimen.height)) {
+          //console.log('INVALID')
+          return false;
+        }
+      }
+      var new_room_id = this.addRoom(left, top, dimen.width, dimen.height);
+      //console.log('world', this.world);
+      this.addDoorBetweenRooms(x_dir, y_dir, collide_room, new_room_id);
+      return true;
+    }
+  }, {
+    key: "collides",
+    value: function collides(top, left, width, height) {
+      var target = {
+        top: top,
+        left: left,
+        width: width,
+        height: height
+      };
+      for (var i = 0; i < this.room_id; i++) {
+        var room = this.rooms[i];
+        /*console.log(target.left, room.left + room.width,
+            target.left + target.width , room.left,
+            target.top , room.top + room.height,
+            target.top + target.height , room.top)*/
+        if (!(target.left > room.left + room.width || target.left + target.width < room.left || target.top > room.top + room.height || target.top + target.height < room.top)) {
+          return room.id; // truthy int
+        }
+      }
+      return false;
+    }
+  }, {
+    key: "invalid",
+    value: function invalid(top, left, width, height) {
+      if (top <= ROOM_GAP) {
+        // Too far north
+        return true;
+      } else if (left <= ROOM_GAP) {
+        // Too far west
+        return true;
+      } else if (top + height >= this.max_height - ROOM_GAP) {
+        // Too far east
+        return true;
+      } else if (left + width >= this.max_width - ROOM_GAP) {
+        // Too far south
+        return true;
+      }
+
+      // A O.K.
+      return false;
+    }
+
+    /**
+     * Finds boundaries between floors and void, adding walls
+     */
+  }, {
+    key: "buildWalls",
+    value: function buildWalls() {
+      var rooms = this.rooms;
+      //var world = this.world;
+
+      // Do this for halls and rooms
+      for (var i = 0; i < this.room_id; i++) {
+        var room = rooms[i];
+
+        // Top Wall (Long)
+        for (var tx = room.left - 1; tx < room.left + room.width + 1; tx++) {
+          this.addWall(tx, room.top - 1, room);
+        }
+
+        // Right Wall (Short)
+        for (var ry = room.top; ry < room.top + room.height; ry++) {
+          this.addWall(room.left + room.width, ry, room);
+        }
+
+        // Bottom Wall (Long)
+        for (var bx = room.left - 1; bx < room.left + room.width + 1; bx++) {
+          this.addWall(bx, room.top + room.height, room);
+        }
+
+        // Left Wall (Short)
+        for (var ly = room.top; ly < room.top + room.height; ly++) {
+          this.addWall(room.left - 1, ly, room);
+        }
+      }
+    }
+  }, {
+    key: "addWall",
+    value: function addWall(x, y, room) {
+      // Walls should only appear once in the global walls list and world grid
+      if (this.world[y][x] === TILE.VOID) {
+        this.world[y][x] = TILE.WALL;
+        this.walls.push([x, y]);
+      }
+      if (this.world[y][x] === TILE.VOID || this.world[y][x] === TILE.WALL) {
+        room.walls.push([x, y]);
+      }
+    }
+  }, {
+    key: "addDoorBetweenRooms",
+    value: function addDoorBetweenRooms(x_dir, y_dir, existing_room_id, new_room_id) {
+      var existing_room = this.rooms[existing_room_id];
+      var new_room = this.rooms[new_room_id];
+      var x, y, orientation;
+      if (x_dir === 1) {
+        // eastward
+        x = existing_room.left - 1;
+        y = this.randomFn(Math.max(existing_room.top, new_room.top) + 1, Math.min(existing_room.top + existing_room.height, new_room.top + new_room.height) - 2);
+        orientation = 'h'; // horizontal
+      } else if (x_dir === -1) {
+        // stabbing westward
+        x = new_room.left - 1;
+        y = this.randomFn(Math.max(new_room.top, existing_room.top) + 1, Math.min(new_room.top + new_room.height, existing_room.top + existing_room.height) - 2);
+        orientation = 'h'; // horizontal
+      } else if (y_dir === -1) {
+        // northward
+        x = this.randomFn(Math.max(existing_room.left, new_room.left) + 1, Math.min(existing_room.left + existing_room.width, new_room.left + new_room.width) - 2);
+        y = new_room.top - 1;
+        orientation = 'v'; // vertical
+      } else if (y_dir === 1) {
+        // southward
+        x = this.randomFn(Math.max(new_room.left, existing_room.left) + 1, Math.min(new_room.left + new_room.width, existing_room.left + existing_room.width) - 2);
+        y = existing_room.top - 1;
+        orientation = 'v'; // vertical
+      }
+      this.addDoor(x, y, existing_room_id, new_room_id, orientation);
+      this.rooms[existing_room_id].neighbors.push(new_room_id);
+      this.rooms[new_room_id].neighbors.push(existing_room_id);
+    }
+
+    /**
+     * Add an entrance and exit to the level.
+     *
+     * Optionally adds a special room (could be hidden, a shop, etc.)
+     *
+     * We pick two random rooms with only a single attached neighbor.
+     * This ensures two adjacent rooms aren't entrance and exit.
+     */
+  }, {
+    key: "addSpecialRooms",
+    value: function addSpecialRooms() {
+      var deadends = [];
+      var smallest = {
+        id: null,
+        area: Infinity
+      };
+      var room, area;
+      for (var i = 0; i < this.room_id; i++) {
+        room = this.rooms[i];
+        if (room.neighbors.length === 1) {
+          this.rooms[i].deadend = true;
+          deadends.push(i);
+          area = room.width * room.height;
+          if (area < smallest.area) {
+            smallest.id = i;
+          }
+        }
+      }
+      if (this.want_special && deadends.length >= 2) {
+        // Enter + Exit + Special
+        var index = deadends.indexOf(smallest.id);
+        deadends.splice(index, 1);
+        var door_id = this.rooms[smallest.id].doors[0];
+        var room_id = smallest.id;
+        this.special = {
+          room_id: room_id,
+          door_id: door_id
+        };
+        var door = this.doors[door_id];
+        door.special = true;
+        this.rooms[room_id].special = true;
+        this.world[door.y][door.x] = TILE.SPECIAL_DOOR;
+      }
+      this.shuffle(deadends);
+      var enter_room_id = deadends.pop();
+      if (typeof enter_room_id === 'undefined') {
+        throw new Error('Unable to find a dead end room for Enter!');
+      }
+      var enter = this.randomNonEdgeInRoom(enter_room_id);
+      this.world[enter.y][enter.x] = TILE.ENTER;
+      this.enter = {
+        x: enter.x,
+        y: enter.y,
+        room_id: enter_room_id
+      };
+      this.rooms[enter_room_id].enter = true;
+      var enter_door = this.rooms[enter_room_id].doors[0];
+      this.doors[enter_door].enter = true;
+      var exit_room_id = deadends.pop();
+      if (typeof exit_room_id === 'undefined') {
+        throw new Error('Unable to find a dead end room for Exit!');
+      }
+      var exit = this.randomNonEdgeInRoom(exit_room_id);
+      this.world[exit.y][exit.x] = TILE.EXIT;
+      this.exit = {
+        x: exit.x,
+        y: exit.y,
+        room_id: exit_room_id
+      };
+      this.rooms[exit_room_id].exit = true;
+      var exit_door = this.rooms[exit_room_id].doors[0];
+      this.doors[exit_door].exit = true;
+      this.deadends = deadends;
+    }
+  }, {
+    key: "randomNonEdgeInRoom",
+    value: function randomNonEdgeInRoom(room_id) {
+      var room = this.rooms[room_id];
+      return {
+        x: this.randomFn(room.left + 1, room.left + room.width - 2),
+        y: this.randomFn(room.top + 1, room.top + room.height - 2)
+      };
+    }
+  }, {
+    key: "addDoor",
+    value: function addDoor(x, y, room1, room2, orientation) {
+      this.world[y][x] = TILE.DOOR;
+      var door_id = this.door_id++;
+      this.doors[door_id] = {
+        x: x,
+        y: y,
+        id: door_id,
+        orientation: orientation,
+        rooms: [room1, room2]
+      };
+      this.rooms[room1].doors.push(door_id);
+      this.rooms[room2].doors.push(door_id);
+      return door_id;
+    }
+
+    /**
+     * Pick a number between min and max, inclusive
+     * e.g. 1,7 => 1,2,3,4,5,6,7
+     */
+  }, {
+    key: "randomFn",
+    value: function randomFn(min_raw, max_raw) {
+      var min = Math.floor(min_raw);
+      var max = Math.floor(max_raw);
+      return Math.floor(this.random() * (max + 1 - min) + min);
+    }
+
+    /**
+     * Picks a random odd number between min and max, inclusive (if odd)
+     * e.g. 2,9 => 3,5,7,9
+     *
+     * TODO: Make this a one-liner
+     */
+  }, {
+    key: "randomOdd",
+    value: function randomOdd(min_raw, max_raw) {
+      // Convert them to integers
+      var min = Math.floor(min_raw);
+      var max = Math.floor(max_raw);
+
+      // Make them both Odd
+      if (min % 2 === 0) min++;
+      if (max % 2 === 0) max--;
+
+      // Shift down one, make them even
+      min -= 1;
+      max -= 1;
+
+      // Cut them in half
+      min /= 2;
+      max /= 2;
+      var r = this.random();
+      //console.log('R', r);
+      var result = Math.floor(r * (max + 1 - min) + min);
+      result *= 2;
+      result += 1;
+      return result;
+    }
+  }, {
+    key: "shuffle",
+    value: function shuffle(o) {
+      for (var j, x, i = o.length; i; j = Math.floor(this.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    }
+  }]);
+  return Roguelike;
+}();
+function ALGORITHM_THOMAS_HUNTER(tileMap, options) {
+  tileMap.fill(1); // Fill with walls
+  var visitedCells = 0;
+  var totalCells = tileMap.width * tileMap.height / 4; // Assumes a grid where every other cell is open
+  var fractional = Math.sqrt(Math.max(tileMap.width, tileMap.height));
+  if (fractional % 2 !== 1) fractional++;
+  var roomNumber = tileMap.width / fractional * tileMap.width / fractional / 2;
+  var generator = new Roguelike({
+    width: tileMap.width,
+    // Max Width of the world
+    height: tileMap.height,
+    // Max Height of the world
+    retry: 100,
+    // How many times should we try to add a room?
+    special: true,
+    // Should we generate a "special" room?
+    room: {
+      // Give up once we get this number of rooms
+      ideal: options.roomCount || roomNumber,
+      min_width: options.roomMinWidth || fractional - 2,
+      max_width: options.roomMaxWidth || fractional + 2,
+      min_height: options.roomMinHeight || fractional - 2,
+      max_height: options.roomMinHeight || fractional + 2
+    }
+  });
+  var built = generator.build(function () {
+    return tileMap.mersenneTwister.rand();
+  });
+
+  //console.log(built.world.map((line)=>line.join('')).join('\n'));
+  var flattened = built.world.reduce(function (agg, line) {
+    return agg.concat(line);
+  }, []);
+  for (var lcv = 0; lcv < tileMap.data.length; lcv++) {
+    tileMap.data[lcv] = flattened[lcv];
+  }
 }
 
-},{}],10:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -534,7 +1258,7 @@ function SHAPE_CIRCLE(tileMap, options) {
   }
 }
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -553,7 +1277,7 @@ function SHAPE_SQUARE(tileMap, options) {
   }
 }
 
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -571,72 +1295,7 @@ function SHAPE_TRIANGLE(tileMap, options) {
   }
 }
 
-},{}],13:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = generateDiamondSquareMap;
-// TODO: WIP - wasn't quite working right
-
-function generateDiamondSquareMap(tileMap, options) {
-  // Adjust size for the algorithm
-  var size = Math.max(tileMap.width, tileMap.height) - 1;
-  var roughness = options.roughness || 0.5;
-  var data = diamondSquare(size, roughness);
-
-  // Flatten the 2D array into the tileMap.data single-dimensional array
-  for (var x = 0; x < tileMap.width; x++) {
-    for (var y = 0; y < tileMap.height; y++) {
-      tileMap.data[y * tileMap.width + x] = data[y][x];
-    }
-  }
-}
-function diamondSquare(size, roughness) {
-  var data = create2DArray(size + 1, size + 1);
-  var max = size - 1;
-  var h = roughness;
-
-  // Initial corner values
-  data[0][0] = data[0][max] = data[max][0] = data[max][max] = 0.5;
-  for (var sideLength = max; sideLength >= 2; sideLength /= 2, h /= 2.0) {
-    var halfSide = Math.round(sideLength / 2);
-
-    // Square steps
-    for (var x = 0; x < max; x += sideLength) {
-      for (var y = 0; y < max; y += sideLength) {
-        var avg = average([data[x][y], data[(x + sideLength) % (max + 1)][y], data[x][(y + sideLength) % (max + 1)], data[(x + sideLength) % (max + 1)][(y + sideLength) % (max + 1)]]);
-        data[(x + halfSide) % (max + 1)][(y + halfSide) % (max + 1)] = avg + Math.random() * 2 * h - h;
-      }
-    }
-
-    // Diamond steps
-    // ... same as before ...
-  }
-  return data;
-}
-function average(values) {
-  var valid = values.filter(function (val) {
-    return val !== undefined;
-  });
-  var sum = valid.reduce(function (a, b) {
-    return a + b;
-  }, 0);
-  return sum / valid.length;
-}
-
-// ... rest of your existing code ...
-
-function create2DArray(width, height) {
-  var arr = new Array(height);
-  for (var i = 0; i < height; i++) {
-    arr[i] = new Array(width).fill(0);
-  }
-  return arr;
-}
-
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -684,7 +1343,7 @@ function applyHeightToTileMap(tileMap, heightMap) {
   }
 }
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -954,7 +1613,7 @@ function MersenneTwister19937() {
 //exports.MersenneTwister19937 = MersenneTwister19937;
 var _default = exports["default"] = MersenneTwister19937;
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1063,7 +1722,7 @@ function generateTiledJSON(tileMap) {
   return tiledJSON;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1104,5 +1763,5 @@ function Mersenne() {
 }
 var _default = exports["default"] = Mersenne;
 
-},{"./MersenneTwister19937.js":15}]},{},[1])(1)
+},{"./MersenneTwister19937.js":17}]},{},[1])(1)
 });

@@ -3,8 +3,8 @@
 
 <head>
   <title>Labyrinthos.js Demo</title>
-  <script src="./browser/vendor/jquery.min.js"></script>
-  <script src="./browser/vendor/jszip.min.js"></script>
+  <script src="https://yantra.gg/labyrinthos/browser/vendor/jquery.min.js"></script>
+  <script src="https://yantra.gg/labyrinthos/browser/vendor/jszip.min.js"></script>
   <meta name="description" content="A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes">
   <script src="./browser/labyrinthos.js"></script>
   <style>
@@ -55,6 +55,7 @@
       /* Ensures consistent character spacing */
       width: calc(16px * 64);
       /* Width per character times number of characters */
+      z-index: -2;
     }
 
     #jsonContainer {
@@ -112,6 +113,7 @@
       position: absolute;
       top: 0;
       left: 50%;
+      z-index: -1;
       /* Center the logo horizontally */
       transform: translateX(-50%);
       /* Adjust horizontal position for center alignment */
@@ -124,10 +126,9 @@
 <body>
   <h1>Labyrinthos.js Demo</h1>
   <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes</h2>
-  <img class="logo logoAnim" src="./browser/labyrinthos-logo.png" />
+  <img class="logo logoAnim" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
   <br />
   <select id="generatorType">
-    <option value="RecursiveDivision">RecursiveDivision</option>
   </select>
   <button id="generateMap">Generate Map</button>
   <br />
@@ -154,11 +155,12 @@
     <div id="mapContainer"></div>
     <div id="jsonContainer"></div>
   </div>
-  <img class="logo logoStatic" src="./browser/labyrinthos-logo.png" />
+  <img class="logo logoStatic" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
   <script>
     let previousSeed = null;
     let map;
     $(document).ready(function () {
+
 
       // Determine the position of the static logo
       const staticLogoPosition = $('.logoStatic').offset().top;
@@ -278,6 +280,7 @@
         let hexSeed = '0x' + seed.toString(16);
 
         $('#currentSeed').text(hexSeed);
+        // let pixels = LABY.utils.mapImageToTileMap('./browser/labyrinthos-logo.png', map, {});
 
         const generatorType = $('#generatorType').val();
         if (generators[generatorType]) {
@@ -295,6 +298,26 @@
       // Trigger map generation on page load
       generateMap();
       // $('#generateMap').click();
+
+      // set generatorType value to CellularAutomata
+
+      let currentIndex = 1;
+      const options = $('#generatorType option');
+      const interval = setInterval(() => {
+        $('#generatorType').val(options[currentIndex].value).change();
+        currentIndex = (currentIndex + 1) % options.length;
+        console.log('currentIndex', currentIndex)
+      }, 1700); // Change every 2 seconds
+
+      // clear demo interval on click
+      $(document).on('click', () => clearInterval(interval));
+      // clear demo interval on keypress
+      $(document).on('keypress', () => clearInterval(interval));
+      // clear demo interval on scroll
+      $(document).on('scroll', () => clearInterval(interval));
+
+
+
     });
   </script>
   <style>
