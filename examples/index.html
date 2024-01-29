@@ -393,6 +393,7 @@
               }
             }
           } else {
+            $('#stackingModeSelection').toggle(false)
             generators[generatorType](map, {});
             if (LABY.terrains[generatorType]) {
               map.scaleToTileRange(4);
@@ -400,7 +401,6 @@
           }
         } else {
           // supported 3d generator, no need for stacking logic
-          $('#stackingModeSelection').toggle(false)
           generators[generatorType](map, {});
           if (LABY.terrains[generatorType]) {
             map.scaleToTileRange(4);
