@@ -58,7 +58,15 @@ const lsystem = new labyrinthos.LSystem({
   axiom: 'grass', // Starting point
   rules: {
     'grass': 'bush flower water',
-    'bush': 'tree flower',
+    'bush': function(context) {
+      let random = context.random(2);
+      // Bushes might grow into trees
+      if (random) {
+        return 'tree';
+      }
+      return 'bush';
+    },
+    //'bush': 'tree flower',
     'tree': 'tree rock', // Trees might grow larger or have rocks nearby
     'water': 'water grass', // Water might expand or be surrounded by grass
     'flower': 'bush', // Flowers might lead to more bushes growing

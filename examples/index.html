@@ -5,7 +5,8 @@
   <title>Labyrinthos.js Demo</title>
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jquery.min.js"></script>
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jszip.min.js"></script>
-  <meta name="description" content="A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes">
+  <meta name="description"
+    content="A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes">
   <script src="./browser/labyrinthos.js"></script>
   <style>
     body {
@@ -50,7 +51,8 @@
     #mapContainer {
       font-family: monospace;
       white-space: pre;
-      font-size: 16px;
+      font-size: 32px;
+      line-height: 0.7;
       letter-spacing: 0;
       /* Ensures consistent character spacing */
       width: calc(16px * 64);
@@ -90,6 +92,7 @@
       color: #f0f0f0;
       font-size: 24px;
       margin-right: 10px;
+      cursor: pointer;
     }
 
     .logo {
@@ -138,16 +141,47 @@
 
   <br />
   <label for="mapWidth">Map Width
-    <input class="mapSettings" id="mapWidth" type="number" value="64" />
+    <input class="mapSettings" id="mapWidth" type="number" value="32" />
   </label>
   <br />
   <label for="mapHeight">Map Height
     <input class="mapSettings" id="mapHeight" type="number" value="32" />
   </label>
   <br />
+
+  <!-- Map Mode Selection -->
+  <div>
+    <label for="mapMode2d">2D
+      <input type="radio" id="mapMode2d" name="mapMode" value="2d" checked>
+    </label>
+    <label for="mapMode3d">3D
+      <input type="radio" id="mapMode3d" name="mapMode" value="3d">
+    </label>
+  
+    <!-- Stacking Mode Selection for 3D Maps -->
+    <div id="stackingModeSelection" style="display:none;"> <!-- Initially hidden -->
+      <span>This algo doesnt have 3d implementation ( yet ), stacking 2d algo with mode:</span><br/>
+      <label for="stackingModeUnique" title="Each layer of the 3D will be unique instance of 2D algo.">Unique
+        <input type="radio" id="stackingModeUnique" name="stackingMode" value="unique" checked>
+      </label>
+      <label for="stackingModeExtrude" title="A single instance of the 2D map will be copied for each layer.">Extrude
+        <input type="radio" id="stackingModeExtrude" name="stackingMode" value="extrude">
+      </label>
+    </div>
+  
+  </div>
+  <br />
+
+
+  <!-- Depth Input for 3D Mode (Initially Hidden) -->
+  <label for="mapDepth" style="display:none;">Map Depth
+    <input class="mapSettings" id="mapDepth" type="number" value="1" />
+  </label>
+  <br />
+
   <button id="downloadMap">Download as Tiled .tmj JSON</button>
-  <button class="mantraTiled" id="mantra3DTiled">Explore Map in 3D</button>
   <button class="mantraTiled" id="mantra2DTiled">Explore Map in 2D</button>
+  <button class="mantraTiled" id="mantra3DTiled">Explore Map in 3D</button>
 
   <br />
 
@@ -162,23 +196,57 @@
     $(document).ready(function () {
 
 
+      // Listen for changes in map mode and toggle the depth input accordingly
+      $('input[name="mapMode"]').change(function () {
+        if ($('#mapMode3d').is(':checked')) {
+          // Show depth input for 3D mode
+          $('label[for="mapDepth"]').show();
+          // set depth to 3 with a min value of 2
+          $('#mapDepth').val(Math.max(2, $('#mapDepth').val()));
+        } else {
+          // Hide depth input for 2D mode
+          $('label[for="mapDepth"]').hide();
+          // set depth to 1 and hide the input
+          $('#mapDepth').val(1);
+
+        }
+        // regenerate the map
+        generateMap();
+      });
+
+      // Initial check to set the correct display state for the depth input
+      if ($('#mapMode3d').is(':checked')) {
+        $('label[for="mapDepth"]').show();
+      } else {
+        $('label[for="mapDepth"]').hide();
+      }
+
       // Determine the position of the static logo
       const staticLogoPosition = $('.logoStatic').offset().top;
 
       // Set the custom property for the animation endpoint
       // document.documentElement.style.setProperty('--animation-end-top', `${staticLogoPosition}px`);
-       // Listen for the end of the animation on the animated logo
-      $('.logoAnim').on('animationend', function() {
+      // Listen for the end of the animation on the animated logo
+      $('.logoAnim').on('animationend', function () {
         $(this).remove();
       });
 
       // Dynamically populate the dropdown
       const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
       for (const generator in generators) {
+        // don't add generators that contain the string "3D"
+        if (generator.includes('3D')) {
+          continue;
+        }
         $('#generatorType').append(new Option(generator, generator));
       }
       // $('#generatorType').val('FaultLine');
       $('#generatorType').change(function () {
+        previousSeed = map.mersenneTwister.currentSeed;
+        generateMap();
+      });
+
+      $('#stackingModeSelection').change(function () {
         previousSeed = map.mersenneTwister.currentSeed;
         generateMap();
       });
@@ -195,14 +263,23 @@
         // the mantra Tiled world with tiledata?=tileMap.data
         let host = 'https://yantra.gg/mantra/tiled';
         // for dev mode
-        // host = 'http://192.168.1.80:7777/tiled.html'
+        host = 'http://192.168.1.80:7777/tiled.html'
         let queryString = '?tiledmap=' + JSON.stringify(map.toTiledJSON());
 
+        // for 2d maze widh 2d graphics use css
+        // for 2d maze with 3d graphics use three
+        // for 3d maze with 3d graphics use three
+        let graphics = 'css';
+
         if (id === 'mantra3DTiled') {
-          queryString += '&graphics=three';
-        } else if (id === 'mantra2DTiled') {
-          queryString += '&graphics=css';
+          graphics = 'three';
+          if ($('#mapMode3d').is(':checked')) {
+            graphics = 'babylon';
+          }
         }
+
+        // alert(graphics)
+        queryString += '&graphics=' + graphics;
 
         let url = host + queryString;
         console.log('url', url);
@@ -255,44 +332,93 @@
       });
 
       function generateMap() {
+        let is3D = $('#mapMode3d').is(':checked');
+        // Show or hide stacking mode selection based on map mode
+
         map = new LABY.TileMap({
           width: $('#mapWidth').val(),
           height: $('#mapHeight').val(),
-          tileWidth: 16,
-          tileHeight: 16
+          depth: $('#mapDepth').val(),
+          is3D: is3D
         });
 
         map.fill(1);
         let seed = map.mersenneTwister.currentSeed;
-
         if (previousSeed) {
           seed = previousSeed;
         }
 
         map.seed(seed);
+        let generatorType = $('#generatorType').val();
+        let stackingMode = $('input[name="stackingMode"]:checked').val(); // Get the selected stacking mode
+        console.log('stackingMode', stackingMode)
+        if (is3D) {
+          let ogGeneratorType = generatorType;
+          generatorType += '3D';
+          if (!generators[generatorType]) {
+            $('#stackingModeSelection').toggle(true)
 
-        // Calculate and update the width of the map container
-        const charWidth = 12; // Assuming each character is 12px wide
-        $('#mapContainer').css('width', map.width * charWidth + 'px');
-        $('#mapContainer').css('min-width', map.width * charWidth + 'px');
+            console.log('Warning: No 3D version of this generator exists');
+            console.log("Labyrinthos.js will attempt to generate a 3D map by stacking the 2D generator");
+            map.data = [];
 
-        // convert seed int to hex
-        let hexSeed = '0x' + seed.toString(16);
-
-        $('#currentSeed').text(hexSeed);
-        // let pixels = LABY.utils.mapImageToTileMap('./browser/labyrinthos-logo.png', map, {});
-
-        const generatorType = $('#generatorType').val();
-        if (generators[generatorType]) {
+            if (stackingMode === 'unique') {
+              for (let i = 0; i < map.depth; i++) {
+                let mapLayer = new LABY.TileMap({
+                  width: $('#mapWidth').val(),
+                  height: $('#mapHeight').val(),
+                  depth: 1,
+                });
+                mapLayer.fill(1);
+                generators[ogGeneratorType](mapLayer, {});
+                if (LABY.terrains[ogGeneratorType]) {
+                  mapLayer.scaleToTileRange(4);
+                }
+                map.data.push(mapLayer.data);
+              }
+            } else if (stackingMode === 'extrude') {
+              let mapLayer = new LABY.TileMap({
+                width: $('#mapWidth').val(),
+                height: $('#mapHeight').val(),
+                depth: 1,
+              });
+              mapLayer.seedRandom();
+              mapLayer.fill(1);
+              generators[ogGeneratorType](mapLayer, {});
+              if (LABY.terrains[ogGeneratorType]) {
+                mapLayer.scaleToTileRange(4);
+              }
+              for (let i = 0; i < map.depth; i++) {
+                map.data.push(mapLayer.data.slice()); // Use slice to clone the array for extrusion
+              }
+            }
+          } else {
+            generators[generatorType](map, {});
+            if (LABY.terrains[generatorType]) {
+              map.scaleToTileRange(4);
+            }
+          }
+        } else {
+          // supported 3d generator, no need for stacking logic
+          $('#stackingModeSelection').toggle(false)
           generators[generatorType](map, {});
-
           if (LABY.terrains[generatorType]) {
-            map.scaleToTileRange(4); // Scale if it's a terrain
+            map.scaleToTileRange(4);
           }
         }
 
-        $('#mapContainer').text(map.mask());
-        $('#jsonContainer').text(JSON.stringify(map.data, true, 2));
+        updateMapDisplay(map);
+      }
+
+      function updateMapDisplay(map) {
+        let mask = map.mask();
+        if (typeof mask === 'string') {
+          $('#mapContainer').text(mask);
+        } else if (Array.isArray(mask)) {
+          let str = mask.join('\n');
+          $('#mapContainer').text(str);
+        }
+        $('#jsonContainer').text(JSON.stringify(map.data, null, 2));
       }
 
       // Trigger map generation on page load
@@ -303,18 +429,23 @@
 
       let currentIndex = 1;
       const options = $('#generatorType option');
-      const interval = setInterval(() => {
-        $('#generatorType').val(options[currentIndex].value).change();
-        currentIndex = (currentIndex + 1) % options.length;
-        // console.log('currentIndex', currentIndex)
-      }, 1700); // Change every 2 seconds
+
+      let demoGallery = true;
+      let interval = null;
+      if (demoGallery) {
+        interval = setInterval(() => {
+          $('#generatorType').val(options[currentIndex].value).change();
+          currentIndex = (currentIndex + 1) % options.length;
+          // console.log('currentIndex', currentIndex)
+        }, 1700); // Change every 2 seconds
+      }
 
       // clear demo interval on click
       $(document).on('click', () => clearInterval(interval));
       // clear demo interval on keypress
       $(document).on('keypress', () => clearInterval(interval));
       // clear demo interval on scroll
-      $(document).on('scroll', () => clearInterval(interval));
+      // $(document).on('scroll', () => clearInterval(interval));
 
 
 

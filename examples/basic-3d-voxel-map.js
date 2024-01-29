@@ -9,6 +9,8 @@ let map = new labyrinthos.TileMap({
 map.fill(1);
 console.log('map', map.data)
 //labyrinthos.mazes.AldousBroder(map, {});
+labyrinthos.mazes.CellularAutomata(map, {});
+
 console.log('AldousBroder', map);
 console.log(map.mask()); // depth layer
 

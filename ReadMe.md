@@ -43,23 +43,40 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 
 ### 2D Data
 
+```
+let map = new LABY.TileMap({
+  width: 3,
+  height: 3
+});
+map.fill(2)
+```
+
 The `TileMap.data` array will contain an array that looks like this:
 
 ```js
-[0, 1, 0, 1, 2, 1, 0, 1, 0]
+[2, 2, 2, 2, 2, 2, 2, 2, 2]
 ```
 
 Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 
 ### 3D Voxel Data
+
+let map = new LABY.TileMap({
+  width: 3,
+  height: 3,
+  depth: 3,
+  is3D: true
+});
+
+map.fill(3);
  
 For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
 
 ```js
 [
-  [0, 1, 0, 1, 2, 1, 0, 1, 0],
-  [0, 1, 0, 1, 2, 1, 0, 1, 0],
-  [0, 1, 0, 1, 2, 1, 0, 1, 0],
+  [3, 3, 3, 3, 3, 3, 3, 3, 3],
+  [3, 3, 3, 3, 3, 3, 3, 3, 3],
+  [3, 3, 3, 3, 3, 3, 3, 3, 3]
 ]
 ```
 
@@ -255,6 +272,11 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 - [✅] - Triangle
 - [ ] - Hexagon
 
+# LSystem
+
+- [✅] - Basic 
+- [✅] - Parameteric Rules using custom `function(context)``
+- [ ]  - Parameteric Rules with [Sutra.js](https://github.com/yantra-core/sutra)
 
 <a name="contributing"></a>
 

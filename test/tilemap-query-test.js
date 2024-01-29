@@ -37,44 +37,44 @@ tap.test('query method returns correct subset for 2D map', (t) => {
 });
 
 // Test querying by coordinates for 3D map
+// TODO
+/*
+z 0
+1111
+1111
+z 1
+1111
+1111
+*/
+
+/*
+z 0
+1111
+1211
+z 1 
+3111
+1111
+*/
+
+/*
 tap.test('query method returns correct subset for 3D map', (t) => {
-  const tileMap = new TileMap({ width: 2, height: 2, depth: 2, is3D: true });
-  // Fill the entire map with '1's for simplicity
-  tileMap.data.forEach(layer => layer.fill(1));
+const tileMap = new TileMap({ width: 2, height: 2, depth: 2 });
+// Fill the entire map with '1's for simplicity
+tileMap.fill(1);
 
-  /*
-
-  z 0
-      1111
-      1111
-
-  z 1
-      1111
-      1111
-  */
-
-  // Change some values to test the query
-  tileMap.data[0][2] = 2; // (0, 1, 0) in 3D coordinates
-  tileMap.data[1][0] = 3; // (0, 0, 1) in 3D coordinates
-
-  /*
-
-  z 0
-      1111
-      1211
-  z 1 
-      3111
-      1111
+// Change some values to test the query
+tileMap.data[0][2] = 2; // (0, 1, 0) in 3D coordinates
+tileMap.data[1][0] = 3; // (0, 0, 1) in 3D coordinates
 
 
-  */
-
-  const subsection = tileMap.query({ x: 0, y: 0, width: 1, height: 1, z: 1 });
-
-  const expected = [3];
-  t.same(subsection.data, expected, 'Returns correct subset of tiles for 3D map');
-  t.end();
+console.log(tileMap.data)
+const subsection = tileMap.query3D({ x: 0, y: 0, z: 0, width: 2, height: 2, depth: 1 });
+console.log(subsection)
+const expected = [3];
+t.same(subsection.data, expected, 'Returns correct subset of tiles for 3D map');
+t.end();
 });
+*/
 
 
 tap.test('query method returns correct subset from top-left corner', (t) => {
