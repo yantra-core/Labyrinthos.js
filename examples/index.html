@@ -195,14 +195,13 @@
     let map;
     $(document).ready(function () {
 
-
       // Listen for changes in map mode and toggle the depth input accordingly
       $('input[name="mapMode"]').change(function () {
         if ($('#mapMode3d').is(':checked')) {
           // Show depth input for 3D mode
           $('label[for="mapDepth"]').show();
           // set depth to 3 with a min value of 2
-          $('#mapDepth').val(Math.max(2, $('#mapDepth').val()));
+          $('#mapDepth').val(Math.max(3, $('#mapDepth').val()));
         } else {
           // Hide depth input for 2D mode
           $('label[for="mapDepth"]').hide();
@@ -351,11 +350,11 @@
         map.seed(seed);
         let generatorType = $('#generatorType').val();
         let stackingMode = $('input[name="stackingMode"]:checked').val(); // Get the selected stacking mode
-        console.log('stackingMode', stackingMode)
         if (is3D) {
           let ogGeneratorType = generatorType;
           generatorType += '3D';
           if (!generators[generatorType]) {
+            console.log('stackingMode', stackingMode)
             $('#stackingModeSelection').toggle(true)
 
             console.log('Warning: No 3D version of this generator exists');
@@ -393,7 +392,7 @@
               }
             }
           } else {
-            $('#stackingModeSelection').toggle(false)
+            $('#stackingModeSelection').toggle(false);
             generators[generatorType](map, {});
             if (LABY.terrains[generatorType]) {
               map.scaleToTileRange(4);
