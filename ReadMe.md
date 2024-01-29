@@ -43,7 +43,7 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 
 ### 2D Data
 
-```
+```js
 let map = new LABY.TileMap({
   width: 3,
   height: 3
@@ -61,6 +61,7 @@ Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 
 ### 3D Voxel Data
 
+```js
 let map = new LABY.TileMap({
   width: 3,
   height: 3,
@@ -69,6 +70,7 @@ let map = new LABY.TileMap({
 });
 
 map.fill(3);
+```
  
 For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
 
