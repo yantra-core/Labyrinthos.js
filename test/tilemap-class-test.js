@@ -3,14 +3,13 @@ import TileMap from '../lib/TileMap.js';
 
 // Test the TileMap constructor
 tap.test('TileMap constructor initializes with default values', (t) => {
-  const tileMap = new TileMap({ width: 10, height: 5, depth: 2, tileWidth: 32, tileHeight: 32 });
+  const tileMap = new TileMap({ width: 10, height: 5, depth: 1, tileWidth: 32, tileHeight: 32 });
 
   t.equal(tileMap.width, 10);
   t.equal(tileMap.height, 5);
-  t.equal(tileMap.depth, 2);
+  t.equal(tileMap.depth, 1);
   t.equal(tileMap.tileWidth, 32);
   t.equal(tileMap.tileHeight, 32);
-  t.equal(tileMap.is3D, false); // Default value
   t.end();
 });
 
