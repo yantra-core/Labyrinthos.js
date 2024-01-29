@@ -61,4 +61,4 @@ labyrinthos.terrains.PerlinNoise(map, {});
 // Apply the biome to the map
 map.applyBiome(forest);
 
-console.log('map', map);
+console.log('map', map.mask());
