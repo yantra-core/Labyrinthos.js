@@ -183,6 +183,10 @@ This will generate a new `TileMap` instance with default data. From here we can 
   console.log(myMap.mask());
 ```
 
+### `TileMap.query()`
+
+see: `./examples/tilemap-query.js`;
+
 ### `TileMap.use(tileMap)`
 
 Embed Maps / Nest Map / Use submaps. This is useful for creating larger composite maps and re-using maps.
