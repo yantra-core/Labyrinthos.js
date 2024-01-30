@@ -154,7 +154,7 @@ $(document).ready(function () {
     // the mantra Tiled world with tiledata?=tileMap.data
     let host = 'https://yantra.gg/mantra/tiled';
     // for dev mode
-    host = 'http://192.168.1.80:7777/tiled.html'
+    // host = 'http://192.168.1.80:7777/tiled.html'
 
     // instead of sending entire TiledMap format, we will instead send metadata about `TileMap` with seed
     //
