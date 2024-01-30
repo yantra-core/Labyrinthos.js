@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
   <title>Labyrinthos.js Demo</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jquery.min.js"></script>
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jszip.min.js"></script>
   <meta name="description"
     content="A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes">
   <script src="./browser/labyrinthos.js"></script>
   <script src="./browser/demo.js"></script>
+
   <style>
     body {
       background-color: #000;
@@ -18,7 +20,8 @@
       text-align: center;
     }
 
-    h1 {
+    h1,
+    h2 {
       color: #f0f0f0;
     }
 
@@ -48,6 +51,15 @@
       flex-wrap: wrap;
       gap: 20px;
       padding: 20px;
+      transform: translateY(35px);
+      opacity: 0;
+      animation: slideUp 0.5s linear;
+      animation-fill-mode: forwards;
+      animation-delay: 0.8s;
+    }
+
+    #currentSeed {
+      font-size: 22px;
     }
 
     #mapContainer {
@@ -73,7 +85,8 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      overflow-x: auto;
+      overflow-x: hidden;
+      overflow-y: hidden;
       /* For wider content */
 
     }
@@ -92,7 +105,7 @@
     }
 
     label {
-      color: #f0f0f0;
+      color: #3652AD;
       font-size: 24px;
       margin-right: 10px;
       cursor: pointer;
@@ -103,178 +116,401 @@
       /* opacity: 0.5; */
     }
 
-    @keyframes slideDown {
+    @keyframes slideUp {
       from {
-        top: -800px;
-        opacity: 1;
+        transform: translateY(35px);
+        opacity: 0;
       }
 
       to {
-        top: 1550px;
-        opacity: 0;
+        transform: translateY(0px);
+        opacity: 1;
       }
     }
 
     .logoAnim {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      z-index: -1;
-      /* Center the logo horizontally */
-      transform: translateX(-50%);
+      /*
+      position: fixed;
+      top: 10px;
+      left: 60px;
+      */
+
+      width: 150px;
+      height: auto;
       /* Adjust horizontal position for center alignment */
-      animation: slideDown 5.5s ease-out;
+      /*
+      animation: slideUp 0.5s linear;
+      animation-fill-mode: forwards;
+      */
       /* Other existing styles... */
     }
-    .headerLink {
-      color: #fff;
-      text-decoration: none;
+
+    /* colors */
+    /* #0B60B0 */
+    /* #40A2D8 */
+    /* #37B5B6 */
+    /* #3652AD */
+
+    .top-container {
+      padding: 10px;
+      text-align: center;
+      transform: translateY(35px);
+      opacity: 0;
+      animation: slideUp 0.5s linear;
+      animation-fill-mode: forwards;
+      animation-delay: 0.5s;
     }
+
+    .top-container .left {
+      position: relative;
+
+    }
+
+    .top-container h1 {
+      color: #40A2D8;
+      text-align: center;
+    }
+
+    .top-container h2 {
+      text-align: center;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    select,
+    button {
+      padding: 12px 30px;
+      font-size: 16px;
+    }
+
+    select {
+      /* background: #3652AD; */
+    }
+
+    button {
+      background: #428BCA;
+      /* Solid blue background */
+      border: none;
+      /* Remove default border */
+      border-radius: 50px;
+      /* Rounded corners */
+      color: #fff;
+      /* White text color for better visibility */
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      cursor: pointer;
+      /* Change cursor to pointer on hover */
+      outline: none;
+      /* Remove outline */
+      transition: all 0.3s ease;
+      /* Smooth transition for all changes */
+      box-shadow: 0 0 15px rgba(66, 139, 202, 0.5);
+      /* Subtle initial glow */
+    }
+
+    button:hover {
+      background: #3071A9;
+      /* Slightly darker blue on hover for contrast */
+      transform: translateY(-3px);
+      /* Slightly raise the button */
+      box-shadow: 0 0 25px rgba(66, 139, 202, 0.7);
+      /* Enhanced glow effect on hover */
+    }
+
+
+    .layerStackMode {
+      padding: 20px;
+      margin: 10px;
+      /* italic */
+      font-style: italic;
+
+    }
+
+    .left {
+      flex-grow: 1;
+      /* Allows the left element to grow as needed */
+      flex-shrink: 1;
+      /* Allows the left element to shrink as needed */
+      flex-basis: 1;
+      /* Start with a size of 0 and grow from there */
+      max-width: 1024px;
+      /* Maximum width of the left element */
+      min-width: 300px;
+      /* Allows the left element to shrink below its content's intrinsic size */
+    }
+
+    .right {
+      padding: 50px;
+      border-right: 3px solid #37B5B6;
+      /*background: #ddd !important;*/
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      flex-grow: 0;
+      /* Prevents the right element from growing */
+      flex-shrink: 0;
+      /* Prevents the right element from shrinking */
+      flex-basis: 300px;
+      /* Sets a fixed starting size for the right element */
+      min-width: 300px;
+      width: 300px;
+      min-height: 100%;
+
+    }
+
+    .boxer {
+      padding: 60px 30px;
+      background: linear-gradient(45deg, #ddd, #eee);
+      border-radius: 5px;
+      color: #000;
+      box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.3);
+      /* min-height: 100px; */
+
+    }
+
+    .boxer div {
+      background: #ddd !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .flex {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      background: #ddd !important;
+      box-shadow: none !important;
+      gap: 20px;
+    }
+
+
+    #buttons {
+      background-color: #ddd;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+  .top-container {
+    padding: 20px; /* Reduced padding for smaller screens */
+    /* Ensure other properties like 'opacity', 'transform', and 'animation' are not hiding the container */
+  }
+
+  .flex {
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: center; /* Center-align items for better presentation */
+  }
+
+  .left, .right {
+    width: 100%; /* Full width for mobile layout */
+    max-width: none; /* Override any max-width settings */
+    padding: 20px; /* Adjust padding for smaller screens */
+    margin: 10px 0; /* Add some vertical margin for separation */
+    order: 0; /* Reset order to ensure natural HTML flow */
+    min-height: 100%;
+  }
+
+  .right {
+    padding-top: 20px; /* Maintain consistent padding */
+  }
+}
+
+
+
+
   </style>
 </head>
 
 <body>
-  <h1><a href="index.html" class="headerLink">Labyrinthos.js Demo</a></h1>
-  <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes</h2>
-  <img class="logo logoAnim" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
-  <br />
-  <select id="generatorType">
-  </select>
-  <button id="generateMap">Generate Map</button>
-  <br />
-
-  <br />
-  <div>Current Seed: <input id="currentSeed"/></div>
-
-  <br />
-  <label for="mapWidth">Map Width
-    <input class="mapSettings" id="mapWidth" type="number" value="32" />
-  </label>
-  <br />
-  <label for="mapHeight">Map Height
-    <input class="mapSettings" id="mapHeight" type="number" value="32" />
-  </label>
-  <br />
-
-  <!-- Map Size select -->
-  <div>
-    <label for="mapSizeTiny">Tiny
-      <input type="radio" id="mapSizeTiny" name="mapSize" value="tiny" checked>
-    </label>
-    <label for="mapSizeSmall">Small
-      <input type="radio" id="mapSizeSmall" name="mapSize" value="small" checked>
-    </label>
-    <label for="mapSizeMedium">Medium
-      <input type="radio" id="mapSizeMedium" name="mapSize" value="medium">
-    </label>
-    <label for="mapSizeLarge">Large
-      <input type="radio" id="mapSizeLarge" name="mapSize" value="large">
-    </label>
-
-    <!-- Map Mode Selection -->
+  <div class="top-container">
     <div>
-      <label for="mapMode2d">2D
-        <input type="radio" id="mapMode2d" name="mapMode" value="2d" checked>
-      </label>
-      <label for="mapMode3d">3D
-        <input type="radio" id="mapMode3d" name="mapMode" value="3d">
-      </label>
+      <h1>Labyrinthos.js</h1>
+      <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes
+      </h2>
+    </div>
+  </div>
 
-      <!-- Stacking Mode Selection for 3D Maps -->
-      <div id="stackingModeSelection" style="display:none;"> <!-- Initially hidden -->
-        <span>This algo doesnt have 3d implementation ( yet ), stacking 2d algo with mode:</span><br />
-        <label for="stackingModeUnique" title="Each layer of the 3D will be unique instance of 2D algo.">Unique
-          <input type="radio" id="stackingModeUnique" name="stackingMode" value="unique" checked>
-        </label>
-        <label for="stackingModeExtrude" title="A single instance of the 2D map will be copied for each layer.">Extrude
-          <input type="radio" id="stackingModeExtrude" name="stackingMode" value="extrude">
-        </label>
+  <div class="container">
+    <div class="flex">
+
+      <div class="left">
+        <select id="generatorType">
+          <option value="RecursiveDivision">RecursiveDivision</option>
+        </select>
+        <button id="prevAlgo">&lt;</button>
+        <button id="nextAlgo">&gt;</button>
+
+        <button id="generateMap">Generate Map</button>
+        <button class="mantraTiled" id="mantra2DTiled">Explore in 2D</button>
+        <button class="mantraTiled" id="mantra3DTiled">Explore in 3D</button>
+
+        <div id="mapContainer"></div>
+
       </div>
 
+      <div class="right">
+
+        <div class="boxer">
+
+          <div>
+            <label for="currentSeed">
+              Current Seed:
+              <input id="currentSeed"/>
+            </label>
+          </div>
+
+        </div>
+        <br />
+
+        <div class="boxer">
+          <label for="mapWidth">Map Width
+            <input class="mapSettings" id="mapWidth" type="number" value="32" />
+          </label>
+          <br />
+          <label for="mapHeight">Map Height
+            <input class="mapSettings" id="mapHeight" type="number" value="32" />
+          </label>
+
+          <!-- Depth Input for 3D Mode (Initially Hidden) -->
+          <label for="mapDepth" style="display:none;">Map Depth
+            <input class="mapSettings" id="mapDepth" type="number" value="1" />
+          </label>
+
+        </div>
+        <br />
+
+        <div class="boxer">
+          <label for="mapSizeTiny">Tiny
+            <input type="radio" id="mapSizeTiny" name="mapSize" value="tiny" checked>
+          </label>
+          <label for="mapSizeSmall">Small
+            <input type="radio" id="mapSizeSmall" name="mapSize" value="small" checked>
+          </label>
+          <label for="mapSizeMedium">Medium
+            <input type="radio" id="mapSizeMedium" name="mapSize" value="medium">
+          </label>
+          <label for="mapSizeLarge">Large
+            <input type="radio" id="mapSizeLarge" name="mapSize" value="large">
+          </label>
+        </div>
+        <br />
+        <!-- Map Size select -->
+        <div class="boxer">
+
+          <!-- Map Mode Selection -->
+          <div>
+            <label for="mapMode2d">2D
+              <input type="radio" id="mapMode2d" name="mapMode" value="2d" checked>
+            </label>
+            <label for="mapMode3d">3D
+              <input type="radio" id="mapMode3d" name="mapMode" value="3d">
+            </label>
+
+            <!-- Stacking Mode Selection for 3D Maps -->
+            <div id="stackingModeSelection" style="display:none;"> <!-- Initially hidden -->
+              <div class="layerStackMode">No 3D implementation found, stacking 2D algo with mode.</div>
+              <label for="stackingModeUnique" title="Each layer of the 3D will be unique instance of 2D algo.">Unique
+                <input type="radio" id="stackingModeUnique" name="stackingMode" value="unique" checked>
+              </label>
+              <label for="stackingModeExtrude"
+                title="A single instance of the 2D map will be copied for each layer.">Extrude
+                <input type="radio" id="stackingModeExtrude" name="stackingMode" value="extrude">
+              </label>
+            </div>
+
+          </div>
+          <br />
+
+        </div>
+
+        <br />
+        <br />
+        <div class="boxer">
+          <button id="downloadJSON">Download as JSON</button>
+          <button id="downloadMap">Download as Tiled Editor Map</button>
+        </div>
+      </div>
+      <!-- TODO:
+        <div>
+        TileSet Form and Display 
+        </div>
+      -->
+
+
     </div>
-    <br />
 
+    <div id="jsonContainer"></div>
+  </div>
+  <img class="logo logoStatic" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
 
-    <!-- Depth Input for 3D Mode (Initially Hidden) -->
-    <label for="mapDepth" style="display:none;">Map Depth
-      <input class="mapSettings" id="mapDepth" type="number" value="1" />
-    </label>
-    <br />
+  <style>
+    #forkongithub a {
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      font-family: arial, sans-serif;
+      text-align: center;
+      font-weight: bold;
+      padding: 5px 40px;
+      font-size: 1rem;
+      line-height: 2rem;
+      position: relative;
+      transition: 0.5s;
+    }
 
-    <button id="downloadMap">Download as Tiled .tmj JSON</button>
-    <button class="mantraTiled" id="mantra2DTiled">Explore Map in 2D</button>
-    <button class="mantraTiled" id="mantra3DTiled">Explore Map in 3D</button>
+    #forkongithub a:hover {
+      background: #c11;
+      color: #fff;
+    }
 
-    <br />
+    #forkongithub a::before,
+    #forkongithub a::after {
+      content: "";
+      width: 100%;
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 0;
+      height: 1px;
+      background: #fff;
+    }
 
-    <div class="container">
-      <div id="mapContainer"></div>
-      <div id="jsonContainer"></div>
-    </div>
-    <img class="logo logoStatic" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
-    <style>
-      #forkongithub a {
-        background: #000;
-        color: #fff;
-        text-decoration: none;
-        font-family: arial, sans-serif;
-        text-align: center;
-        font-weight: bold;
-        padding: 5px 40px;
-        font-size: 1rem;
-        line-height: 2rem;
-        position: relative;
-        transition: 0.5s;
-      }
+    #forkongithub a::after {
+      bottom: 1px;
+      top: auto;
+    }
 
-      #forkongithub a:hover {
-        background: #c11;
-        color: #fff;
-      }
-
-      #forkongithub a::before,
-      #forkongithub a::after {
-        content: "";
-        width: 100%;
+    @media screen and (min-width:800px) {
+      #forkongithub {
+        position: fixed;
         display: block;
+        top: 0;
+        right: 0;
+        width: 200px;
+        overflow: hidden;
+        height: 200px;
+        z-index: 9999;
+      }
+
+      #forkongithub a {
+        width: 200px;
         position: absolute;
-        top: 1px;
-        left: 0;
-        height: 1px;
-        background: #fff;
+        top: 60px;
+        right: -60px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
       }
-
-      #forkongithub a::after {
-        bottom: 1px;
-        top: auto;
-      }
-
-      @media screen and (min-width:800px) {
-        #forkongithub {
-          position: fixed;
-          display: block;
-          top: 0;
-          right: 0;
-          width: 200px;
-          overflow: hidden;
-          height: 200px;
-          z-index: 9999;
-        }
-
-        #forkongithub a {
-          width: 200px;
-          position: absolute;
-          top: 60px;
-          right: -60px;
-          transform: rotate(45deg);
-          -webkit-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          -moz-transform: rotate(45deg);
-          -o-transform: rotate(45deg);
-          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
-        }
-      }
-    </style><span id="forkongithub"><a href="https://github.com/yantra-core/Labyrinthos.js">Fork me on GitHub</a></span>
+    }
+  </style><span id="forkongithub"><a href="https://github.com/yantra-core/Labyrinthos.js">Fork me on GitHub</a></span>
 </body>
 
 </html>

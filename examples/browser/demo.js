@@ -41,6 +41,27 @@ $(document).ready(function () {
     generateMap();
   });
 
+  $('#prevAlgo').click(function () {
+    var $dropdown = $('#generatorType');
+    var currentIndex = $dropdown.prop('selectedIndex');
+    var totalCount = $dropdown.find('option').length;
+    // Decrement the index to get the previous algorithm, ensuring it's not less than 0
+    var newIndex = (currentIndex - 1 + totalCount) % totalCount; // Adding totalCount before modulo ensures it's always positive
+    $dropdown.prop('selectedIndex', newIndex).change(); // Set the new index and trigger change event
+    generateMap(); // Assuming generateMap doesn't need arguments or they are handled within the function
+  });
+  
+  $('#nextAlgo').click(function () {
+    var $dropdown = $('#generatorType');
+    var currentIndex = $dropdown.prop('selectedIndex');
+    var totalCount = $dropdown.find('option').length;
+    // Increment the index to get the next algorithm, wrapping around if needed
+    var newIndex = (currentIndex + 1) % totalCount;
+    $dropdown.prop('selectedIndex', newIndex).change(); // Set the new index and trigger change event
+    generateMap(); // Adjust if generateMap needs specific arguments
+  });
+  
+
   /*
   // when clicking on mapContainer, generate a new map
   $('#mapContainer').click(function () {
@@ -96,11 +117,8 @@ $(document).ready(function () {
     $('#generatorType').val(algo);
   }
 
-
-
-
   // When the current seed updates, regenerate the map
-  $('#currentSeed').keydown(function () {
+  $('#currentSeed').keyup(function () {
     generateMap($(this).val());
   });
   // Determine the position of the static logo
@@ -381,7 +399,7 @@ $(document).ready(function () {
     history.pushState({ path: newUrl }, '', newUrl);
   
     // For debugging: log the updated search parameters
-    console.log('Updated searchParams:', searchParams.toString());
+    // console.log('Updated searchParams:', searchParams.toString());
   }
   
   // Trigger map generation on page load
