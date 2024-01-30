@@ -429,7 +429,6 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
         height: this.height,
         tileWidth: this.tileWidth,
         tileHeight: this.tileHeight,
-        is3D: this.is3D,
         data: this.data
       }, null, 2);
     }
@@ -739,13 +738,13 @@ function ALGORITHM_ALDOUS_BRODER(tileMap, options) {
   tileMap.fill(1); // Fill with walls
   var visitedCells = 0;
   var totalCells = tileMap.width * tileMap.height / 4; // Assumes a grid where every other cell is open
-  var currentX = 2 * Math.floor(Math.random() * Math.floor(tileMap.width / 2));
-  var currentY = 2 * Math.floor(Math.random() * Math.floor(tileMap.height / 2));
+  var currentX = 2 * Math.floor(tileMap.random() * Math.floor(tileMap.width / 2));
+  var currentY = 2 * Math.floor(tileMap.random() * Math.floor(tileMap.height / 2));
   tileMap.data[currentY * tileMap.width + currentX] = 0; // Open starting cell
   visitedCells++;
   while (visitedCells < totalCells) {
     var directions = [[2, 0], [-2, 0], [0, 2], [0, -2]];
-    var randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    var randomDirection = directions[Math.floor(tileMap.random() * directions.length)];
     var newX = currentX + randomDirection[0];
     var newY = currentY + randomDirection[1];
     if (newX >= 0 && newX < tileMap.width && newY >= 0 && newY < tileMap.height) {
@@ -2278,7 +2277,9 @@ var platformGenerator = function platformGenerator() {
       }
     }
     if (new_door_count < NEW_DOOR_MIN_THRESHOLD) {
-      console.log('UNMET DOOR THRESHOLD: ' + new_door_count + ' OF ' + NEW_DOOR_MIN_THRESHOLD + '. Rebuild...');
+      failCount++;
+      if (config.maxFails && failCount > config.maxFails) throw new Error('Failed too many times to generate this configuration');
+      //console.log('UNMET DOOR THRESHOLD: ' + new_door_count + ' OF ' + //NEW_DOOR_MIN_THRESHOLD + '. Rebuild...');
       return false;
     }
 
@@ -2475,12 +2476,17 @@ function initialize(width, height) {
   return map;
 }
 function ALGORITHM_PLATFORM_ZONES(tileMap, options) {
-  tileMap.fill(1); // Fill with walls
+  tileMap.fill(0); // Fill with walls
   var maxDimension = Math.max(tileMap.width, tileMap.height);
+  if (maxDimension <= 5) {
+    return;
+  }
   var fractional = Math.sqrt(maxDimension);
   if (fractional % 2 !== 1) fractional++;
-  var roomSizeHeight = Math.floor(tileMap.width / 10);
-  var roomSizeWidth = Math.floor(tileMap.height / 10);
+  var size = maxDimension < 10 ? Math.floor(maxDimension / 2) : 10;
+  var doorDiff = maxDimension < 10 ? 1 : 2;
+  var roomSizeHeight = Math.floor(tileMap.width / size);
+  var roomSizeWidth = Math.floor(tileMap.height / size);
   var numRoomsWide = Math.floor(tileMap.width / roomSizeHeight);
   var numRoomsHigh = Math.floor(tileMap.height / roomSizeWidth);
   var maxCount = Math.floor(numRoomsWide * numRoomsHigh * 0.8);
@@ -2488,7 +2494,7 @@ function ALGORITHM_PLATFORM_ZONES(tileMap, options) {
   var generator = new PlatformZones({
     roomWidth: roomSizeWidth,
     roomHeight: roomSizeHeight,
-    //maxFails: 200,
+    maxFails: 8000,
     width: numRoomsWide,
     // Max number of zones wide
     height: numRoomsWide,
@@ -2503,23 +2509,18 @@ function ALGORITHM_PLATFORM_ZONES(tileMap, options) {
     // Minimum number of rooms per map
     maxRoomsPerMap: maxCount,
     // Maximum number of rooms per map
-    newDoors: 2,
+    newDoors: doorDiff,
     // # doors to add to prevent tedious linear mazes
-    roomDiff: 2,
+    roomDiff: doorDiff,
     // When adding a new door, room ID distance
     roomDiffOdds: 1 / 2 // Odds of inserting a new door on opportunity
   });
   var built = generator.build(function () {
     return tileMap.random();
   });
-
-  //console.log('FAILS', built.failCount);
-
-  //console.log(built.world.map((line)=>line.join('')).join('\n'));
   var flattened = built.world.reduce(function (agg, line) {
     return agg.concat(line);
   }, []);
-  //console.log('FL', flattened);
   built.world = null;
   tileMap.world = built;
   for (var lcv = 0; lcv < tileMap.data.length; lcv++) {
@@ -3077,7 +3078,8 @@ var Roguelike = /*#__PURE__*/function () {
       this.shuffle(deadends);
       var enter_room_id = deadends.pop();
       if (typeof enter_room_id === 'undefined') {
-        throw new Error('Unable to find a dead end room for Enter!');
+        //throw new Error('Unable to find a dead end room for Enter!');
+        return;
       }
       var enter = this.randomNonEdgeInRoom(enter_room_id);
       this.world[enter.y][enter.x] = TILE.ENTER;
@@ -3091,7 +3093,8 @@ var Roguelike = /*#__PURE__*/function () {
       this.doors[enter_door].enter = true;
       var exit_room_id = deadends.pop();
       if (typeof exit_room_id === 'undefined') {
-        throw new Error('Unable to find a dead end room for Exit!');
+        //throw new Error('Unable to find a dead end room for Exit!');
+        return;
       }
       var exit = this.randomNonEdgeInRoom(exit_room_id);
       this.world[exit.y][exit.x] = TILE.EXIT;
@@ -3184,9 +3187,13 @@ var Roguelike = /*#__PURE__*/function () {
 }();
 function ALGORITHM_THOMAS_HUNTER(tileMap, options) {
   tileMap.fill(1); // Fill with walls
-  var fractional = Math.sqrt(Math.max(tileMap.width, tileMap.height));
+  var maxDimension = Math.max(tileMap.width, tileMap.height);
+  if (maxDimension <= 5) {
+    return;
+  }
+  var fractional = Math.floor(Math.sqrt(Math.max(tileMap.width, tileMap.height)));
   if (fractional % 2 !== 1) fractional++;
-  var roomNumber = tileMap.width / fractional * tileMap.width / fractional / 2;
+  var roomNumber = Math.floor(tileMap.width / fractional * tileMap.width / fractional / 2);
   var rangius = Math.ceil(fractional / 2);
   var generator = new Roguelike({
     width: tileMap.width,

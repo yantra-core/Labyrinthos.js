@@ -1,6 +1,29 @@
 let previousSeed = null;
+let urlSeed = null;
 let map;
 $(document).ready(function () {
+
+  // check url query for seed, if so, set previousSeed
+  let searchParams = new URLSearchParams(window.location.search);
+  let seed = searchParams.get('seed');
+  if (seed) {
+    // try to convert seed to number, if not number, consider as string
+    seed = Number(seed);
+    if (isNaN(seed)) {
+      seed = searchParams.get('seed');
+    }
+    urlSeed = seed;
+  }
+
+  // Dynamically populate the dropdown
+  const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
+  for (const generator in generators) {
+    // don't add generators that contain the string "3D"
+    if (generator.includes('3D')) {
+      continue;
+    }
+    $('#generatorType').append(new Option(generator, generator));
+  }
 
   // Listen for changes in map mode and toggle the depth input accordingly
   $('input[name="mapMode"]').change(function () {
@@ -57,15 +80,6 @@ $(document).ready(function () {
     $(this).remove();
   });
 
-  // Dynamically populate the dropdown
-  const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
-  for (const generator in generators) {
-    // don't add generators that contain the string "3D"
-    if (generator.includes('3D')) {
-      continue;
-    }
-    $('#generatorType').append(new Option(generator, generator));
-  }
   // $('#generatorType').val('FaultLine');
   $('#generatorType').change(function () {
     previousSeed = map.mersenneTwister.currentSeed;
@@ -186,7 +200,7 @@ $(document).ready(function () {
   }
   */
 
-  function generateMap() {
+  function generateMap(seed) {
     let is3D = $('#mapMode3d').is(':checked');
     // Show or hide stacking mode selection based on map mode
 
@@ -198,13 +212,17 @@ $(document).ready(function () {
     });
 
     map.fill(1);
-    let seed = map.mersenneTwister.currentSeed;
+
+    if (typeof seed === 'undefined') {
+      seed = map.mersenneTwister.currentSeed;
+    }
     if (previousSeed) {
       seed = previousSeed;
     }
-
-    map.seed(seed);
     let generatorType = $('#generatorType').val();
+    $('#currentSeed').text(seed);
+    updateUrlQuery(seed, generatorType, map);
+    map.seed(seed);
     let stackingMode = $('input[name="stackingMode"]:checked').val(); // Get the selected stacking mode
     if (is3D) {
       let ogGeneratorType = generatorType;
@@ -287,8 +305,36 @@ $(document).ready(function () {
     $('#jsonContainer').text(JSON.stringify(map.data, null, 2));
   }
 
+  function updateUrlQuery(seed, algo, map) {
+    // Prepare the new URL query string
+    let searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('seed', seed);
+
+    // create url query with all map props
+    let props = ['x', 'y', 'width', 'height', 'depth'];
+    for (let prop of props) {
+      searchParams.set(prop, map[prop]);
+    }
+
+    searchParams.set('algo', algo);
+
+    //searchParams.set('map', map.toJSON());
+  
+    // Construct the new URL
+    let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
+  
+    // clear existing search from push state
+    history.pushState({}, '', window.location.pathname);
+    // Update the URL in the browser without reloading the page
+    history.pushState({ path: newUrl }, '', newUrl);
+  
+    // For debugging: log the updated search parameters
+    console.log('Updated searchParams:', searchParams.toString());
+  }
+  
+
   // Trigger map generation on page load
-  generateMap();
+  generateMap(urlSeed);
   // $('#generateMap').click();
 
   // set generatorType value to CellularAutomata
@@ -316,3 +362,4 @@ $(document).ready(function () {
 
 
 });
+

@@ -19,7 +19,7 @@
 
 **ALPHA STATUS**
 
-Labyrinthos.js is a JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists alike, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
+Labyrinthos.js is a JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
 ## Live Demo
 
@@ -32,12 +32,15 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 ## Main Features
 
 - **Procedural Generation** - Create vast, diverse maps and mazes [algorithmically](#algos).
-- **Customizable Dimensions** - Supports both 2D and 3D Voxel map generation.
+- **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation.
 - **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
-- **Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
+- **TileMap Queries** - Easily query subsections of a `TileMap` for applying custom transforms
+- **TileSet Support** - Flexible `TileSet`` mapping for assigning metadata to `TileMap`
+- **Biomes** - Create realastic Biomes with weighted distribution and Perlin Noise
+- **Parametric L-Lsystems** - Create generational enviroments using L-Systems
+- **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
 - **ASCII Masking** - Built-in support for generating custom roguelike game maps.
 - **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON.
-- **TileSet System** - Flexible tile set mapping for diverse terrain types.
 
 ## `TileMap` Data Formats
 
