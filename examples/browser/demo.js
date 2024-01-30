@@ -6,13 +6,23 @@ $(document).ready(function () {
   // check url query for seed, if so, set previousSeed
   let searchParams = new URLSearchParams(window.location.search);
   let seed = searchParams.get('seed');
+
   if (seed) {
-    // try to convert seed to number, if not number, consider as string
-    seed = Number(seed);
-    if (isNaN(seed)) {
-      seed = searchParams.get('seed');
-    }
     urlSeed = seed;
+  }
+
+  // check for height and width in url query
+  let width = searchParams.get('width');
+  let height = searchParams.get('height');
+  let depth = searchParams.get('depth');
+  if (width) {
+    $('#mapWidth').val(width);
+  }
+  if (height) {
+    $('#mapHeight').val(height);
+  }
+  if (depth) {
+    $('#mapDepth').val(depth);
   }
 
   // Dynamically populate the dropdown
@@ -70,6 +80,11 @@ $(document).ready(function () {
     $('label[for="mapDepth"]').hide();
   }
 
+
+  // When the current seed updates, regenerate the map
+  $('#currentSeed').keydown(function () {
+    generateMap($(this).val());
+  });
   // Determine the position of the static logo
   const staticLogoPosition = $('.logoStatic').offset().top;
 
@@ -213,14 +228,14 @@ $(document).ready(function () {
 
     map.fill(1);
 
-    if (typeof seed === 'undefined') {
+    if (typeof seed === 'undefined' || seed === null) {
       seed = map.mersenneTwister.currentSeed;
     }
     if (previousSeed) {
       seed = previousSeed;
     }
     let generatorType = $('#generatorType').val();
-    $('#currentSeed').text(seed);
+    $('#currentSeed').val(seed);
     updateUrlQuery(seed, generatorType, map);
     map.seed(seed);
     let stackingMode = $('input[name="stackingMode"]:checked').val(); // Get the selected stacking mode
@@ -332,7 +347,6 @@ $(document).ready(function () {
     console.log('Updated searchParams:', searchParams.toString());
   }
   
-
   // Trigger map generation on page load
   generateMap(urlSeed);
   // $('#generateMap').click();
@@ -342,7 +356,7 @@ $(document).ready(function () {
   let currentIndex = 1;
   const options = $('#generatorType option');
 
-  let demoGallery = true;
+  let demoGallery = false;
   let interval = null;
   if (demoGallery) {
     interval = setInterval(() => {

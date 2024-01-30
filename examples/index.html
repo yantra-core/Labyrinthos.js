@@ -126,11 +126,15 @@
       animation: slideDown 5.5s ease-out;
       /* Other existing styles... */
     }
+    .headerLink {
+      color: #fff;
+      text-decoration: none;
+    }
   </style>
 </head>
 
 <body>
-  <h1>Labyrinthos.js Demo</h1>
+  <h1><a href="index.html" class="headerLink">Labyrinthos.js Demo</a></h1>
   <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes</h2>
   <img class="logo logoAnim" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
   <br />
@@ -140,7 +144,7 @@
   <br />
 
   <br />
-  <div>Current Seed: <span id="currentSeed"></span></div>
+  <div>Current Seed: <input id="currentSeed"/></div>
 
   <br />
   <label for="mapWidth">Map Width

@@ -259,9 +259,9 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 
 ## Terrain Generators
 
+- [✅] - Perlin Noise
 - [✅] - Fault Line Algorithm
 - [ ] - Diamond-Square Algorithm
-- [ ] - Perlin Noise
 - [ ] - Simplex Noise
 - [ ] - Voronoi Diagrams
 - [ ] - Midpoint Displacement

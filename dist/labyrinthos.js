@@ -3761,11 +3761,18 @@ function Mersenne() {
     return Math.floor(gen.genrand_real2() * (max - min) + min);
   };
   this.seed = function (S) {
-    if (typeof S != 'number') {
+    // check incoming value of seed and coherce to number
+    // try to convert seed to number, if not number, consider as string
+    var seed = Number(S);
+    if (isNaN(seed)) {
+      // convert into hash
+      seed = this.stringToSeed(S);
+    }
+    if (typeof seed != 'number') {
       throw new Error("seed(S) must take numeric argument; is " + _typeof(S));
     }
-    this.currentSeed = S;
-    gen.init_genrand(S);
+    this.currentSeed = seed;
+    gen.init_genrand(seed);
   };
   this.seed_array = function (A) {
     if (_typeof(A) != 'object') {
@@ -3773,6 +3780,17 @@ function Mersenne() {
     }
     this.currentSeed = A;
     gen.init_by_array(A, A.length);
+  };
+  this.stringToSeed = function (str) {
+    console.log('convert', str);
+    // Simple hash function to convert a string to a number
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      var _char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + _char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
   };
 }
 var _default = exports["default"] = Mersenne;
