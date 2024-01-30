@@ -35,7 +35,7 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 - **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation.
 - **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
 - **TileMap Queries** - Easily query subsections of a `TileMap` for applying custom transforms
-- **TileSet Support** - Flexible `TileSet`` mapping for assigning metadata to `TileMap`
+- **TileSet Support** - Flexible `TileSet` mapping for assigning metadata to `TileMap`
 - **Biomes** - Create realastic Biomes with weighted distribution and Perlin Noise
 - **Parametric L-Lsystems** - Create generational enviroments using L-Systems
 - **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
