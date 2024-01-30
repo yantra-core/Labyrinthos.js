@@ -31,18 +31,20 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 
 ## Main Features
 
-- **Procedural Generation** - Create vast, diverse maps and mazes [algorithmically](#algos).
-- **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation.
-- **Submap Embedding** - Seamlessly integrate smaller maps into larger maps.
+- **Procedural Generation** - Create vast, diverse maps and mazes [algorithmically](#algos)
+- **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation
+- **Submap Embedding** - Seamlessly integrate smaller maps into larger maps
 - **TileMap Queries** - Easily query subsections of a `TileMap` for applying custom transforms
 - **TileSet Support** - Flexible `TileSet` mapping for assigning metadata to `TileMap`
 - **Biomes** - Create realastic Biomes with weighted distribution and Perlin Noise
 - **Parametric L-Lsystems** - Create generational enviroments using L-Systems
-- **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness.
-- **ASCII Masking** - Built-in support for generating custom roguelike game maps.
-- **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON.
+- **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness
+- **ASCII Masking** - Built-in support for generating custom roguelike game maps
+- **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON
 
 ## `TileMap` Data Formats
+
+`Labyrinthos` map data is internally represented by arrays of integers.
 
 ### 2D Data
 
@@ -75,7 +77,7 @@ let map = new LABY.TileMap({
 map.fill(3);
 ```
  
-For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` value.
+For 3D Voxel Maps, `TileMap.data` is a nested array with first index representing `depth` values.
 
 ```js
 [

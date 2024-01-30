@@ -3,44 +3,6 @@ let urlSeed = null;
 let map;
 $(document).ready(function () {
 
-  // check url query for seed, if so, set previousSeed
-  let searchParams = new URLSearchParams(window.location.search);
-  let seed = searchParams.get('seed');
-
-  if (seed) {
-    urlSeed = seed;
-  }
-
-  // check for height and width in url query
-  let width = searchParams.get('width');
-  let height = searchParams.get('height');
-  let depth = searchParams.get('depth');
-  let algo = searchParams.get('algo');
-  if (width) {
-    $('#mapWidth').val(width);
-  }
-  if (height) {
-    $('#mapHeight').val(height);
-  }
-  if (depth) {
-    $('#mapDepth').val(depth);
-  }
-
-  // Dynamically populate the dropdown
-  const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
-  for (const generator in generators) {
-    // don't add generators that contain the string "3D"
-    if (generator.includes('3D')) {
-      continue;
-    }
-    $('#generatorType').append(new Option(generator, generator));
-  }
-
-  if (algo) {
-    $('#generatorType').val(algo);
-  }
-
-
   // Listen for changes in map mode and toggle the depth input accordingly
   $('input[name="mapMode"]').change(function () {
     if ($('#mapMode3d').is(':checked')) {
@@ -79,12 +41,62 @@ $(document).ready(function () {
     generateMap();
   });
 
+  /*
+  // when clicking on mapContainer, generate a new map
+  $('#mapContainer').click(function () {
+    generateMap();
+  });
+  */
+  
+  // check url query for seed, if so, set previousSeed
+  let searchParams = new URLSearchParams(window.location.search);
+  let seed = searchParams.get('seed');
+
+  if (seed) {
+    urlSeed = seed;
+  }
+
+  // check for height and width in url query
+  let width = searchParams.get('width');
+  let height = searchParams.get('height');
+  let depth = searchParams.get('depth');
+  let algo = searchParams.get('algo');
+  if (width) {
+    $('#mapWidth').val(width);
+  }
+  if (height) {
+    $('#mapHeight').val(height);
+  }
+  if (depth) {
+    $('#mapDepth').val(depth);
+    let d = parseInt(depth);
+    if (d > 1) {
+      $('#mapMode3d').prop('checked', true);
+    }
+  }
+
   // Initial check to set the correct display state for the depth input
   if ($('#mapMode3d').is(':checked')) {
     $('label[for="mapDepth"]').show();
   } else {
     $('label[for="mapDepth"]').hide();
   }
+
+  // Dynamically populate the dropdown
+  const generators = { ...LABY.mazes, ...LABY.terrains, ...LABY.shapes };
+  for (const generator in generators) {
+    // don't add generators that contain the string "3D"
+    if (generator.includes('3D')) {
+      continue;
+    }
+    $('#generatorType').append(new Option(generator, generator));
+  }
+
+  if (algo) {
+    $('#generatorType').val(algo);
+  }
+
+
 
 
   // When the current seed updates, regenerate the map
@@ -124,8 +136,27 @@ $(document).ready(function () {
     // the mantra Tiled world with tiledata?=tileMap.data
     let host = 'https://yantra.gg/mantra/tiled';
     // for dev mode
-    // host = 'http://192.168.1.80:7777/tiled.html'
-    let queryString = '?tiledmap=' + JSON.stringify(map.toTiledJSON());
+    host = 'http://192.168.1.80:7777/tiled.html'
+
+    // instead of sending entire TiledMap format, we will instead send metadata about `TileMap` with seed
+    //
+    //
+    let tileMapData = {
+      // source: 'labyrinthos',
+      algo: $('#generatorType').val(),
+      seed: map.mersenneTwister.currentSeed,
+      width: map.width,
+      height: map.height,
+      depth: map.depth,
+    };
+
+
+    let queryString = '?s=labyrinthos';
+
+    // convert tileMapData to query string
+    for (let key in tileMapData) {
+      queryString += '&' + key + '=' + tileMapData[key];
+    }
 
     // for 2d maze widh 2d graphics use css
     // for 2d maze with 3d graphics use three
@@ -355,7 +386,6 @@ $(document).ready(function () {
   
   // Trigger map generation on page load
   generateMap(urlSeed);
-  // $('#generateMap').click();
 
   // set generatorType value to CellularAutomata
 
