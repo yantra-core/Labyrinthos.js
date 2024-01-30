@@ -15,6 +15,7 @@ $(document).ready(function () {
   let width = searchParams.get('width');
   let height = searchParams.get('height');
   let depth = searchParams.get('depth');
+  let algo = searchParams.get('algo');
   if (width) {
     $('#mapWidth').val(width);
   }
@@ -34,6 +35,11 @@ $(document).ready(function () {
     }
     $('#generatorType').append(new Option(generator, generator));
   }
+
+  if (algo) {
+    $('#generatorType').val(algo);
+  }
+
 
   // Listen for changes in map mode and toggle the depth input accordingly
   $('input[name="mapMode"]').change(function () {
