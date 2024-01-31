@@ -10,7 +10,7 @@
   <a href="https://yantra.gg/labyrinthos">Live Demo</a> •
   <a href="#install">Installation</a> •
   <a href="#usage">Usage</a> •
-  <a href="#api">API Methods</a> •
+  <a href="https://yantra.gg/labyrinthos/docs/">Docs</a> •
   <a href="#algos">Algorithms</a> •
   <a href="#contributing">Contributing</a>
 </h4>
