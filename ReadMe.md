@@ -17,6 +17,8 @@
 
 # Labyrinthos.js ( ALPHA )
 
+![Build Status](https://github.com/yantra-core/Labyrinthos.js/actions/workflows/nodejs.yml/badge.svg)
+
 A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for game developers and professional hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
 
