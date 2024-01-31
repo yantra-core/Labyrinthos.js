@@ -9,7 +9,8 @@
     "url": "git+https://github.com/yantra-core/Labyrinthos.js.git"
   },
   "scripts": {
-    "test": "tap test/"
+    "test": "tap --coverage-report=lcov --allow-incomplete-coverage test/",
+    "cover": "tap --coverage-report=html test/"
   },
   "keywords": [
     "procedural-generation",
