@@ -1,7 +1,7 @@
 <h3 align="center">
 
  <a href="https://yantra.gg/labyrinthos">
-<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="600">
+<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="512">
 </a>
 
 </h3>
@@ -19,31 +19,6 @@
 
 A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for game developers and professional hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
-## Live Demo
-
-You can explore all Maze and Terrain generators in the browser with our live demo:
-
-[https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
-
-
-
-
-https://github.com/yantra-core/Labyrinthos.js/assets/70011/1f01bcdd-53ca-4d11-9d1c-ed2ed2a65b9a
-
-
-
-https://github.com/yantra-core/Labyrinthos.js/assets/70011/c8a5cf73-33d0-41ba-8227-22626265c01e
-
-
-
-https://github.com/yantra-core/Labyrinthos.js/assets/70011/3f8ca415-42c4-4fea-8ac4-0a3faa2ad761
-
-
-
-https://github.com/yantra-core/Labyrinthos.js/assets/70011/74660595-a93b-4e98-b5ce-b5ba63200a14
-
-
-This demo can export generated maps to [Tiled](https://mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
 
 ## Main Features
 
@@ -72,6 +47,38 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 ```bash
 npm install labyrinthos
 ```
+
+
+## Live Demo and Map Explorer
+
+You can explore all Maze and Terrain generators in the browser with our live demo.
+
+If you click "Explore 2D" or "Explore 3D" in the demo, the TileMap will open in an instance of [Mantra.js](https://github.com/yantra-core/Mantra.js).
+
+
+# LIVE DEMO LINK
+
+# [https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
+
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/1f01bcdd-53ca-4d11-9d1c-ed2ed2a65b9a
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/c8a5cf73-33d0-41ba-8227-22626265c01e
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/3f8ca415-42c4-4fea-8ac4-0a3faa2ad761
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/74660595-a93b-4e98-b5ce-b5ba63200a14
+
+
+This demo can export generated maps to [Tiled](https://mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
 
 ## `TileMap` Data Formats
 
