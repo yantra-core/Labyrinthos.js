@@ -215,7 +215,7 @@ console.log(myMap.data);
 console.log(myMap.mask());
 ```
 
-### `TileMap.query()`
+### `TileMap.query(query)`
 
 Queries subsections of the map and returns a new `TileMap` instance.
 
