@@ -25,6 +25,24 @@ You can explore all Maze and Terrain generators in the browser with our live dem
 
 [https://yantra.gg/labyrinthos](https://yantra.gg/labyrinthos)
 
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/1f01bcdd-53ca-4d11-9d1c-ed2ed2a65b9a
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/c8a5cf73-33d0-41ba-8227-22626265c01e
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/3f8ca415-42c4-4fea-8ac4-0a3faa2ad761
+
+
+
+https://github.com/yantra-core/Labyrinthos.js/assets/70011/74660595-a93b-4e98-b5ce-b5ba63200a14
+
+
 This demo can export generated maps to [Tiled](https://mapeditor.org) JSON format ( with default bundled `TileSet` assets ).
 
 ## Main Features
