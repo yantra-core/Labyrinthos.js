@@ -3,6 +3,8 @@ let urlSeed = null;
 let map;
 $(document).ready(function () {
 
+  
+
   // Listen for changes in map mode and toggle the depth input accordingly
   $('input[name="mapMode"]').change(function () {
     if ($('#mapMode3d').is(':checked')) {
@@ -18,7 +20,7 @@ $(document).ready(function () {
 
     }
     // regenerate the map
-    generateMap();
+    generateMap(map.mersenneTwister.currentSeed);
   });
 
   // Listen for changes in map size and update the width and height accordingly
@@ -38,7 +40,7 @@ $(document).ready(function () {
       $('#mapHeight').val(64);
     }
     // regenerate the map
-    generateMap();
+    generateMap(map.mersenneTwister.currentSeed);
   });
 
   $('#prevAlgo').click(function () {
@@ -48,7 +50,7 @@ $(document).ready(function () {
     // Decrement the index to get the previous algorithm, ensuring it's not less than 0
     var newIndex = (currentIndex - 1 + totalCount) % totalCount; // Adding totalCount before modulo ensures it's always positive
     $dropdown.prop('selectedIndex', newIndex).change(); // Set the new index and trigger change event
-    generateMap(); // Assuming generateMap doesn't need arguments or they are handled within the function
+    generateMap(map.mersenneTwister.currentSeed); // Assuming generateMap doesn't need arguments or they are handled within the function
   });
   
   $('#nextAlgo').click(function () {
@@ -58,7 +60,7 @@ $(document).ready(function () {
     // Increment the index to get the next algorithm, wrapping around if needed
     var newIndex = (currentIndex + 1) % totalCount;
     $dropdown.prop('selectedIndex', newIndex).change(); // Set the new index and trigger change event
-    generateMap(); // Adjust if generateMap needs specific arguments
+    generateMap(map.mersenneTwister.currentSeed); // Adjust if generateMap needs specific arguments
   });
   
 
@@ -120,7 +122,7 @@ $(document).ready(function () {
   }
 
   // When the current seed updates, regenerate the map
-  $('#currentSeed').keyup(function () {
+  $('#currentSeed').keydown(function () {
     generateMap($(this).val());
   });
   // Determine the position of the static logo
@@ -137,18 +139,22 @@ $(document).ready(function () {
   $('#generatorType').change(function () {
     previousSeed = map.mersenneTwister.currentSeed;
     $('.currentAlgo').html($(this).val());
-    generateMap();
+    generateMap(previousSeed);
   });
 
   $('#stackingModeSelection').change(function () {
     previousSeed = map.mersenneTwister.currentSeed;
-    generateMap();
+    generateMap(previousSeed);
   });
 
   $('.mapSettings').change(function () {
+    let el = $(this).get(0);
+    if (el.id === 'currentSeed') {
+      return;
+    }
     previousSeed = map.mersenneTwister.currentSeed;
     // $('#generateMap').click();
-    generateMap();
+    generateMap(previousSeed);
   });
 
   $('.mantraTiled').click(function () {
@@ -246,6 +252,11 @@ $(document).ready(function () {
     generateMap();
   });
 
+  $('.randomSeed').click(function () {
+    previousSeed = null;
+    generateMap();
+  });
+  
   /*
   // Usage example
   runFunction(() => {

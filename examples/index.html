@@ -113,6 +113,11 @@
       font-size: 24px;
     }
 
+    #randomSeed {
+      cursor: pointer;
+      padding-bottom: 0px;
+      padding-top: 0px;
+    }
     label {
       color: #3652AD;
       font-size: 24px;
@@ -392,15 +397,15 @@
       <div class="right">
 
         <div class="boxer">
-
-          <div>
-            <label for="currentSeed">
+          <div style="display: flex; align-items: center;">
+            <img src="./browser/img/random-box-smol.png" id="randomSeed" class="randomSeed" title="Randomize Seed" />
+            <label for="currentSeed" style="margin-left: 10px;">
               Current Seed:
               <input id="currentSeed" class="mapSettings" />
             </label>
           </div>
-
         </div>
+        
         <br />
 
         <div class="boxer">
