@@ -19,7 +19,7 @@
 
 **ALPHA STATUS**
 
-Labyrinthos.js is a JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes. Tailored for game developers and hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
+A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for game developers and professional hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
 ## Live Demo
 

@@ -20,6 +20,10 @@
       text-align: center;
     }
 
+    .link {
+      color: #000;
+    }
+
     h1,
     h2 {
       color: #f0f0f0;
@@ -27,8 +31,8 @@
 
     select,
     button {
-      margin: 10px;
-      padding: 5px 10px;
+      margin: 5px;
+      padding: 0px 10px;
       border-radius: 4px;
       background-color: #333;
       color: white;
@@ -60,6 +64,7 @@
 
     #currentSeed {
       font-size: 22px;
+      width: 200px;
     }
 
     #mapContainer {
@@ -235,7 +240,7 @@
       /* Allows the left element to shrink as needed */
       flex-basis: 1;
       /* Start with a size of 0 and grow from there */
-      max-width: 1024px;
+      /* max-width: 1400px; */
       /* Maximum width of the left element */
       min-width: 300px;
       /* Allows the left element to shrink below its content's intrinsic size */
@@ -296,42 +301,48 @@
     }
 
     @media (max-width: 768px) {
-  .top-container {
-    padding: 20px; /* Reduced padding for smaller screens */
-    /* Ensure other properties like 'opacity', 'transform', and 'animation' are not hiding the container */
-  }
+      .top-container {
+        padding: 20px;
+        /* Reduced padding for smaller screens */
+        /* Ensure other properties like 'opacity', 'transform', and 'animation' are not hiding the container */
+      }
 
-  .flex {
-    flex-direction: column; /* Stack flex items vertically */
-    align-items: center; /* Center-align items for better presentation */
-  }
+      .flex {
+        flex-direction: column;
+        /* Stack flex items vertically */
+        align-items: center;
+        /* Center-align items for better presentation */
+      }
 
-  .left, .right {
-    width: 100%; /* Full width for mobile layout */
-    max-width: none; /* Override any max-width settings */
-    padding: 20px; /* Adjust padding for smaller screens */
-    margin: 10px 0; /* Add some vertical margin for separation */
-    order: 0; /* Reset order to ensure natural HTML flow */
-    min-height: 100%;
-  }
+      .left,
+      .right {
+        width: 100%;
+        /* Full width for mobile layout */
+        max-width: none;
+        /* Override any max-width settings */
+        padding: 20px;
+        /* Adjust padding for smaller screens */
+        margin: 10px 0;
+        /* Add some vertical margin for separation */
+        order: 0;
+        /* Reset order to ensure natural HTML flow */
+        min-height: 100%;
+      }
 
-  .right {
-    padding-top: 20px; /* Maintain consistent padding */
-  }
-}
-
-
-
-
+      .right {
+        padding-top: 20px;
+        /* Maintain consistent padding */
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="top-container">
     <div>
-      <h1>Labyrinthos.js</h1>
-      <h2>A JavaScript Maze and Terrain Generator for the procedural generation of intricate mazes, maps, and biomes
-      </h2>
+      <h1><a href="index.html" class="link"><img alt="Labyrinthos.js" title="Labyrinthos.js"
+            src="./browser/labyrinthos-logo-text.png" /></a></h1>
+      <h2>A JavaScript procedural generator for Mazes, Terrains, and Biomes</h2>
     </div>
   </div>
 
@@ -360,7 +371,7 @@
           <div>
             <label for="currentSeed">
               Current Seed:
-              <input id="currentSeed"/>
+              <input id="currentSeed" class="mapSettings"/>
             </label>
           </div>
 
@@ -413,7 +424,6 @@
 
             <!-- Stacking Mode Selection for 3D Maps -->
             <div id="stackingModeSelection" style="display:none;"> <!-- Initially hidden -->
-              <div class="layerStackMode">No 3D implementation found, stacking 2D algo with mode.</div>
               <label for="stackingModeUnique" title="Each layer of the 3D will be unique instance of 2D algo.">Unique
                 <input type="radio" id="stackingModeUnique" name="stackingMode" value="unique" checked>
               </label>
@@ -421,17 +431,21 @@
                 title="A single instance of the 2D map will be copied for each layer.">Extrude
                 <input type="radio" id="stackingModeExtrude" name="stackingMode" value="extrude">
               </label>
+              <div class="layerStackMode">
+                <div class="currentAlgo"></div><br />
+                <div>No 3D implementation found, stacking 2D algo with mode.</div>
+              </div>
             </div>
-
           </div>
           <br />
-
         </div>
 
         <br />
         <br />
         <div class="boxer">
           <button id="downloadJSON">Download Tiled Map</button>
+          <br/>
+          <br/>
           <span>Compatible with <a class="link" target="_blank" href="https://mapeditor.org">Tiled Map Editor</a></span>
         </div>
       </div>
@@ -445,7 +459,10 @@
 
     <div id="jsonContainer"></div>
   </div>
-  <img class="logo logoStatic" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
+
+  <a href="https://github.com/yantra-core/Labyrinthos.js">
+    <img class="logo logoStatic" src="https://yantra.gg/labyrinthos/browser/labyrinthos-logo.png" />
+  </a>
 
   <style>
     #forkongithub a {

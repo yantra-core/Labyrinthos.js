@@ -115,6 +115,8 @@ $(document).ready(function () {
 
   if (algo) {
     $('#generatorType').val(algo);
+    $('.currentAlgo').html(algo);
+
   }
 
   // When the current seed updates, regenerate the map
@@ -134,6 +136,7 @@ $(document).ready(function () {
   // $('#generatorType').val('FaultLine');
   $('#generatorType').change(function () {
     previousSeed = map.mersenneTwister.currentSeed;
+    $('.currentAlgo').html($(this).val());
     generateMap();
   });
 
@@ -288,7 +291,7 @@ $(document).ready(function () {
     if (typeof seed === 'undefined' || seed === null) {
       seed = map.mersenneTwister.currentSeed;
     }
-    if (previousSeed) {
+    if (typeof seed ==='undefined' && typeof previousSeed !== 'undefined') {
       seed = previousSeed;
     }
     let generatorType = $('#generatorType').val();
@@ -356,6 +359,7 @@ $(document).ready(function () {
         useWorker: true
       }, map, {});
       */
+      $('#stackingModeSelection').toggle(false);
 
       generators[generatorType](map, {});
       if (LABY.terrains[generatorType]) {
