@@ -30,6 +30,8 @@
     "browserify": "^17.0.0",
     "tap": "^18.6.1",
     "tape": "^5.7.4",
+    "typedoc": "^0.25.7",
+    "typedoc-material-theme": "^1.0.2",
     "uglify-js": "^3.17.4"
   }
 }

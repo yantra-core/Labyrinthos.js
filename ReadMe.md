@@ -292,7 +292,7 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 # LSystem
 
 - [✅] - Basic 
-- [✅] - Parameteric Rules using custom `function(context)``
+- [✅] - Parameteric Rules using custom `function(context)`
 - [ ]  - Parameteric Rules with [Sutra.js](https://github.com/yantra-core/sutra)
 
 <a name="contributing"></a>
