@@ -22,7 +22,7 @@ A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for 
 
 ## Main Features
 
-- **Procedural Generation** - Create vast, diverse maps and mazes [algorithmically](#algos)
+- **Procedural Generation** - Create vast, diverse maps and mazes algorithmically
 - **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation
 - **Submap Embedding** - Seamlessly integrate smaller maps into larger maps
 - **TileMap Queries** - Easily query subsections of a `TileMap` for applying custom transforms
@@ -30,7 +30,7 @@ A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for 
 - **Biomes** - Create realastic Biomes with weighted distribution and Perlin Noise
 - **Parametric L-Systems** - Create generational enviroments using L-Systems with parameters
 - **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness
-- **ASCII Masking** - Built-in support for generating custom roguelike game maps
+- **ASCII Masking** - Built-in support for generating custom Roguelike game maps
 - **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON
 
 <a name="install"></a>
