@@ -37,13 +37,13 @@ A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for 
 
 ## Installation
 
-**Release 1.0.0**
+**CDN Release 1.1.0**
 | Files          | CDN                                         | Size |
 |---------------|--------------------------------------------------|-----------|
 | labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 160kb      |
 | labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 60kb      |
 
-
+**NPM**
 ```bash
 npm install labyrinthos
 ```
@@ -108,8 +108,7 @@ Each integer value in `TileMap.data` array corresponds to a `Tile.id`.
 let map = new LABY.TileMap({
   width: 3,
   height: 3,
-  depth: 3,
-  is3D: true
+  depth: 3
 });
 
 map.fill(3);
@@ -140,9 +139,7 @@ For 3D Voxel Maps, `TileMap.data` is a nested array with first index representin
 
     let map = new LABY.TileMap({
       width: 32,
-      height: 32,
-      tileWidth: 16,
-      tileHeight: 16
+      height: 32
     });
 
     map.fill(1); // fill entire map with 1
@@ -153,18 +150,6 @@ For 3D Voxel Maps, `TileMap.data` is a nested array with first index representin
     // output maze with ASCII mask
     console.log(map.mask());
 
-    map.fill(1); // reset map to 1
-
-    labyrinthos.terrains.FaultLine(map, {});
-
-    // terrain algos return a 0-1 float range, so we need to scale it to the tile range
-    map.scaleToTileRange(4); // this will take the 0-1 float and scale it to 0-4 integer
-
-    console.log('map', map);
-
-    // output terrain with ASCII mask
-    console.log('map', map.mask());
-
   });
 </script>
 ```
@@ -173,13 +158,13 @@ For 3D Voxel Maps, `TileMap.data` is a nested array with first index representin
 
 *Using labyrinthos `npm` package*
 
-Each `TileMap` has a `TileMap.use()` method which can be used to embed maps inside each other. The following example creates a quadrant:
+Each `TileMap` has a `TileMap.use()` method which can be used to embed maps inside each other. The following example creates (4) quadrants:
 
 ```js
 import labyrinthos from 'labyrinthos';
 
 // Main map
-const mainMap = new labyrinthos.TileMap({ width: 8, height: 8, tileWidth: 16, tileHeight: 16 });
+const mainMap = new labyrinthos.TileMap({ width: 8, height: 8 });
 
 // Submaps
 const subMap1 = new labyrinthos.TileMap({ width: 4, height: 4, tileWidth: 16, tileHeight: 16 });
@@ -208,10 +193,10 @@ console.log(mainMap.mask());
 
 <a name="api"></a>
 
-## API Methods
+## `TileMap` Class
 
 ```js
-let myMap = new TileMap({
+let myMap = new LABY.TileMap({
   x: 0,
   y: 0,
   width: 32,
@@ -223,14 +208,16 @@ let myMap = new TileMap({
 This will generate a new `TileMap` instance with default data. From here we can run either a `Maze` or `Terrain` algorithm on the `myMap` object like:
 
 ```js
-  labyrinthos.mazes.RecursiveBacktrack(myMap);
-  // shows myMap data array
-  console.log(myMap.data);
-  // renders myMap with default ASCII chart
-  console.log(myMap.mask());
+LABY.mazes.RecursiveBacktrack(myMap);
+// shows myMap data array
+console.log(myMap.data);
+// renders myMap with default ASCII chart
+console.log(myMap.mask());
 ```
 
 ### `TileMap.query()`
+
+Queries subsections of the map and returns a new `TileMap` instance.
 
 see: `./examples/tilemap-query.js`;
 
@@ -309,6 +296,12 @@ Exports the `TileMap` to the [Tiled](https://mapeditor.org) data format.
 - [ ]  - Parameteric Rules with [Sutra.js](https://github.com/yantra-core/sutra)
 
 <a name="contributing"></a>
+
+## Tests
+
+```bash
+npm test
+```
 
 ## Contributing
 
