@@ -40,8 +40,8 @@ A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for 
 **Release 1.0.0**
 | Files          | CDN                                         | Size |
 |---------------|--------------------------------------------------|-----------|
-| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
-| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
+| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 160kb      |
+| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 60kb      |
 
 
 ```bash
