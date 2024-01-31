@@ -1,7 +1,7 @@
 <h3 align="center">
 
  <a href="https://yantra.gg/labyrinthos">
-<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="300">
+<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="600">
 </a>
 
 </h3>
@@ -15,9 +15,7 @@
   <a href="#contributing">Contributing</a>
 </h4>
 
-# Labyrinthos.js
-
-**ALPHA STATUS**
+# Labyrinthos.js ( ALPHA )
 
 A JavaScript procedural generator for Mazes, Terrains, and Biomes. Designed for game developers and professional hobbyists, Labyrinthos.js offers a very simple-to-use API for crafting complex, customizable landscapes.
 
@@ -35,16 +33,31 @@ This demo can export generated maps to [Tiled](https://mapeditor.org) JSON forma
 - **2D and 3D Map Generation** - Supports both 2D Tile Maps and 3D Voxel Map generation
 - **Submap Embedding** - Seamlessly integrate smaller maps into larger maps
 - **TileMap Queries** - Easily query subsections of a `TileMap` for applying custom transforms
-- **TileSet Support** - Flexible `TileSet` mapping for assigning metadata to `TileMap`
+- **TileSet Support** - Flexible `TileSet` mapping for assigning metadata to `TileMap` ids
 - **Biomes** - Create realastic Biomes with weighted distribution and Perlin Noise
-- **Parametric L-Lsystems** - Create generational enviroments using L-Systems
+- **Parametric L-Systems** - Create generational enviroments using L-Systems with parameters
 - **Realiable Randomness** - Leverages Mersenne Twister for advanced predictable randomness
 - **ASCII Masking** - Built-in support for generating custom roguelike game maps
 - **Export Functionality** - Easily export maps in various formats, including Tiled `.tmj` JSON
 
+<a name="install"></a>
+
+## Installation
+
+**Release 1.0.0**
+| Files          | CDN                                         | Size |
+|---------------|--------------------------------------------------|-----------|
+| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
+| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
+
+
+```bash
+npm install labyrinthos
+```
+
 ## `TileMap` Data Formats
 
-`Labyrinthos` map data is internally represented by arrays of integers.
+Labyrinthos map data is internally represented by arrays of integers.
 
 ### 2D Data
 
@@ -85,21 +98,6 @@ For 3D Voxel Maps, `TileMap.data` is a nested array with first index representin
   [3, 3, 3, 3, 3, 3, 3, 3, 3],
   [3, 3, 3, 3, 3, 3, 3, 3, 3]
 ]
-```
-
-<a name="install"></a>
-
-## Installation
-
-**Release 1.0.0**
-| Files          | CDN                                         | Size |
-|---------------|--------------------------------------------------|-----------|
-| labyrinthos.js    | [Link](https://yantra.gg/labyrinthos.js)        | 42kb      |
-| labyrinthos.min.js| [Link](https://yantra.gg/labyrinthos.min.js)    | 17kb      |
-
-
-```bash
-npm install labyrinthos
 ```
 
 <a name="usage"></a>

@@ -184,7 +184,15 @@
       text-align: center;
     }
 
-    select,
+    select {
+      padding-right: 30px;
+      padding-bottom: 12px;
+      padding-top: 12px;
+      font-size: 16px;
+      min-width: 280px;
+    }
+
+
     button {
       padding: 12px 30px;
       font-size: 16px;
@@ -256,11 +264,6 @@
       /* Prevents the right element from growing */
       flex-shrink: 0;
       /* Prevents the right element from shrinking */
-      flex-basis: 300px;
-      /* Sets a fixed starting size for the right element */
-      min-width: 300px;
-      width: 300px;
-      min-height: 100%;
 
     }
 
@@ -293,6 +296,10 @@
       gap: 20px;
     }
 
+    input[type="radio"] {
+      /* color: #eee; */
+    }
+
 
     #buttons {
       background-color: #ddd;
@@ -301,37 +308,51 @@
     }
 
     @media (max-width: 768px) {
-      .top-container {
-        padding: 20px;
-        /* Reduced padding for smaller screens */
-        /* Ensure other properties like 'opacity', 'transform', and 'animation' are not hiding the container */
+
+      .top-container,
+      .container {
+        padding: 10px;
+        transform: none;
+        /* Remove transform for smaller screens */
+        opacity: 1;
+        /* Ensure full opacity */
       }
 
-      .flex {
+      .flex,
+      .container {
         flex-direction: column;
-        /* Stack flex items vertically */
         align-items: center;
-        /* Center-align items for better presentation */
       }
 
       .left,
       .right {
-        width: 100%;
-        /* Full width for mobile layout */
         max-width: none;
         /* Override any max-width settings */
-        padding: 20px;
+        padding: 15px;
         /* Adjust padding for smaller screens */
         margin: 10px 0;
         /* Add some vertical margin for separation */
         order: 0;
         /* Reset order to ensure natural HTML flow */
-        min-height: 100%;
       }
 
-      .right {
-        padding-top: 20px;
-        /* Maintain consistent padding */
+      select,
+      button,
+      .mapSettings {
+        /* Adjust font size for readability */
+      }
+
+      #mapContainer {
+        font-size: 24px;
+        /* Smaller font size for the map */
+        letter-spacing: 5px;
+        /* Adjust letter spacing for the map */
+      }
+
+      h1,
+      h2 {
+        font-size: 20px;
+        /* Smaller font sizes for headers */
       }
     }
   </style>
@@ -353,12 +374,12 @@
         <select id="generatorType">
           <option value="RecursiveDivision">RecursiveDivision</option>
         </select>
-        <button id="prevAlgo">&lt;</button>
-        <button id="nextAlgo">&gt;</button>
+        <button id="prevAlgo" title="Previous algorithm">&lt;</button>
+        <button id="nextAlgo" title="Next algorithm">&gt;</button>
 
-        <button id="generateMap">Generate Map</button>
-        <button class="mantraTiled" id="mantra2DTiled">Explore in 2D</button>
-        <button class="mantraTiled" id="mantra3DTiled">Explore in 3D</button>
+        <button id="generateMap" title="Generate new map and random seed">Generate Map</button>
+        <button class="mantraTiled" id="mantra2DTiled" title="View Map using Mantra.js CSSGraphics">Explore in 2D</button>
+        <button class="mantraTiled" id="mantra3DTiled" title="View Map using Mantra.js 3D Graphics">Explore in 3D</button>
 
         <div id="mapContainer"></div>
 
@@ -371,7 +392,7 @@
           <div>
             <label for="currentSeed">
               Current Seed:
-              <input id="currentSeed" class="mapSettings"/>
+              <input id="currentSeed" class="mapSettings" />
             </label>
           </div>
 
@@ -380,11 +401,11 @@
 
         <div class="boxer">
           <label for="mapWidth">Map Width
-            <input class="mapSettings" id="mapWidth" type="number" value="32" />
+            <input class="mapSettings" id="mapWidth" type="number" value="16" />
           </label>
           <br />
           <label for="mapHeight">Map Height
-            <input class="mapSettings" id="mapHeight" type="number" value="32" />
+            <input class="mapSettings" id="mapHeight" type="number" value="16" />
           </label>
 
           <!-- Depth Input for 3D Mode (Initially Hidden) -->
@@ -444,8 +465,8 @@
         <br />
         <div class="boxer">
           <button id="downloadJSON">Download Tiled Map</button>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <span>Compatible with <a class="link" target="_blank" href="https://mapeditor.org">Tiled Map Editor</a></span>
         </div>
       </div>
@@ -454,7 +475,6 @@
         TileSet Form and Display 
         </div>
       -->
-
     </div>
 
     <div id="jsonContainer"></div>
