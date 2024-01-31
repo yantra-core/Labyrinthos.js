@@ -156,6 +156,7 @@ $(document).ready(function () {
     // for dev mode
     // host = 'http://192.168.1.80:7777/tiled.html'
 
+
     // instead of sending entire TiledMap format, we will instead send metadata about `TileMap` with seed
     //
     //
@@ -201,6 +202,7 @@ $(document).ready(function () {
 
   $('#downloadMap').click(async function () {
     const json = JSON.stringify(map.toTiledJSON(), true, 2);
+    console.log('Downloading', json)
     const jsonBlob = new Blob([json], { type: 'application/json' });
     const jszip = new JSZip();
 
