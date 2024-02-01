@@ -2,9 +2,7 @@ import labyrinthos from '../lib/labyrinthos.js';
 import fs from 'fs';
 let map = new labyrinthos.TileMap({
   width: 16,
-  height: 16,
-  tileWidth: 16,
-  tileHeight: 16
+  height: 16
 });
 
 map.fill(1); // reset map to 1

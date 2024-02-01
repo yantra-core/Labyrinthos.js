@@ -3,9 +3,7 @@ import generateMap from '../lib/mazes/RecursiveBacktrack.js';
 
 let map = new labyrinthos.TileMap({
   width: 64,
-  height: 32,
-  tileWidth: 16,
-  tileHeight: 16
+  height: 32
 });
 
 console.log('map', map)

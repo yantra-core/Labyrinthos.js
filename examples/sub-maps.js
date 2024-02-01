@@ -1,13 +1,13 @@
 import labyrinthos from '../lib/labyrinthos.js';
 
 // Main map
-const mainMap = new labyrinthos.TileMap({ width: 8, height: 8, tileWidth: 16, tileHeight: 16 });
+const mainMap = new labyrinthos.TileMap({ width: 8, height: 8 });
 
 // Submaps
-const subMap1 = new labyrinthos.TileMap({ width: 4, height: 4, tileWidth: 16, tileHeight: 16 });
-const subMap2 = new labyrinthos.TileMap({ width: 4, height: 4, tileWidth: 16, tileHeight: 16 });
-const subMap3 = new labyrinthos.TileMap({ width: 4, height: 4, tileWidth: 16, tileHeight: 16 });
-const subMap4 = new labyrinthos.TileMap({ width: 4, height: 4, tileWidth: 16, tileHeight: 16 });
+const subMap1 = new labyrinthos.TileMap({ width: 4, height: 4 });
+const subMap2 = new labyrinthos.TileMap({ width: 4, height: 4 });
+const subMap3 = new labyrinthos.TileMap({ width: 4, height: 4 });
+const subMap4 = new labyrinthos.TileMap({ width: 4, height: 4 });
 
 // Fill each submap with distinct values
 subMap1.fill(1);

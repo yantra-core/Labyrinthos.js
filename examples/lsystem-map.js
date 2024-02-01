@@ -3,9 +3,7 @@ import labyrinthos from '../lib/labyrinthos.js';
 // Create a new tile map
 let map = new labyrinthos.TileMap({
   width: 32,
-  height: 32,
-  tileWidth: 16,
-  tileHeight: 16
+  height: 32
 });
 
 map.seed(1234);
