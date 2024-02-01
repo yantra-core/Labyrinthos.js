@@ -1,6 +1,6 @@
 {
   "name": "labyrinthos",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A JavaScript library for procedural generation of maps, mazes, and biomes, supporting various algorithms and terrain types.",
   "main": "./lib/labyrinthos.js",
   "type": "module",
