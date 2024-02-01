@@ -156,7 +156,7 @@ interface mazes {
   RecursiveDivision: MazeGeneratorFunction;
   ThomasHunter: MazeGeneratorFunction;
   BeattieSchoberth: MazeGeneratorFunction;
-  PlatformZones: MazeGeneratorFunction;
+  Metroidvania: MazeGeneratorFunction;
   // Add other mazes here following the same pattern
 }
 

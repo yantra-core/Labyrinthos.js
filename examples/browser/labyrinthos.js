@@ -310,6 +310,9 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
   }, {
     key: "seed",
     value: function seed(value) {
+      if (typeof value === 'undefined') {
+        value = this.random();
+      }
       this.mersenneTwister.seed(value);
       this.seedNoise(value);
       // this.mersenneTwister.seed_array([value]); // also can seed from arrays
@@ -651,7 +654,7 @@ var _RecursiveBacktrack = _interopRequireDefault(require("./mazes/RecursiveBackt
 var _RecursiveDivision = _interopRequireDefault(require("./mazes/RecursiveDivision.js"));
 var _ThomasHunter = _interopRequireDefault(require("./mazes/ThomasHunter.js"));
 var _BeattieSchoberth = _interopRequireDefault(require("./mazes/BeattieSchoberth.js"));
-var _PlatformZones = _interopRequireDefault(require("./mazes/PlatformZones.js"));
+var _Metroidvania = _interopRequireDefault(require("./mazes/Metroidvania.js"));
 var _Circle = _interopRequireDefault(require("./shapes/Circle.js"));
 var _Square = _interopRequireDefault(require("./shapes/Square.js"));
 var _Triangle = _interopRequireDefault(require("./shapes/Triangle.js"));
@@ -701,7 +704,8 @@ labyrinthos.mazes.RecursiveDivision = _RecursiveDivision["default"];
 // labyrinthos.mazes.SpiralBacktrack = SpiralBacktrack;
 labyrinthos.mazes.BeattieSchoberth = _BeattieSchoberth["default"];
 labyrinthos.mazes.ThomasHunter = _ThomasHunter["default"];
-labyrinthos.mazes.PlatformZones = _PlatformZones["default"];
+labyrinthos.mazes.Metroidvania = _Metroidvania["default"];
+labyrinthos.mazes.PlatformZones = _Metroidvania["default"]; // legacy API support
 // labyrinthos.mazes.TremauxsAlgorithm = TremauxsAlgorithm;
 // labyrinthos.mazes.VoronoiDiagram = VoronoiDiagram;
 
@@ -725,7 +729,7 @@ labyrinthos.TileMap = _TileMap["default"];
 labyrinthos.TileSet = _TileSet["default"];
 var _default = exports["default"] = labyrinthos;
 
-},{"./Biome.js":2,"./LSystem.js":3,"./Tile.js":4,"./TileMap.js":5,"./TileSet.js":6,"./mazes/AldousBroder.js":8,"./mazes/AldousBroder3D.js":9,"./mazes/BeattieSchoberth.js":10,"./mazes/BinaryTree.js":11,"./mazes/CellularAutomata.js":12,"./mazes/EllersAlgorithm.js":13,"./mazes/GrowingTree.js":14,"./mazes/PlatformZones.js":15,"./mazes/RecursiveBacktrack.js":16,"./mazes/RecursiveDivision.js":17,"./mazes/ThomasHunter.js":18,"./shapes/Circle.js":19,"./shapes/Square.js":20,"./shapes/Triangle.js":21,"./terrains/FaultLine.js":22,"./terrains/PerlinNoise.js":23,"./util/noise.js":27}],8:[function(require,module,exports){
+},{"./Biome.js":2,"./LSystem.js":3,"./Tile.js":4,"./TileMap.js":5,"./TileSet.js":6,"./mazes/AldousBroder.js":8,"./mazes/AldousBroder3D.js":9,"./mazes/BeattieSchoberth.js":10,"./mazes/BinaryTree.js":11,"./mazes/CellularAutomata.js":12,"./mazes/EllersAlgorithm.js":13,"./mazes/GrowingTree.js":14,"./mazes/Metroidvania.js":15,"./mazes/RecursiveBacktrack.js":16,"./mazes/RecursiveDivision.js":17,"./mazes/ThomasHunter.js":18,"./shapes/Circle.js":19,"./shapes/Square.js":20,"./shapes/Triangle.js":21,"./terrains/FaultLine.js":22,"./terrains/PerlinNoise.js":23,"./util/noise.js":27}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1885,6 +1889,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /**
+ * Metroidvania.js - Abbey Hawk Sparrow 2024
  * Originally written by Thomas Hunter II
  *
  * Originally written on June 12, 2013
@@ -1948,13 +1953,13 @@ var Grid = /*#__PURE__*/function () {
   }]);
   return Grid;
 }();
-var PlatformZones = /*#__PURE__*/function () {
-  function PlatformZones() {
+var Metroidvania = /*#__PURE__*/function () {
+  function Metroidvania() {
     var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    _classCallCheck(this, PlatformZones);
+    _classCallCheck(this, Metroidvania);
     this.options = config;
   }
-  _createClass(PlatformZones, [{
+  _createClass(Metroidvania, [{
     key: "render",
     value: function render() {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1999,7 +2004,7 @@ var PlatformZones = /*#__PURE__*/function () {
       return data;
     }
   }]);
-  return PlatformZones;
+  return Metroidvania;
 }();
 var inDoorRange = function inDoorRange(n, max, range) {
   var half = Math.floor(max / 2);
@@ -2491,7 +2496,7 @@ function ALGORITHM_PLATFORM_ZONES(tileMap, options) {
   var numRoomsHigh = Math.floor(tileMap.height / roomSizeWidth);
   var maxCount = Math.floor(numRoomsWide * numRoomsHigh * 0.8);
   var minCount = Math.floor(maxCount / 4);
-  var generator = new PlatformZones({
+  var generator = new Metroidvania({
     roomWidth: roomSizeWidth,
     roomHeight: roomSizeHeight,
     maxFails: 8000,
@@ -3811,7 +3816,6 @@ function Mersenne() {
     gen.init_by_array(A, A.length);
   };
   this.stringToSeed = function (str) {
-    console.log('convert', str);
     // Simple hash function to convert a string to a number
     var hash = 0;
     for (var i = 0; i < str.length; i++) {

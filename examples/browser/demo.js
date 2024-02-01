@@ -3,9 +3,8 @@ let urlSeed = null;
 let map;
 let infinite = false;
 let mode = 'topdown';
-$(document).ready(function () {
 
-  
+$(document).ready(function () {
 
   // Listen for changes in map mode and toggle the depth input accordingly
   $('input[name="mapMode"]').change(function () {
@@ -95,13 +94,13 @@ $(document).ready(function () {
   let algo = searchParams.get('algo');
 
   let _infinite = searchParams.get('infinite'); // chunks or no chunks
-  let _mode = searchParams.get('mode'); // topdown or platformer
+  let _mode = searchParams.get('mode'); // topdown or platform
 
   if (_infinite == 'true') {
     infinite = true;
   }
-  if (_mode == 'platformer') {
-    mode = 'platformer';
+  if (_mode == 'platform') {
+    mode = 'platform';
   }
 
   if (width) {
@@ -138,7 +137,6 @@ $(document).ready(function () {
   if (algo) {
     $('#generatorType').val(algo);
     $('.currentAlgo').html(algo);
-
   }
 
   // When the current seed updates, regenerate the map
@@ -187,8 +185,7 @@ $(document).ready(function () {
     // the mantra Tiled world with tiledata?=tileMap.data
     let host = 'https://yantra.gg/mantra/tiled';
     // for dev mode
-    host = 'http://192.168.1.80:7777/tiled.html'
-
+    // host = 'http://192.168.1.80:7777/tiled.html'
 
     // instead of sending entire TiledMap format, we will instead send metadata about `TileMap` with seed
     //
@@ -201,8 +198,6 @@ $(document).ready(function () {
       height: map.height,
       depth: map.depth,
     };
-
-
 
     tileMapData.infinite = infinite;
     tileMapData.mode = mode;
@@ -361,7 +356,6 @@ $(document).ready(function () {
             
             //LABY.exec(ogGeneratorType, {}, mapLayer, {});
             generators[ogGeneratorType](mapLayer, {});
-            
             if (LABY.terrains[ogGeneratorType]) {
               mapLayer.scaleToTileRange(4);
             }
@@ -386,10 +380,14 @@ $(document).ready(function () {
       } else {
         // supported 3d generator, no need for stacking logic
         $('#stackingModeSelection').toggle(false);
+
+        tryGenerate(generatorType, map);
+        /*
         generators[generatorType](map, {});
         if (LABY.terrains[generatorType]) {
           map.scaleToTileRange(4);
         }
+        */
       }
     } else {
       // 2d generator
@@ -400,14 +398,38 @@ $(document).ready(function () {
       }, map, {});
       */
       $('#stackingModeSelection').toggle(false);
+
+      /*
       generators[generatorType](map, {});
       if (LABY.terrains[generatorType]) {
         map.scaleToTileRange(4);
       }
+      */
+      tryGenerate(generatorType, map);
+
     }
 
     updateMapDisplay(map);
   }
+
+
+  function tryGenerate(generatorType, map) {
+    try {
+      generators[generatorType](map, {});
+      if (LABY.terrains[generatorType]) {
+        map.scaleToTileRange(4);
+      }
+      updateMapDisplay(map);
+    } catch (err) {
+      console.log('try again');
+      map.seed(); // new seed
+      setTimeout(function(){
+        tryGenerate(generatorType, map);
+      }, 10)
+    }
+
+  }
+
 
   function updateMapDisplay(map) {
     let mask = map.mask();
@@ -441,7 +463,7 @@ $(document).ready(function () {
     }
 
     let _mode = $('input[name="mapModePhysics"]:checked').val();
-    if (_mode === 'topdown' || _mode === 'platformer') {
+    if (_mode === 'topdown' || _mode === 'platform') {
       mode = _mode;
       searchParams.set('mode', mode);
     } else {
