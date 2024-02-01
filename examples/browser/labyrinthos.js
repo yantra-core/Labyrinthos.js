@@ -264,6 +264,7 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
     // ASCII representations for tiles 0-10
     // TODO: Is there a better default set of ASCII characters we can use?
     this.defaultRogueLike = ['-', '#', '+', '0', '<', '>', '$', '#', '@', '&', '?'];
+    this.seedRandom();
   }
   _createClass(TileMap, [{
     key: "initializeDataArray",
@@ -311,7 +312,7 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
     key: "seed",
     value: function seed(value) {
       if (typeof value === 'undefined') {
-        value = this.random();
+        value = this.random(6400000000);
       }
       this.mersenneTwister.seed(value);
       this.seedNoise(value);
@@ -320,7 +321,7 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
   }, {
     key: "seedRandom",
     value: function seedRandom() {
-      this.seed(this.random());
+      this.seed(this.random(6400000000));
     }
   }, {
     key: "use",
@@ -1878,7 +1879,7 @@ function generateGrowingTreeAlgorithmMap(tileMap, options) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = ALGORITHM_PLATFORM_ZONES;
+exports["default"] = ALGORITHM_METROIDVANIA;
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
@@ -2480,7 +2481,7 @@ function initialize(width, height) {
   }
   return map;
 }
-function ALGORITHM_PLATFORM_ZONES(tileMap, options) {
+function ALGORITHM_METROIDVANIA(tileMap, options) {
   tileMap.fill(0); // Fill with walls
   var maxDimension = Math.max(tileMap.width, tileMap.height);
   if (maxDimension <= 5) {
@@ -3797,16 +3798,16 @@ function Mersenne() {
   this.seed = function (S) {
     // check incoming value of seed and coherce to number
     // try to convert seed to number, if not number, consider as string
-    var seed = Number(S);
-    if (isNaN(seed)) {
+    var _seed = Number(S);
+    if (isNaN(_seed)) {
       // convert into hash
-      seed = this.stringToSeed(S);
+      _seed = this.stringToSeed(S);
     }
-    if (typeof seed != 'number') {
+    if (typeof _seed != 'number') {
       throw new Error("seed(S) must take numeric argument; is " + _typeof(S));
     }
-    this.currentSeed = seed;
-    gen.init_genrand(seed);
+    this.currentSeed = _seed;
+    gen.init_genrand(_seed);
   };
   this.seed_array = function (A) {
     if (_typeof(A) != 'object') {

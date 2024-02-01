@@ -131,6 +131,9 @@ $(document).ready(function () {
     if (generator.includes('3D')) {
       continue;
     }
+    if (generator.includes('PlatformZones')) {
+      continue;
+    }
     $('#generatorType').append(new Option(generator, generator));
   }
 
@@ -412,7 +415,6 @@ $(document).ready(function () {
     updateMapDisplay(map);
   }
 
-
   function tryGenerate(generatorType, map) {
     try {
       generators[generatorType](map, {});
@@ -421,15 +423,15 @@ $(document).ready(function () {
       }
       updateMapDisplay(map);
     } catch (err) {
-      console.log('try again');
-      map.seed(); // new seed
+      // console.log(err)
+      //console.log('try again');
+      map.seedRandom(); // new seed
       setTimeout(function(){
         tryGenerate(generatorType, map);
       }, 10)
     }
 
   }
-
 
   function updateMapDisplay(map) {
     let mask = map.mask();

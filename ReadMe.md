@@ -1,7 +1,7 @@
 <h3 align="center">
 
  <a href="https://yantra.gg/labyrinthos">
-<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/labyrinthos-logo.png" width="512">
+<img src="https://github.com/yantra-core/Labyrinthos.js/blob/master/examples/browser/img/labyrinthos-speaks.gif" width="512">
 </a>
 
 </h3>
