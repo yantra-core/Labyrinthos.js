@@ -49,12 +49,10 @@ declare class TileMap {
 //
 // TileSet
 //
-
 // Interface for Tile objects
 interface Tile {
   id: number;
   name: string;
-  // Add other properties here as needed, such as 'properties' if they have a specific structure
 }
 
 // Interface for the constructor options
@@ -74,7 +72,6 @@ declare class TileSet {
 //
 // LSystem
 //
-
 // Interface for the constructor options of LSystem
 interface LSystemOptions {
   tileset: TileSet;
@@ -108,9 +105,7 @@ declare class LSystem {
   axiom: string;
   rules: { [tileName: string]: string | ((context: RuleContext) => string) };
   generations: number;
-
   constructor(options: LSystemOptions);
-
   getTileId(tileName: string): number | null;
   applyRule(tileId: number, tileMap: TileMap): number;
   applyTo(tileMap: TileMap): void;
@@ -119,7 +114,6 @@ declare class LSystem {
 //
 // Biome
 //
-
 // Interface for the constructor options of Biome
 interface BiomeOptions {
   name: string;
@@ -140,10 +134,8 @@ declare class Biome {
 //
 // labyrinthos
 //
-
 // Define a generic type for maze generation functions
 export type MazeGeneratorFunction = (tileMap: TileMap, options: any) => void; // Replace 'any' with a more specific type if you have a shared options structure
-
 
 interface mazes {
   AldousBroder: MazeGeneratorFunction;
@@ -170,14 +162,12 @@ interface shapes {
 interface terrains {
   FaultLine: MazeGeneratorFunction;
   PerlinNoise: MazeGeneratorFunction;
-  // Define terrain generators here if they have a similar signature
+  // Define additional terrain generators here if they have a similar signature
 }
 
-interface Utils {
-  // If the utilities have different signatures, define them individually
-  // Otherwise, you can use a similar approach as with the mazes
+interface utils {
+  // Define utility functions here
 }
-
 
 interface labyrinthos {
   TileMap: typeof TileMap;
@@ -187,7 +177,7 @@ interface labyrinthos {
   mazes: mazes;
   shapes: shapes;
   terrains: terrains;
-  utils: Utils;
+  utils: utils;
 }
 
 export {
@@ -198,7 +188,3 @@ export {
   mazes,
   labyrinthos
 }
-
-// import labyrinthos from './lib/labyrinthos';
-
-//export default labyrinthos as Labyrinthos;
