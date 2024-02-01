@@ -1,6 +1,8 @@
 let previousSeed = null;
 let urlSeed = null;
 let map;
+let infinite = false;
+let mode = 'topdown';
 $(document).ready(function () {
 
   
@@ -63,6 +65,13 @@ $(document).ready(function () {
     generateMap(map.mersenneTwister.currentSeed); // Adjust if generateMap needs specific arguments
   });
   
+  $('#generateChunks').change(function () {
+    generateMap(map.mersenneTwister.currentSeed);
+  });
+
+  $('input[name="mapModePhysics"]').change(function () {
+    generateMap(map.mersenneTwister.currentSeed);
+  });
 
   /*
   // when clicking on mapContainer, generate a new map
@@ -84,6 +93,17 @@ $(document).ready(function () {
   let height = searchParams.get('height');
   let depth = searchParams.get('depth');
   let algo = searchParams.get('algo');
+
+  let _infinite = searchParams.get('infinite'); // chunks or no chunks
+  let _mode = searchParams.get('mode'); // topdown or platformer
+
+  if (_infinite == 'true') {
+    infinite = true;
+  }
+  if (_mode == 'platformer') {
+    mode = 'platformer';
+  }
+
   if (width) {
     $('#mapWidth').val(width);
   }
@@ -157,13 +177,17 @@ $(document).ready(function () {
     generateMap(previousSeed);
   });
 
+  $('.gameSettings').click(function () {
+    $('.gameSettingsMessage').show();
+  });
+
   $('.mantraTiled').click(function () {
     let id = $(this).attr('id');
     // takes the current tileMap.data and opens a link to
     // the mantra Tiled world with tiledata?=tileMap.data
     let host = 'https://yantra.gg/mantra/tiled';
     // for dev mode
-    // host = 'http://192.168.1.80:7777/tiled.html'
+    host = 'http://192.168.1.80:7777/tiled.html'
 
 
     // instead of sending entire TiledMap format, we will instead send metadata about `TileMap` with seed
@@ -177,6 +201,11 @@ $(document).ready(function () {
       height: map.height,
       depth: map.depth,
     };
+
+
+
+    tileMapData.infinite = infinite;
+    tileMapData.mode = mode;
 
 
     let queryString = '?s=labyrinthos';
@@ -371,7 +400,6 @@ $(document).ready(function () {
       }, map, {});
       */
       $('#stackingModeSelection').toggle(false);
-
       generators[generatorType](map, {});
       if (LABY.terrains[generatorType]) {
         map.scaleToTileRange(4);
@@ -401,6 +429,23 @@ $(document).ready(function () {
     let props = ['x', 'y', 'width', 'height', 'depth'];
     for (let prop of props) {
       searchParams.set(prop, map[prop]);
+    }
+
+    let _infinite = $('#generateChunks').is(':checked');
+    if (_infinite === true || _infinite === 'true') {
+      infinite = true;
+      searchParams.set('infinite', 'true');
+    } else {
+      infinite = false;
+      searchParams.set('infinite', 'false');
+    }
+
+    let _mode = $('input[name="mapModePhysics"]:checked').val();
+    if (_mode === 'topdown' || _mode === 'platformer') {
+      mode = _mode;
+      searchParams.set('mode', mode);
+    } else {
+      searchParams.set('mode', 'topdown');
     }
 
     searchParams.set('algo', algo);

@@ -168,7 +168,7 @@ import labyrinthos from 'labyrinthos';
 // Main map - 8x8 = 64 tiles
 const mainMap = new labyrinthos.TileMap({ width: 8, height: 8 });
 
-// Submaps  - 4x4 = 16 tiles each
+// Sub maps - 4x4 = 16 tiles each
 const subMap1 = new labyrinthos.TileMap({ width: 4, height: 4 });
 const subMap2 = new labyrinthos.TileMap({ width: 4, height: 4 });
 const subMap3 = new labyrinthos.TileMap({ width: 4, height: 4 });

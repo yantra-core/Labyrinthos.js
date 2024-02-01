@@ -7,8 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jquery.min.js"></script>
   <script src="https://yantra.gg/labyrinthos/browser/vendor/jszip.min.js"></script>
-  <meta name="description"
-    content="A JavaScript procedural generator for Mazes, Terrains, and Biomes">
+  <meta name="description" content="A JavaScript procedural generator for Mazes, Terrains, and Biomes">
   <script src="./browser/labyrinthos.js"></script>
   <script src="./browser/demo.js"></script>
 
@@ -118,6 +117,7 @@
       padding-bottom: 0px;
       padding-top: 0px;
     }
+
     label {
       color: #3652AD;
       font-size: 24px;
@@ -201,6 +201,11 @@
       min-width: 280px;
     }
 
+    .gameSettingsMessage {
+      display: none;
+      padding: 10px;
+      font-size: 18px;
+    }
 
     button {
       padding: 12px 30px;
@@ -345,11 +350,8 @@
         /* Reset order to ensure natural HTML flow */
       }
 
-      select,
-      button,
-      .mapSettings {
-        /* Adjust font size for readability */
-      }
+
+
 
       #mapContainer {
         font-size: 24px;
@@ -387,8 +389,10 @@
         <button id="nextAlgo" title="Next algorithm">&gt;</button>
 
         <button id="generateMap" title="Generate new map and random seed">Generate Map</button>
-        <button class="mantraTiled" id="mantra2DTiled" title="View Map using Mantra.js CSSGraphics">Explore in 2D</button>
-        <button class="mantraTiled" id="mantra3DTiled" title="View Map using Mantra.js 3D Graphics">Explore in 3D</button>
+        <button class="mantraTiled" id="mantra2DTiled" title="View Map using Mantra.js CSSGraphics">Explore in
+          2D</button>
+        <button class="mantraTiled" id="mantra3DTiled" title="View Map using Mantra.js 3D Graphics">Explore in
+          3D</button>
 
         <div id="mapContainer"></div>
 
@@ -405,7 +409,7 @@
             </label>
           </div>
         </div>
-        
+
         <br />
 
         <div class="boxer">
@@ -416,7 +420,7 @@
           <label for="mapHeight">Map Height
             <input class="mapSettings" id="mapHeight" type="number" value="16" />
           </label>
-          <br/>
+          <br />
           <!-- Depth Input for 3D Mode (Initially Hidden) -->
           <label for="mapDepth" style="display:none;">Map Depth
             <input class="mapSettings" id="mapDepth" type="number" value="1" />
@@ -438,6 +442,13 @@
           <label for="mapSizeLarge">Large
             <input type="radio" id="mapSizeLarge" name="mapSize" value="large">
           </label>
+          <br />
+          <label for="mapMode2d">2D
+            <input type="radio" id="mapMode2d" name="mapMode" value="2d" checked>
+          </label>
+          <label for="mapMode3d">3D
+            <input type="radio" id="mapMode3d" name="mapMode" value="3d">
+          </label>
         </div>
         <br />
         <!-- Map Size select -->
@@ -445,12 +456,29 @@
 
           <!-- Map Mode Selection -->
           <div>
-            <label for="mapMode2d">2D
-              <input type="radio" id="mapMode2d" name="mapMode" value="2d" checked>
+
+            <!--
+
+            <br />
+            <label class="gameSettings" for="mapModePhysicsTop" title="Top-Down Physics with zero gravity">Top-Down
+              <input type="radio" id="mapModePhysicsTop" name="mapModePhysics" value="top-down" checked>
             </label>
-            <label for="mapMode3d">3D
-              <input type="radio" id="mapMode3d" name="mapMode" value="3d">
+            <label class="gameSettings" for="mapModePhysicsPlatform" title="Platformer style physics with gravity">Platformer
+              <input type="radio" id="mapModePhysicsPlatform" name="mapModePhysics" value="platformer">
             </label>
+              -->
+
+            <br />
+            <br />
+
+            <label class="gameSettings" for="generateChunks"
+              title="When enabled the TileMap will extend to infinity using coordinate chunks as random seed values to your algorithm.">Procedurally
+              Generate Chunks
+              <input type="checkbox" id="generateChunks" name="generateChunks" value="false">
+            </label>
+
+            <div class="gameSettingsMessage">You must explore map to see these changes.</div>
+
 
             <!-- Stacking Mode Selection for 3D Maps -->
             <div id="stackingModeSelection" style="display:none;"> <!-- Initially hidden -->
@@ -484,13 +512,14 @@
         <br />
 
         <div class="boxer">
-          <a href="https://discord.gg/hw9VvWPJqN" target="_blank" id="discordLink"><img width="60" src="./browser/img/discord-voice.png"/></a>
+          <a href="https://discord.gg/hw9VvWPJqN" target="_blank" id="discordLink"><img width="60"
+              src="./browser/img/discord-voice.png" /></a>
           <br />
-          <a class="chatLink link"  target="_blank" href="https://discord.gg/hw9VvWPJqN"> Chat</a>
-          <br/>
+          <a class="chatLink link" target="_blank" href="https://discord.gg/hw9VvWPJqN"> Chat</a>
+          <br />
 
         </div>
-            
+
       </div>
       <!-- TODO:
         <div>
