@@ -73,10 +73,6 @@ https://github.com/yantra-core/Labyrinthos.js/assets/70011/c8a5cf73-33d0-41ba-82
 
 
 
-https://github.com/yantra-core/Labyrinthos.js/assets/70011/3f8ca415-42c4-4fea-8ac4-0a3faa2ad761
-
-
-
 https://github.com/yantra-core/Labyrinthos.js/assets/70011/74660595-a93b-4e98-b5ce-b5ba63200a14
 
 
