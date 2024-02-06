@@ -263,7 +263,7 @@ var TileMap = exports["default"] = /*#__PURE__*/function () {
     this.data = this.initializeDataArray();
     // ASCII representations for tiles 0-10
     // TODO: Is there a better default set of ASCII characters we can use?
-    this.defaultRogueLike = ['-', '#', '+', '0', '<', '>', '$', '#', '@', '&', '?'];
+    this.defaultRogueLike = ['-', '#', '+', '0', '<', '>', '$', '⌂', '@', '&', '?'];
     this.seedRandom();
   }
   _createClass(TileMap, [{
@@ -584,6 +584,22 @@ function init3DArray(width, height, depth) {
   }
   return arr;
 }
+
+/* default roguelike `TileSet` mappings
+{
+  "void": 0,
+  "wall": 1,
+  "floor": 2,
+  "door": 3,
+  "special_door": 4,
+  "enter": 5,
+  "exit": 6,
+  "entity": 7,
+  "block": 8,
+  "bush": 9,
+  "grass": 10
+}
+*/
 
 },{"./util/generateTiledJSON.js":25,"./util/mersenne.js":26,"./util/noise.js":27}],6:[function(require,module,exports){
 "use strict";
@@ -1435,8 +1451,8 @@ var BeattieSchoberth = exports.BeattieSchoberth = /*#__PURE__*/function () {
 }();
 var TILE = {
   VOID: 0,
-  FLOOR: 1,
-  WALL: 2,
+  WALL: 1,
+  FLOOR: 2,
   DOOR: 3,
   SPECIAL_DOOR: 4,
   ENTER: 5,
@@ -1904,8 +1920,8 @@ var EXIT = 'exit';
 var DIRECTIONS = ['n', 'e', 's', 'w'];
 var TILE = {
   VOID: 0,
-  FLOOR: 1,
-  WALL: 2,
+  WALL: 1,
+  FLOOR: 2,
   DOOR: 3,
   SPECIAL_DOOR: 4,
   ENTER: 5,
@@ -2500,7 +2516,7 @@ function ALGORITHM_METROIDVANIA(tileMap, options) {
   var generator = new Metroidvania({
     roomWidth: roomSizeWidth,
     roomHeight: roomSizeHeight,
-    maxFails: 8000,
+    maxFails: 25000,
     width: numRoomsWide,
     // Max number of zones wide
     height: numRoomsWide,
