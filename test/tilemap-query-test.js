@@ -143,7 +143,7 @@ tap.test('query method can return the entire map', (t) => {
   t.end();
 });
 
-/*
+//*
 // Test querying by tile name
 tap.test('query method returns correct positions for tiles by name', (t) => {
   const tileMap = new TileMap({ width: 3, height: 3 });
@@ -155,8 +155,10 @@ tap.test('query method returns correct positions for tiles by name', (t) => {
   tileMap.data[4] = 1; // Tile with name corresponding to ID 1 at (1, 1)
   tileMap.data[7] = 1; // Tile with name corresponding to ID 1 at (1, 2)
 
+  console.log(tileMap.getTileIdByName)
   // Mock the getTileIdByName function to return 1 for a specific tile name
   tileMap.getTileIdByName = (tileName) => tileName === 'TestTile' ? 1 : undefined;
+  console.log(tileMap.getTileIdByName)
 
   const subsection = tileMap.query({ tileName: 'TestTile' });
 
@@ -164,4 +166,4 @@ tap.test('query method returns correct positions for tiles by name', (t) => {
   t.same(subsection.data, expected, 'Returns correct positions for tiles by name');
   t.end();
 });
-*/
+//*/
